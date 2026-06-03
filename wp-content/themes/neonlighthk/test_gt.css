@@ -1,0 +1,4 @@
+/* Test */
+.foo > .bar {
+  color: red;
+}
