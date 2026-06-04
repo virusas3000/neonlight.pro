@@ -5,15 +5,18 @@
  */
 ?>
 <section class="nl-lookbook">
-	<div class="nl-lookbook__header">
-		<h3>作品參考</h3>
-		<h2>OUR WORKS</h2>
-		<p>INSTAGRAM @ NEONLIGHTHK</p>
+	<div class="nl-lookbook__inner">
+		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
+		<h2 class="nl-lookbook__en"><?php echo nl_t('gallery_title'); ?></h2>
+		<p class="nl-lookbook__handle">NEON SIGNS / ART PIECES / EVENT DECOR</p>
 	</div>
-	<div class="nl-lookbook__grid">
-		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/lookbook-1.jpg" alt="Work 1" loading="lazy" onerror="this.style.display='none'"></div>
-		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/lookbook-2.jpg" alt="Work 2" loading="lazy" onerror="this.style.display='none'"></div>
-		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/lookbook-3.jpg" alt="Work 3" loading="lazy" onerror="this.style.display='none'"></div>
+	<div class="nl-lookbook__grid nl-lookbook__grid--6">
+		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
 	</div>
-	<a href="https://instagram.com/neonlighthk" target="_blank" class="nl-lookbook__btn">More</a>
+	<a href="https://instagram.com/neonlighthk" target="_blank" class="nl-lookbook__more"><?php echo nl_t('gallery_more'); ?></a>
 </section>

@@ -1,66 +1,69 @@
 <?php
 /**
- * Template Name: Balloon &amp; Magic
+ * Template Name: Balloon & Magic
  *
  * @package NeonLightHK
  */
 
 get_header();
+$lang = nl_lang();
 ?>
 
-<main id="primary" class="site-main">
-    <div class="nl-page-header">
-        <span class="nl-page-label">氣球魔術</span>
-        <h1 class="nl-page-title">BALLOON &amp; MAGIC</h1>
-        <p class="nl-page-subtitle">Balloon decorations, tasting sessions &amp; magic shows</p>
-    </div>
+<div class="nl-page">
+	<h1 class="nl-page__title"><?php echo nl_t('nav_balloon'); ?></h1>
+	<p style="text-align:center;color:#666;margin-top:-12px;margin-bottom:24px;"><?php _e('Balloon decorations, tasting sessions & magic shows', 'neonlighthk'); ?></p>
 
-    <div class="nl-archive-grid">
-        <?php
-        $items = new WP_Query( array(
-            'post_type'      => 'nl_balloon',
-            'posts_per_page' => -1,
-            'orderby'        => 'date',
-            'order'          => 'ASC',
-        ) );
+	<?php
+	$args = [
+		'post_type'      => 'nl_balloon',
+		'posts_per_page' => 50,
+		'post_status'    => 'publish',
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	];
+	$items = new WP_Query($args);
 
-        if ( $items->have_posts() ) :
-            while ( $items->have_posts() ) : $items->the_post();
-                $price      = get_post_meta( get_the_ID(), 'price', true );
-                $category   = get_post_meta( get_the_ID(), 'category', true );
-                $duration   = get_post_meta( get_the_ID(), 'duration', true );
-                $booking_req = get_post_meta( get_the_ID(), 'requires_booking', true );
-        ?>
-        <article class="nl-card nl-card-balloon">
-            <a href="<?php the_permalink(); ?>" class="nl-card-link">
-                <div class="nl-card-image">
-                    <?php if ( has_post_thumbnail() ) : ?>
-                        <?php the_post_thumbnail( 'medium', array( 'alt' => get_the_title() ) ); ?>
-                    <?php else : ?>
-                        <div class="nl-card-placeholder"><?php _e( 'Balloon &amp; Magic', 'neonlighthk' ); ?></div>
-                    <?php endif; ?>
-                    <?php if ( $booking_req ) : ?>
-                        <div class="nl-card-tag"><?php _e( 'Booking Required', 'neonlighthk' ); ?></div>
-                    <?php endif; ?>
-                </div>
-                <div class="nl-card-body">
-                    <h3 class="nl-card-title"><?php the_title(); ?></h3>
-                    <div class="nl-card-meta">
-                        <?php if ( $price ) : ?><span class="nl-badge nl-price">HKD <?php echo esc_html( number_format( $price ) ); ?></span><?php endif; ?>
-                        <?php if ( $category ) : ?><span class="nl-badge nl-category"><?php echo esc_html( ucfirst( str_replace( '_', ' ', $category ) ) ); ?></span><?php endif; ?>
-                        <?php if ( $duration ) : ?><span class="nl-badge"><?php echo esc_html( $duration ); ?></span><?php endif; ?>
-                    </div>
-                </div>
-            </a>
-        </article>
-        <?php
-            endwhile;
-            wp_reset_postdata();
-        else :
-        ?>
-        <p><?php _e( 'No services available at the moment.', 'neonlighthk' ); ?></p>
-        <?php endif; ?>
-    </div>
-</main>
+	if ($items->have_posts()) : ?>
+		<div class="nl-product-grid">
+			<?php while ($items->have_posts()) : $items->the_post(); ?>
+				<?php
+				$price       = get_post_meta(get_the_ID(), 'price', true);
+				$category    = get_post_meta(get_the_ID(), 'category', true);
+				$duration    = get_post_meta(get_the_ID(), 'duration', true);
+				$booking_req = get_post_meta(get_the_ID(), 'requires_booking', true);
+				?>
+				<div class="nl-product-card">
+					<a href="<?php echo esc_url(get_permalink() . '?lang=' . $lang); ?>" class="nl-product-card__link">
+						<?php if (has_post_thumbnail()) : ?>
+							<div class="nl-product-card__image">
+								<?php the_post_thumbnail('medium'); ?>
+							</div>
+						<?php else : ?>
+							<div class="nl-product-card__image nl-product-card__image--placeholder">
+								<span><?php echo nl_t('shop_no_image'); ?></span>
+							</div>
+						<?php endif; ?>
+						<h3 class="nl-product-card__title"><?php the_title(); ?></h3>
+						<div class="nl-product-card__price">
+							<span class="nl-product-card__price-current"><?php echo $price ? 'HK$' . number_format($price) : ''; ?></span>
+						</div>
+						<?php if ($category || $duration) : ?>
+							<div style="padding:0 12px 8px;font-size:13px;color:#888;">
+								<?php echo esc_html(ucfirst(str_replace('_', ' ', $category)) . ($category && $duration ? ' · ' : '') . ($duration ? $duration : '')); ?>
+							</div>
+						<?php endif; ?>
+					</a>
+					<div class="nl-product-card__cart">
+						<a href="<?php echo esc_url(get_permalink() . '?lang=' . $lang); ?>" class="nl-btn-primary" style="display:inline-block;text-decoration:none;text-align:center;">
+							<?php echo $booking_req ? nl_t('booking_now') : nl_t('details'); ?>
+						</a>
+					</div>
+				</div>
+			<?php endwhile; wp_reset_postdata(); ?>
+		</div>
+	<?php else : ?>
+		<p style="text-align:center;"><?php _e('No services available at the moment.', 'neonlighthk'); ?></p>
+	<?php endif; ?>
+</div>
 
 <?php get_footer(); ?>

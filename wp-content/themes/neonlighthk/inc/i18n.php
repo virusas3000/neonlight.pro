@@ -13,17 +13,17 @@ function nl_pll_register_strings() {
 	if ( ! function_exists( 'pll_register_string' ) ) return;
 
 	// Contact info
-	pll_register_string( 'nl_phone',    get_theme_mod( 'nl_phone',    '(852) 6224-6494' ),                                 'neonlighthk', true );
-	pll_register_string( 'nl_email',    get_theme_mod( 'nl_email',    'hkneonlight@gmail.com' ),                           'neonlighthk', true );
-	pll_register_string( 'nl_address',  get_theme_mod( 'nl_address',  'HG19, Ground Floor, Block B, PMQ, 35 Aberdeen St, Central, Hong Kong' ), 'neonlighthk', true );
+	pll_register_string( 'nl_phone',    get_theme_mod( 'nl_phone',    '(852) 6131-9328' ),                                 'neonlighthk', true );
+	pll_register_string( 'nl_email',    get_theme_mod( 'nl_email',    'www.neonlight.pro@gmail.com' ),                           'neonlighthk', true );
+	pll_register_string( 'nl_address',  get_theme_mod( 'nl_address',  'U/F, Central Pier 8, Hong Kong · 香港中環8號碼頭U層' ), 'neonlighthk', true );
 
 	// Navigation labels
-	pll_register_string( 'nav_shop',      '現貨・SHOP',          'neonlighthk' );
-	pll_register_string( 'nav_rent',      '租借・RENT',          'neonlighthk' );
-	pll_register_string( 'nav_order',     '訂製・ORDER',          'neonlighthk' );
-	pll_register_string( 'nav_workshop',  '工作坊・WORKSHOP',     'neonlighthk' );
-	pll_register_string( 'nav_projects',  '活動・PROJECTS',      'neonlighthk' );
-	pll_register_string( 'nav_lookbook',  '範例・LOOKBOOK',      'neonlighthk' );
+	pll_register_string( 'nav_shop',      '現貨·SHOP',          'neonlighthk' );
+	pll_register_string( 'nav_rent',      '租借·RENT',          'neonlighthk' );
+	pll_register_string( 'nav_order',     '訂製·ORDER',          'neonlighthk' );
+	pll_register_string( 'nav_workshop',  '工作坊·WORKSHOP',     'neonlighthk' );
+	pll_register_string( 'nav_projects',  '活動·PROJECTS',      'neonlighthk' );
+	pll_register_string( 'nav_lookbook',  '範例·LOOKBOOK',      'neonlighthk' );
 
 	// Section titles
 	pll_register_string( 'hero_title_zh', '霓虹燈設計及製作',    'neonlighthk' );
@@ -45,7 +45,7 @@ function nl_pll_register_strings() {
 	pll_register_string( 'gallery_instagram', 'INSTAGRAM @ NEONLIGHTHK', 'neonlighthk' );
 	pll_register_string( 'gallery_more', 'MORE',               'neonlighthk' );
 
-	pll_register_string( 'visit_title', 'VISIT US at CENTRAL PMQ', 'neonlighthk' );
+	pll_register_string( 'visit_title', 'VISIT US at PMQ', 'neonlighthk' );
 	pll_register_string( 'clients_title_zh', '客戶支持',         'neonlighthk' );
 	pll_register_string( 'clients_title_en', 'OUR BELOVED CLIENTS', 'neonlighthk' );
 	pll_register_string( 'contact_title', 'CONTACT US',          'neonlighthk' );

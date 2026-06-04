@@ -5,7 +5,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-?/>
+?>
 
 <div class="woocommerce-order nl-thankyou">
 

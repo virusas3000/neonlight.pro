@@ -53,6 +53,7 @@ services:
       - ../wp-content/themes/neonlighthk:/var/www/html/wp-content/themes/neonlighthk
       - ../wp-content/plugins/hktms-gateway:/var/www/html/wp-content/plugins/hktms-gateway
       - ../wp-content/plugins/hktpl-gateway:/var/www/html/wp-content/plugins/hktpl-gateway
+      - ../wp-content/plugins/appointment-hour-booking:/var/www/html/wp-content/plugins/appointment-hour-booking
       - ./wp-config-docker.php:/var/www/html/wp-config.php:ro
       - ./php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
     depends_on:
@@ -93,6 +94,7 @@ services:
       - ../wp-content/themes/neonlighthk:/var/www/html/wp-content/themes/neonlighthk
       - ../wp-content/plugins/hktms-gateway:/var/www/html/wp-content/plugins/hktms-gateway
       - ../wp-content/plugins/hktpl-gateway:/var/www/html/wp-content/plugins/hktpl-gateway
+      - ../wp-content/plugins/appointment-hour-booking:/var/www/html/wp-content/plugins/appointment-hour-booking
       - ./wp-config-docker.php:/var/www/html/wp-config.php:ro
     depends_on:
       - mariadb
