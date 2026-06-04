@@ -1,6 +1,6 @@
 <?php
 /**
- * Lookbook Section
+ * Lookbook Section — matching Wix site
  * @package NeonLightHK
  */
 ?>
@@ -8,7 +8,9 @@
 	<div class="nl-lookbook__inner">
 		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
 		<h2 class="nl-lookbook__en"><?php echo nl_t('gallery_title'); ?></h2>
-		<p class="nl-lookbook__handle">NEON SIGNS / ART PIECES / EVENT DECOR</p>
+		<p class="nl-lookbook__handle">
+			<a href="https://instagram.com/neonlighthk" target="_blank">INSTAGRAM @ NEONLIGHTHK</a>
+		</p>
 	</div>
 	<div class="nl-lookbook__grid nl-lookbook__grid--6">
 		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
@@ -18,5 +20,4 @@
 		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
 		<div class="nl-lookbook__item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
 	</div>
-	<a href="https://instagram.com/neonlighthk" target="_blank" class="nl-lookbook__more"><?php echo nl_t('gallery_more'); ?></a>
 </section>

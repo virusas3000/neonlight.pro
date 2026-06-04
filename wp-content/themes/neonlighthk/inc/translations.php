@@ -114,7 +114,7 @@ function nl_dictionary() {
         // Visit
         'visit_title'   => ['en'=>'VISIT US',    'zh'=>'來訪我們',   'cn'=>'来访我们'],
         'visit_at'      => ['en'=>'at',          'zh'=>'於',         'cn'=>'于'],
-        'visit_addr1'   => ['en'=>'U/F, Central Pier 8, Hong Kong', 'zh'=>'香港中環8號碼頭U層', 'cn'=>'香港中环8号码头U层'],
+        'visit_addr1'   => ['en'=>'HG19, Ground Floor, Block B, PMQ, 35 Aberdeen St, Central, Hong Kong', 'zh'=>'香港中環鴨巴甸街35號PMQ B座地下HG19', 'cn'=>'香港中环鸭巴甸街35号PMQ B座地下HG19'],
         'visit_hours'   => ['en'=>'Mon – Sat: 12:00 – 19:00<br>Sun & Public Holidays: Closed', 'zh'=>'週一至週六：12:00 – 19:00<br>週日及公眾假期：休息', 'cn'=>'周一至周六：12:00 – 19:00<br>周日及公众假期：休息'],
 
         // Clients
