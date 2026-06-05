@@ -38,7 +38,7 @@ $lang = nl_lang();
                 </div>
 
                 <div class="nl-service-contact">
-                    <p>(852) 6131-9328</p>
+                    <p>61319328</p>
                     <p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
                 </div>
 
@@ -65,7 +65,7 @@ $lang = nl_lang();
                 </div>
 
                 <div class="nl-service-contact">
-                    <p>(852) 6131-9328</p>
+                    <p>61319328</p>
                     <p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
                 </div>
 

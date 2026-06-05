@@ -29,7 +29,7 @@ get_header();
 				<p><?php echo nl_t('neon_custom_desc_en'); ?></p>
 			</div>
 			<div class="nl-neon-section__contact">
-				<p><a href="tel:+85261319328">(852) 6131-9328</a></p>
+				<p><a href="tel:+85261319328">61319328</a></p>
 				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			</div>
 		</div>
@@ -51,7 +51,7 @@ get_header();
 				<p><?php echo nl_t('neon_design_desc_en'); ?></p>
 			</div>
 			<div class="nl-neon-section__contact">
-				<p><a href="tel:+85261319328">(852) 6131-9328</a></p>
+				<p><a href="tel:+85261319328">61319328</a></p>
 				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			</div>
 		</div>
@@ -61,6 +61,20 @@ get_header();
 		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Design%20Service%20Quote" class="nl-neon-quote-btn">
 			<?php echo nl_t('neon_quote_btn'); ?>
 		</a>
+	</section>
+
+	<!-- Neon Signs Gallery -->
+	<section class="nl-neon-gallery">
+		<h4 class="nl-neon-gallery__zh">霓虹燈作品展示</h4>
+		<h4 class="nl-neon-gallery__en">Neon Signs Gallery</h4>
+		<div class="nl-neon-gallery__grid">
+			<div class="nl-neon-gallery__item">
+				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-gallery.jpg" alt="Neon Signs Collection" loading="lazy">
+			</div>
+			<div class="nl-neon-gallery__item">
+				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-workshop.jpg" alt="Neon Workshop" loading="lazy">
+			</div>
+		</div>
 	</section>
 
 </div>
@@ -182,6 +196,49 @@ get_header();
 .nl-neon-section--reverse > * {
 	direction: ltr;
 }
+
+/* Neon Signs Gallery */
+.nl-neon-gallery {
+	padding: 60px 20px;
+	max-width: 1100px;
+	margin: 0 auto;
+	text-align: center;
+}
+.nl-neon-gallery__zh {
+	font-size: 1.3rem;
+	letter-spacing: 4px;
+	margin-bottom: 4px;
+	font-weight: 500;
+}
+.nl-neon-gallery__en {
+	font-size: 1.1rem;
+	letter-spacing: 3px;
+	margin-bottom: 30px;
+	opacity: 0.8;
+	font-weight: 400;
+}
+.nl-neon-gallery__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+}
+.nl-neon-gallery__item {
+	border-radius: 8px;
+	overflow: hidden;
+}
+.nl-neon-gallery__item img {
+	width: 100%;
+	height: auto;
+	display: block;
+	border-radius: 8px;
+}
+@media (max-width: 768px) {
+	.nl-neon-gallery__grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+}
+
 @media (max-width: 768px) {
 	.nl-neon-hero__en { font-size: 2.2rem; }
 	.nl-neon-section {

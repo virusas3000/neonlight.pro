@@ -174,7 +174,7 @@ $lang = nl_lang();
 			</div>
 			<div class="nl-customise-card__divider"></div>
 			<div class="nl-customise-card__contact">
-				(852) 6131-9328<br>
+				61319328<br>
 				<a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a>
 			</div>
 			<a href="mailto:www.neonlight.pro@gmail.com?subject=Hanfu%20Quote%20Request" class="nl-customise-card__btn">
@@ -199,7 +199,7 @@ $lang = nl_lang();
 			</div>
 			<div class="nl-customise-card__divider"></div>
 			<div class="nl-customise-card__contact">
-				(852) 6131-9328<br>
+				61319328<br>
 				<a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a>
 			</div>
 			<a href="mailto:www.neonlight.pro@gmail.com?subject=Hanfu%20Design%20Service" class="nl-customise-card__btn">

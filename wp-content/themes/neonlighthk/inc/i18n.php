@@ -13,9 +13,9 @@ function nl_pll_register_strings() {
 	if ( ! function_exists( 'pll_register_string' ) ) return;
 
 	// Contact info
-	pll_register_string( 'nl_phone',    get_theme_mod( 'nl_phone',    '(852) 6131-9328' ),                                 'neonlighthk', true );
+	pll_register_string( 'nl_phone',    get_theme_mod( 'nl_phone',    '61319328' ),                                 'neonlighthk', true );
 	pll_register_string( 'nl_email',    get_theme_mod( 'nl_email',    'www.neonlight.pro@gmail.com' ),                           'neonlighthk', true );
-	pll_register_string( 'nl_address',  get_theme_mod( 'nl_address',  'U/F, Central Pier 8, Hong Kong · 香港中環8號碼頭U層' ), 'neonlighthk', true );
+	pll_register_string( 'nl_address',  get_theme_mod( 'nl_address',  'U/F,Central Pier 8,Hong Kong · 香港中環8號碼頭U層' ), 'neonlighthk', true );
 
 	// Navigation labels
 	pll_register_string( 'nav_shop',      '現貨·SHOP',          'neonlighthk' );

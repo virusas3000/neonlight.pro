@@ -114,7 +114,7 @@ function nl_dictionary() {
         // Visit
         'visit_title'   => ['en'=>'VISIT US',    'zh'=>'來訪我們',   'cn'=>'来访我们'],
         'visit_at'      => ['en'=>'at',          'zh'=>'於',         'cn'=>'于'],
-        'visit_addr1'   => ['en'=>'HG19, Ground Floor, Block B, PMQ, 35 Aberdeen St, Central, Hong Kong', 'zh'=>'香港中環鴨巴甸街35號PMQ B座地下HG19', 'cn'=>'香港中环鸭巴甸街35号PMQ B座地下HG19'],
+        'visit_addr1'   => ['en'=>'U/F,Central Pier 8,Hong Kong · 香港中環8號碼頭U層', 'zh'=>'香港中環8號碼頭U層 · U/F,Central Pier 8,Hong Kong', 'cn'=>'香港中环8号码头U层 · U/F,Central Pier 8,Hong Kong'],
         'visit_hours'   => ['en'=>'Mon – Sat: 12:00 – 19:00<br>Sun & Public Holidays: Closed', 'zh'=>'週一至週六：12:00 – 19:00<br>週日及公眾假期：休息', 'cn'=>'周一至周六：12:00 – 19:00<br>周日及公众假期：休息'],
 
         // Clients
@@ -198,7 +198,24 @@ function nl_dictionary() {
         // Misc
         'shop_coming'   => ['en'=>'Coming soon — our neon sign shop is under construction.', 'zh'=>'即將開業 — 我們的霓虹燈商店正在籌備中。', 'cn'=>'即将开业 — 我们的霓虹灯商店正在筹备中。'],
         'shop_no_image' => ['en'=>'No image',      'zh'=>'暫無圖片',    'cn'=>'暂无图片'],
+        'shop_breadcrumb_home' => ['en'=>'Home',     'zh'=>'主頁',       'cn'=>'主页'],
+        'shop_title'    => ['en'=>'Neon Retail',   'zh'=>'霓虹燈零售',   'cn'=>'霓虹灯零售'],
+        'shop_showing'  => ['en'=>'Showing',       'zh'=>'顯示',       'cn'=>'显示'],
+        'shop_of'       => ['en'=>'of',            'zh'=>'共',         'cn'=>'共'],
+        'shop_results'  => ['en'=>'results',       'zh'=>'件結果',     'cn'=>'件结果'],
+        'shop_sort_default'=> ['en'=>'Default sorting', 'zh'=>'預設排序', 'cn'=>'默认排序'],
+        'shop_sale'     => ['en'=>'Sale!',         'zh'=>'特價！',      'cn'=>'特价！'],
         'wc_add_to_cart'=> ['en'=>'Add to Cart',   'zh'=>'加入購物車',  'cn'=>'加入购物车'],
+        'wc_quantity'   => ['en'=>'Quantity:',     'zh'=>'數量：',     'cn'=>'数量：'],
+        'wc_related_products'=> ['en'=>'Related Products', 'zh'=>'相關產品', 'cn'=>'相关产品'],
+        'rental_title'  => ['en'=>'Rental',        'zh'=>'霓虹燈租借',   'cn'=>'霓虹灯租借'],
+        'balloon_title' => ['en'=>'Balloon & Magic', 'zh'=>'氣球 & 魔術', 'cn'=>'气球 & 魔术'],
+        'balloon_coming'=> ['en'=>'Balloon & Magic rental coming soon — please contact us for enquiries.', 'zh'=>'氣球及魔術租借服務即將推出，請聯絡我們查詢詳情。', 'cn'=>'气球及魔术租借服务即将推出，请联络我们查询详情。'],
+        'products_title'=> ['en'=>'Products', 'zh'=>'產品', 'cn'=>'产品'],
+        'products_coming'=>['en'=>'Products coming soon — please contact us for enquiries.', 'zh'=>'產品即將推出，請聯絡我們查詢詳情。', 'cn'=>'产品即将推出，请联络我们查询详情。'],
+        'neon_products_title'=> ['en'=>'Neon Products', 'zh'=>'霓虹燈產品', 'cn'=>'霓虹灯产品'],
+        'neon_products_coming'=>['en'=>'Neon products coming soon — please contact us for enquiries.', 'zh'=>'霓虹燈產品即將推出，請聯絡我們查詢詳情。', 'cn'=>'霓虹灯产品即将推出，请联络我们查询详情。'],
+        'rental_coming' => ['en'=>'Rental service coming soon — please contact us for enquiries.', 'zh'=>'霓虹燈租借服務即將推出，請聯絡我們查詢詳情。', 'cn'=>'霓虹灯租借服务即将推出，请联络我们查询详情。'],
         'order_desc'    => ['en'=>'Please fill in the form below and we will contact you soon.', 'zh'=>'請填寫以下表格，我們會盡快與您聯絡。', 'cn'=>'请填写以下表格，我们会尽快与您联络。'],
         'order_concept' => ['en'=>'Design concept', 'zh'=>'設計理念', 'cn'=>'设计理念'],
         'lang_en'       => ['en'=>'English',     'zh'=>'English',    'cn'=>'English'],

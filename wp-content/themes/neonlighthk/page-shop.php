@@ -22,13 +22,13 @@ $showing = min(12, $total);
 
 <div class="nl-page nl-shop-page">
 	<div class="nl-shop-header">
-		<nav class="nl-breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a> / <span>Neon Retail</span></nav>
-		<h1 class="nl-shop-title">Neon Retail</h1>
+		<nav class="nl-breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>"><?php echo nl_t('shop_breadcrumb_home'); ?></a> / <span><?php echo nl_t('shop_title'); ?></span></nav>
+		<h1 class="nl-shop-title"><?php echo nl_t('shop_title'); ?></h1>
 		<div class="nl-shop-toolbar">
-			<span class="nl-results-count">Showing 1–<?php echo $showing; ?> of <?php echo $total; ?> results</span>
+			<span class="nl-results-count"><?php echo nl_t('shop_showing'); ?> 1–<?php echo $showing; ?> <?php echo nl_t('shop_of'); ?> <?php echo $total; ?> <?php echo nl_t('shop_results'); ?></span>
 			<div class="nl-sort-dropdown">
 				<select>
-					<option>Default sorting</option>
+					<option><?php echo nl_t('shop_sort_default'); ?></option>
 				</select>
 			</div>
 		</div>
@@ -39,7 +39,7 @@ $showing = min(12, $total);
 			<?php while ($products->have_posts()) : $products->the_post(); ?>
 				<?php global $product; if (!$product) continue; ?>
 				<div class="nl-product-card">
-					<?php if ($product->is_on_sale()) : ?><div class="nl-sale-badge">Sale!</div><?php endif; ?>
+					<?php if ($product->is_on_sale()) : ?><div class="nl-sale-badge"><?php echo nl_t('shop_sale'); ?></div><?php endif; ?>
 					<a href="<?php echo esc_url(get_permalink() . '?lang=' . $lang); ?>" class="nl-product-card__link">
 						<?php if (has_post_thumbnail()) : ?>
 							<div class="nl-product-card__image">
@@ -63,7 +63,7 @@ $showing = min(12, $total);
 					<form class="nl-product-card__cart" method="post" action="<?php echo esc_url(wc_get_cart_url()); ?>">
 						<?php wp_nonce_field('woocommerce-cart'); ?>
 						<input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
-						<button type="submit" class="nl-btn-primary">ADD TO CART</button>
+						<button type="submit" class="nl-btn-primary"><?php echo nl_t('wc_add_to_cart'); ?></button>
 					</form>
 				</div>
 			<?php endwhile; wp_reset_postdata(); ?>

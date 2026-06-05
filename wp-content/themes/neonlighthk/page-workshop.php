@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_booking_nonce'])) 
         $remarks        = sanitize_textarea_field($_POST['remarks'] ?? '');
 
         $locations = [
-            ['name'=>'中環8號碼頭','name_en'=>'Central Pier 8','address'=>'香港中環8號碼頭U層','address_en'=>'U/F, Central Pier 8, Hong Kong'],
+            ['name'=>'中環8號碼頭','name_en'=>'Central Pier 8','address'=>'香港中環8號碼頭U層','address_en'=>'U/F,Central Pier 8,Hong Kong'],
             ['name'=>'尖沙咀東匯大廈','name_en'=>'Tsim Sha Tsui','address'=>'尖沙咀寶勒巷27號東匯大廈14樓全層','address_en'=>'14/F, Tung Wui Commercial Building, 27 Prat Avenue, Tsim Sha Tsui, Kowloon, HK'],
             ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
             ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
@@ -143,7 +143,7 @@ Remarks: $remarks");
 }
 
 $locations = [
-    ['name'=>'中環8號碼頭','name_en'=>'Central Pier 8','address'=>'香港中環8號碼頭U層','address_en'=>'U/F, Central Pier 8, Hong Kong'],
+    ['name'=>'中環8號碼頭','name_en'=>'Central Pier 8','address'=>'香港中環8號碼頭U層','address_en'=>'U/F,Central Pier 8,Hong Kong'],
     ['name'=>'尖沙咀東匯大廈','name_en'=>'Tsim Sha Tsui','address'=>'尖沙咀寶勒巷27號東匯大廈14樓全層','address_en'=>'14/F, Tung Wui Commercial Building, 27 Prat Avenue, Tsim Sha Tsui, Kowloon, HK'],
     ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
     ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
@@ -437,15 +437,9 @@ $workshops = [
                 <label><?php echo nl_t('ws_time'); ?></label>
                 <select name="booking_time" id="bookingTime" required>
                     <option value=""><?php echo nl_t('ws_time_sel'); ?></option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
                     <option value="12:00">12:00 PM</option>
-                    <option value="13:00">1:00 PM</option>
                     <option value="14:00">2:00 PM</option>
-                    <option value="15:00">3:00 PM</option>
                     <option value="16:00">4:00 PM</option>
-                    <option value="17:00">5:00 PM</option>
-                    <option value="18:00">6:00 PM</option>
                 </select>
             </div>
             <div class="nl-booking-actions">
@@ -547,13 +541,17 @@ document.addEventListener('DOMContentLoaded',function(){
     dateInput.min=minDate.toISOString().split('T')[0];
 
     // Location selection
+    let selectedLocationIdx=null;
     document.querySelectorAll('.nl-location-card').forEach(card=>{
         card.addEventListener('click',function(){
             document.querySelectorAll('.nl-location-card').forEach(c=>c.classList.remove('selected'));
             this.classList.add('selected');
-            selectedLocation=this.dataset.location;
+            selectedLocation=parseInt(this.dataset.location);
+            selectedLocationIdx=selectedLocation;
             document.getElementById('selectedLocation').value=selectedLocation;
             document.getElementById('btnStep1Next').disabled=false;
+            // If Central (0) selected, re-validate date in case it's Wednesday
+            validateStep2();
         });
     });
 
@@ -590,6 +588,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     function resetSteps(){
         selectedLocation=null;
+        selectedLocationIdx=null;
         document.querySelectorAll('.nl-location-card').forEach(c=>c.classList.remove('selected'));
         document.getElementById('bookingForm').reset();
         document.getElementById('btnStep1Next').disabled=true;
@@ -602,9 +601,22 @@ document.addEventListener('DOMContentLoaded',function(){
     dateInput.addEventListener('change',validateStep2);
     document.getElementById('bookingTime').addEventListener('change',validateStep2);
     function validateStep2(){
-        const hasDate=dateInput.value!=='';
-        const hasTime=document.getElementById('bookingTime').value!=='';
-        document.getElementById('btnStep2Next').disabled=!(hasDate&&hasTime);
+        const dateVal=dateInput.value;
+        const timeVal=document.getElementById('bookingTime').value;
+        let err='';
+        // 2-day advance
+        if(dateVal){
+            const sel=new Date(dateVal);
+            const min=new Date(minDate.toISOString().split('T')[0]);
+            if(sel<min){ err='Please book at least 2 days in advance.'; }
+        }
+        // Central closed on Wednesday (location 0)
+        if(dateVal && selectedLocationIdx===0){
+            const dow=new Date(dateVal).getDay();
+            if(dow===3){ err='Central Pier 8 is closed on Wednesdays. Please choose another date.'; }
+        }
+        document.getElementById('btnStep2Next').disabled=!(dateVal&&timeVal&&!err);
+        // Optional: show inline error if you want — for now just disable button
     }
 });
 </script>

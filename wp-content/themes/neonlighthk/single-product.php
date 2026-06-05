@@ -52,7 +52,7 @@ get_header('shop'); ?>
 				<form class="cart nl-product-cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype="multipart/form-data">
 					<?php do_action('woocommerce_before_add_to_cart_button'); ?>
 					<div class="nl-product-cart__qty">
-						<label for="quantity_<?php echo esc_attr($product->get_id()); ?>"><?php esc_html_e('Quantity:', 'woocommerce'); ?></label>
+						<label for="quantity_<?php echo esc_attr($product->get_id()); ?>"><?php echo nl_t('wc_quantity'); ?></label>
 						<input type="number" id="quantity_<?php echo esc_attr($product->get_id()); ?>" name="quantity" value="1" min="1" step="1">
 					</div>
 					<button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="nl-btn-primary single_add_to_cart_button"><?php echo nl_t('wc_add_to_cart'); ?></button>
@@ -72,7 +72,7 @@ get_header('shop'); ?>
 		$related = wc_get_related_products($product->get_id(), 4);
 		if (!empty($related)) : ?>
 			<div class="nl-related-products">
-				<h2><?php esc_html_e('Related Products', 'woocommerce'); ?></h2>
+				<h2><?php echo nl_t('wc_related_products'); ?></h2>
 				<div class="nl-product-grid">
 					<?php foreach ($related as $related_id) :
 						$related_product = wc_get_product($related_id);

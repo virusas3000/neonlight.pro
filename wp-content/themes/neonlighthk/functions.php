@@ -7,7 +7,7 @@
 // Load translations (must be global)
 require_once get_template_directory() . '/inc/translations.php';
 
-// Force About page to use custom template
+// Force custom templates with high priority to override WooCommerce
 add_filter('template_include', function($template) {
     if (is_page(13)) {
         $about_template = get_template_directory() . '/page-about.php';
@@ -17,8 +17,16 @@ add_filter('template_include', function($template) {
         $projects_template = get_template_directory() . '/page-projects.php';
         if (file_exists($projects_template)) return $projects_template;
     }
+    if (is_page(4)) {
+        $products_template = get_template_directory() . '/page-products.php';
+        if (file_exists($products_template)) return $products_template;
+    }
+    if (is_page(171) || is_page('neon-products')) {
+        $neon_products_template = get_template_directory() . '/page-neon-products.php';
+        if (file_exists($neon_products_template)) return $neon_products_template;
+    }
     return $template;
-});
+}, 999);
 
 // Disable canonical redirect for plain page_id permalinks so pages load correctly
 remove_filter('template_redirect', 'redirect_canonical');
@@ -289,3 +297,19 @@ add_action('wp_head', function() {
     </script>
     <?php
 });
+
+// ===== DOCUMENT TITLE TRANSLATION =====
+add_filter('document_title_parts', 'nl_translate_document_title');
+function nl_translate_document_title($parts) {
+    $lang = nl_lang();
+    if (is_shop() || is_page_template('page-shop.php')) {
+        $parts['title'] = nl_t('shop_title');
+    }
+    if (is_page_template('page-rental.php')) {
+        $parts['title'] = nl_t('balloon_title');
+    }
+    if (is_product()) {
+        $parts['title'] = get_the_title() . ' – ' . nl_t('shop_title');
+    }
+    return $parts;
+}
