@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_interest_nonce']))
             update_post_meta($interest_id, '_nl_best_time',   $best_time);
             update_post_meta($interest_id, '_nl_group_prefs', implode(', ', $group_prefs));
 
-            wp_mail('www.neonlight.pro@gmail.com',
+            wp_mail('cantopopforyou@gmail.com',
                 'New Workshop Interest - ' . $first_name . ' ' . $last_name,
                 "Name: $first_name $last_name
 Email: $email
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_booking_nonce'])) 
             update_post_meta($booking_id, '_nl_total',           $price * $group_size);
 
             // Email admin
-            wp_mail('www.neonlight.pro@gmail.com',
+            wp_mail('cantopopforyou@gmail.com',
                 'New Workshop Booking - ' . $customer_name,
                 "Workshop: $workshop_title
 Location: " . $loc['name'] . ' · ' . $loc['name_en'] . "
@@ -314,7 +314,7 @@ $workshops = [
     <div class="nl-contact-bar">
         <strong><?php echo nl_t('ws_contact'); ?></strong><br>
         <a href="https://wa.me/85261319328" target="_blank">WhatsApp 6131 9328</a> |
-        <a href="mailto:www.neonlight.pro@gmail.com"><?php echo nl_t('ws_email'); ?></a> |
+        <a href="mailto:cantopopforyou@gmail.com"><?php echo nl_t('ws_email'); ?></a> |
         IG: <a href="https://instagram.com/irregularthk" target="_blank">@irregularthk</a>
         <a href="https://instagram.com/justbe.mawan" target="_blank">@justbe.mawan</a>
         <a href="https://instagram.com/neonlight.pro" target="_blank">@neonlight.pro</a>

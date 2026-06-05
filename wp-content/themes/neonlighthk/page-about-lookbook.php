@@ -102,8 +102,8 @@ $lang = nl_lang();
 	<section class="nl-about-section">
 		<h2><?php echo nl_t('contact_title'); ?></h2>
 		<div class="nl-about-contact">
-			<p><strong>WhatsApp:</strong> <a href="https://wa.me/85261319328">61319328</a></p>
-			<p><strong>Email:</strong> <a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
+			<p><strong>Tel:</strong> <a href="tel:+85261319328">61319328</a></p>
+			<p><strong>Email:</strong> <a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
 			<p><strong>Address:</strong> <?php echo nl_t('visit_addr1'); ?></p>
 		</div>
 	</section>

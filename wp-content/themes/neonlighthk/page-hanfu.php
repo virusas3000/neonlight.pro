@@ -175,9 +175,9 @@ $lang = nl_lang();
 			<div class="nl-customise-card__divider"></div>
 			<div class="nl-customise-card__contact">
 				61319328<br>
-				<a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a>
+				<a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a>
 			</div>
-			<a href="mailto:www.neonlight.pro@gmail.com?subject=Hanfu%20Quote%20Request" class="nl-customise-card__btn">
+			<a href="mailto:cantopopforyou@gmail.com?subject=Hanfu%20Quote%20Request" class="nl-customise-card__btn">
 				<?php echo $lang === 'en' ? 'QUOTE' : '報價'; ?>
 			</a>
 		</div>
@@ -200,9 +200,9 @@ $lang = nl_lang();
 			<div class="nl-customise-card__divider"></div>
 			<div class="nl-customise-card__contact">
 				61319328<br>
-				<a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a>
+				<a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a>
 			</div>
-			<a href="mailto:www.neonlight.pro@gmail.com?subject=Hanfu%20Design%20Service" class="nl-customise-card__btn">
+			<a href="mailto:cantopopforyou@gmail.com?subject=Hanfu%20Design%20Service" class="nl-customise-card__btn">
 				<?php echo $lang === 'en' ? 'QUOTE' : '報價'; ?>
 			</a>
 		</div>

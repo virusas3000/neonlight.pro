@@ -14,7 +14,7 @@ function nl_pll_register_strings() {
 
 	// Contact info
 	pll_register_string( 'nl_phone',    get_theme_mod( 'nl_phone',    '61319328' ),                                 'neonlighthk', true );
-	pll_register_string( 'nl_email',    get_theme_mod( 'nl_email',    'www.neonlight.pro@gmail.com' ),                           'neonlighthk', true );
+	pll_register_string( 'nl_email',    get_theme_mod( 'nl_email',    'cantopopforyou@gmail.com' ),                           'neonlighthk', true );
 	pll_register_string( 'nl_address',  get_theme_mod( 'nl_address',  'U/F,Central Pier 8,Hong Kong · 香港中環8號碼頭U層' ), 'neonlighthk', true );
 
 	// Navigation labels
