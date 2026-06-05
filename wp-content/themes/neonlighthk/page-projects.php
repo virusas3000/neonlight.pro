@@ -87,7 +87,7 @@ $lang = nl_lang();
 }
 .nl-blog-grid__inner {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	grid-template-columns: repeat(2, 1fr);
 	gap: 24px;
 }
 .nl-blog-card {
