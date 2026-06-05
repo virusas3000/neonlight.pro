@@ -77,19 +77,19 @@ $lang = nl_lang();
 		<div class="nl-about-gallery">
 			<?php
 			$gallery = get_post_meta(get_the_ID(), '_nl_lookbook_gallery', true);
-			$images  = is_array($gallery) ? $gallery : [];
+			$images  = is_array($gallery) ? $gallery : array();
 			if (!empty($images)) :
 			?>
 				<div class="nl-gallery-grid">
 					<?php foreach ($images as $img_id) : ?>
 						<div class="nl-gallery-item">
 							<a href="<?php echo esc_url(wp_get_attachment_image_url($img_id, 'large')); ?>" data-lightbox="lookbook" data-title="<?php echo esc_attr(get_the_title($img_id)); ?>">
-								<?php echo wp_get_attachment_image($img_id, 'medium_large', false, ['loading' => 'lazy']); ?>
+								<?php echo wp_get_attachment_image($img_id, 'medium_large', false, array('loading' => 'lazy')); ?>
 							</a>
 						</div>
 					<?php endforeach; ?>
 				</div>
-			<?php else : ?
+			<?php else : ?>
 				<p style="text-align:center; opacity:0.6; padding:40px 0;">Gallery coming soon</p>
 			<?php endif; ?>
 		</div>
