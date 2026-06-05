@@ -221,5 +221,10 @@ function nl_dictionary() {
         'lang_en'       => ['en'=>'English',     'zh'=>'English',    'cn'=>'English'],
         'lang_zh'       => ['en'=>'繁體中文',     'zh'=>'繁體中文',   'cn'=>'繁体中文'],
         'lang_cn'       => ['en'=>'简体中文',     'zh'=>'简体中文',   'cn'=>'简体中文'],
+
+        // Contact form notifications
+        'contact_success' => ['en'=>'Thank you! Your enquiry has been submitted.', 'zh'=>'感謝！您的查詢已提交。', 'cn'=>'感谢！您的查询已提交。'],
+        'contact_error'   => ['en'=>'Something went wrong. Please try again.', 'zh'=>'提交失敗，請重試。', 'cn'=>'提交失败，请重试。'],
+        'contact_required'=> ['en'=>'Please fill in all required fields.', 'zh'=>'請填寫所有必填項目。', 'cn'=>'请填写所有必填项目。'],
     ];
 }

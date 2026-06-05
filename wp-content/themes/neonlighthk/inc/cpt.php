@@ -225,3 +225,70 @@ function nl_register_custom_post_types() {
 	);
 }
 add_action( 'init', 'nl_register_custom_post_types' );
+
+/**
+ * Register Enquiry CPT
+ */
+function nl_register_enquiry_post_type() {
+	register_post_type(
+		'nl_enquiry',
+		array(
+			'labels'            => array(
+				'name'               => __( 'Enquiries', 'neonlighthk' ),
+				'singular_name'      => __( 'Enquiry', 'neonlighthk' ),
+				'add_new'            => __( 'Add New', 'neonlighthk' ),
+				'add_new_item'       => __( 'Add New Enquiry', 'neonlighthk' ),
+				'edit_item'          => __( 'Edit Enquiry', 'neonlighthk' ),
+				'new_item'           => __( 'New Enquiry', 'neonlighthk' ),
+				'view_item'          => __( 'View Enquiry', 'neonlighthk' ),
+				'search_items'       => __( 'Search Enquiries', 'neonlighthk' ),
+				'not_found'          => __( 'No enquiries found', 'neonlighthk' ),
+				'not_found_in_trash' => __( 'No enquiries found in trash', 'neonlighthk' ),
+				'all_items'          => __( 'All Enquiries', 'neonlighthk' ),
+				'menu_name'          => __( 'Enquiries', 'neonlighthk' ),
+			),
+			'public'            => false,
+			'publicly_queryable'  => false,
+			'has_archive'       => false,
+			'show_ui'           => true,
+			'show_in_menu'      => true,
+			'show_in_rest'      => true,
+			'supports'          => array( 'title', 'editor', 'custom-fields' ),
+			'menu_icon'         => 'dashicons-email-alt',
+			'capability_type'   => 'post',
+		)
+	);
+}
+add_action( 'init', 'nl_register_enquiry_post_type' );
+
+/* ---------- Admin columns for Enquiries ---------- */
+add_filter( 'manage_nl_enquiry_posts_columns', function ( $columns ) {
+	$columns = array(
+		'cb'        => '<input type="checkbox" />',
+		'title'     => __( 'Name', 'neonlighthk' ),
+		'email'     => __( 'Email', 'neonlighthk' ),
+		'phone'     => __( 'Tel', 'neonlighthk' ),
+		'subject'   => __( 'Subject', 'neonlighthk' ),
+		'message'   => __( 'Message', 'neonlighthk' ),
+		'date'      => __( 'Date', 'neonlighthk' ),
+	);
+	return $columns;
+} );
+
+add_action( 'manage_nl_enquiry_posts_custom_column', function ( $column, $post_id ) {
+	switch ( $column ) {
+		case 'email':
+			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_email', true ) );
+			break;
+		case 'phone':
+			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_phone', true ) );
+			break;
+		case 'subject':
+			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_subject', true ) );
+			break;
+		case 'message':
+			$msg = get_post_meta( $post_id, '_nl_enquiry_message', true );
+			echo esc_html( wp_trim_words( $msg, 15 ) );
+			break;
+	}
+}, 10, 2 );

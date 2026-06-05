@@ -72,7 +72,7 @@ $lang = nl_lang();
 	<section class="nl-about-section">
 		<h2><?php echo nl_t('lookbook_heading'); ?></h2>
 		<p class="nl-about-ig">
-			<a href="https://instagram.com/neonlighthk" target="_blank">INSTAGRAM @ NEONLIGHTHK</a>
+			<a href="https://instagram.com/neonlight.pro" target="_blank">INSTAGRAM @ NEONLIGHT.PRO</a>
 		</p>
 		<div class="nl-about-gallery">
 			<p style="text-align:center; opacity:0.6; padding:40px 0;">Gallery coming soon</p>

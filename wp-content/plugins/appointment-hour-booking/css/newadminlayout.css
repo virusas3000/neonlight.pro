@@ -1,0 +1,550 @@
+.width60{width:57%}
+
+/* main - lists page */
+.clear{clear:both;}
+label {font-weight:600;}
+.ahb-new-calendar{width:50%;}
+.ahb-section-container {
+	border: 1px solid #e6e6e6;
+	padding: 20px;
+	border-radius: 3px;
+	-webkit-box-flex: 1;
+	flex: 1;
+	margin: 1em 1em 1em 0;
+	min-width: 200px;
+	background: white;
+	position:relative;
+}
+.ahb-section{}
+.ahb-section label{font-weight:600;}
+
+.ahb-calendars-list{border-collapse: collapse;}
+.ahb-calendars-list thead tr,
+.ahb-calendars-list tbody tr:not(:last-child){border-bottom:1px solid #efefef;}
+
+.ahb-calendars-list td .button{margin-right:5px;}
+.ahb-calendars-list td .button:last-child{margin-right:0;}
+
+.ahb-mssg{margin-left:0 !important; display:none;}
+
+.form-builder .button {
+    margin: 5px 10px !important;
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: .4em 0em !important;
+}
+
+@media screen and (max-width: 710px)
+{
+     .form-builder .button {
+         margin: 5px 5px !important;
+     }
+	.ahb-calendars-list table,
+    .ahb-calendars-list thead,
+    .ahb-calendars-list tbody,
+    .ahb-calendars-list th,
+    .ahb-calendars-list td,
+    .ahb-calendars-list tr
+    {
+		display: block;
+		width:100%;
+		text-align:left;
+	}
+	.ahb-calendars-list thead,
+	.ahb-calendars-list th{display:none}
+	.ahb-calendars-list td .button{width:calc(50% - 5px); margin:5px 0;}
+    .ahb-calendars-list .firstcol,
+    .ahb-calendars-list td .button:nth-child(1) {display: none }
+    .ahb-calendars-list .lastcol { clear:both;  visibility:hidden; }
+    .ahb-calendars-list td .button:nth-child(2),
+	.ahb-calendars-list td .button:nth-child(3),
+    .ahb-calendars-list td .button:nth-child(4),
+	.ahb-calendars-list td .button:nth-child(5),
+	.ahb-calendars-list td .button:nth-child(6),
+	.ahb-calendars-list td .button:nth-child(7),
+	.ahb-calendars-list td .button:nth-child(8),
+    .ahb-calendars-list td .button:nth-child(9) {float:left; margin-left:0px; margin-right:5px;}
+	.ahb-new-calendar,
+	.ahb-calendars-list input[type="text"]{width:100%;}
+}
+
+
+
+.ahb-orders-list td .button {font-size: 85%;}
+
+
+
+/* stats - reports page */
+
+.ahb-statssection-container {
+		border: 1px solid #e6e6e6;
+		padding:0px;
+		border-radius: 3px;
+		-webkit-box-flex: 1;
+		flex: 1;
+		margin: 1em 1em 1em 0;
+		min-width: 200px;
+		background: #ffffff;
+		position:relative;
+}
+.ahb-buttons-container{margin:1em 1em 1em 0;}
+.ahb-return-link{float:right;}
+
+.ahb-statssection{padding:20px;}
+.ahb-statssection-header{
+	background:white;
+	padding:10px 20px;
+	-webkit-box-shadow: 0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	-moz-box-shadow:    0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	box-shadow:         0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+}
+
+@media screen and (max-width: 710px)
+{
+	.ahb-statssection-container{width:100% !important;}
+}
+
+/* booking orders page */
+
+.ahb-orderssection-container {
+	border: 0px;
+	padding:0;
+	-webkit-box-flex: 1;
+	flex: 1;
+	margin: 0;
+	min-width: 200px;
+	background: #ffffff;
+	position:relative;
+}
+
+.ahb-orders-list{border-collapse: collapse;}
+.ahb-orders-list tbody tr:not(:last-child){border-bottom:2px solid #ffffff;}
+
+.ahb-orders-list td .button{margin-right:5px;float:none;}
+.ahb-orders-list td .button:last-child{margin-right:0;}
+
+.ahb-orders-list thead{
+	background:white;
+	padding:10px 20px;
+	-webkit-box-shadow: 0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	-moz-box-shadow:    0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	box-shadow:         0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+}
+
+
+/* admin int */
+#dex_printable_contents,
+.ahb-adintsection-container {
+	border: 1px solid #e6e6e6;
+	padding:0px;
+	border-radius: 3px;
+	-webkit-box-flex: 1;
+	flex: 1;
+	margin: 15px 0 15px 0;
+	min-width: 200px;
+	background: #f6f6f6;
+	position:relative;
+}
+
+.ahb-adintsection{padding:20px;display:none;}
+.ahb-adintsection label{font-weight:600;}
+.ahb-adintsection-active{display:block;}
+.ahb-breadcrumb{
+	background:white;
+	padding:10px 20px;
+	-webkit-box-shadow: 0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	-moz-box-shadow:    0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	box-shadow:         0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+}
+.ahb-step{display:inline-block; cursor:pointer;}
+.ahb-step:not(:last-child){margin-right:50px;}
+.ahb-step *{
+	color:#8c8c8c;
+	line-height:28px;
+	font-weight:600;
+	font-style:normal;
+	text-decoration:none;
+}
+.ahb-step i{
+	display:inline-block;
+	width: 28px;
+	height: 28px;
+	background:#e2e2e2;
+	border-radius:20px;
+	text-align:center;
+}
+.ahb-step:hover i,
+.ahb-step.ahb-step-active i{background:#006799;color:#ffffff;}
+.ahb-step:hover label,
+.ahb-step.ahb-step-active label{color:#006799;}
+
+.form-builder{
+	width: 100% !important;
+	background: white !important;
+	border-radius: 6px !important;
+	border: 1px solid #e6e6e6 !important;
+    height:620px !important;
+}
+
+.form-builder #tabs{
+	height:615px !important;
+	border-right: 1px solid #e6e6e6;
+	border-left:0;
+	border-top:0;
+	border-bottom:0;
+}
+
+.working_dates input[type='checkbox'] { width: auto !important; margin-left: 10px; }
+#sWD0 { margin-left: 0px; }
+
+
+.cpapp_no_wrap{
+	width: 100%;
+	display:flex;
+	border-bottom:1px solid #e6e6e6;
+}
+.cpapp_no_wrap:first-child,
+.cpapp_no_wrap:last-child{
+	border-bottom:0;
+}
+.cpappb_field_0,
+.cpappb_field_1,
+.cpappb_field_2,
+.cpappb_field_3,
+.cpappb_field_4,
+.cpappb_field_5,
+.cpappb_field_6,
+.cpappb_field_7,
+.cpappb_field_8,
+.cpappb_field_9,
+.cpappb_field_10,
+.cpappb_field_11{
+	flex-grow:1;
+	margin:0;
+	padding:10px 0 10px 10px;
+	border-bottom:0;
+}
+.cpappb_field_header{
+	background:white;
+	border-bottom:0;
+	-webkit-box-shadow: 0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	-moz-box-shadow:    0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+	box-shadow:         0px 2px 2px 0px rgba(100, 100, 100, 0.1);
+}
+
+.ahb-statssection{
+	text-align:center;
+}
+.ahb-statssection .canvas{
+	margin-left: auto !important;
+    margin-right: auto !important;
+    width: 310px;
+}
+.ahb-statssection #dex_printable_contents{
+	border: 0;
+	text-align:left;
+	overflow:unset;
+}
+
+.button.n{pointer-events: none !important;}
+
+.button-primary2 { background-color: #AADDFF !important; }
+.button-primary3 { background-color: #CCFFFF !important; }
+
+.ahbsmallpadding1  td, .ahbsmallpadding1  tr, .ahbsmallpadding1  th { margin: 0px !important; padding:4px !important; }
+
+/*
+#facceptance{
+    background: url("cupertino/images/ui-bg_glass_80_eebd4dc_1x400.png") repeat-x scroll 50% 50% #619218;
+    border: 1px solid #619218;
+    color: #25530F;
+}
+#facceptance span{padding-left: 0; padding-right:0;}
+*/
+
+.ahb-graphs {
+		border: 1px solid #e6e6e6;
+		padding:0px;
+		border-radius: 3px;
+		margin:0px;
+		min-width: 200px;
+		background: #ffffff;
+		position:relative;
+}
+.container {
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+     /*  margin: -10px; Negative margin to offset padding */
+}
+.col3,.col4,.col6,.col12 {
+    padding: 0px; /* Padding around each column */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+.col3 {flex: 0 0 25%;}
+.col44 {flex: 0 0 33.33%;width:100%}
+.col4 {-webkit-box-flex:0;-ms-flex:0 0 33.333333%;flex:0 0 33.333333%;max-width:33.333333%}
+.col6 {flex: 0 0 50%;}
+
+.col12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .col3,.col4,.col6,.col12 {-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%}
+}
+.margin-top-15{margin-top:15px}
+
+canvas {
+            min-width: 200px; /* Minimum width */
+            max-width: 100%; /* Responsive */
+            height: 200px; /* Fixed height */
+        }
+
+.ahbaptimes { margin-bottom: 10px; font-weight: 500;}
+
+/* Header styling */
+.ahb-appointment-header {
+    font-weight: 600; /* Semi-bold */
+    color: #1d2327;
+    margin-bottom: 6px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* The primary time badge */
+.ahb-appointment-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #f0f6fb; /* Soft WordPress Blue */
+    border: 1px solid #c3d9e8;
+    border-radius: 4px;
+    padding: 3px;
+    margin-bottom: 5px;
+}
+
+/* Icon inside the badge */
+.ahb-appointment-badge .dashicons-clock {
+    color: #2271b1;
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+    margin-right: 8px;
+}
+
+/* The specific time string */
+.ahb-time {
+    font-weight: 600; /* Semi-bold */
+    color: #2271b1;
+    margin-right: 8px;
+}
+
+/* The service/description text */
+.ahb-service {
+    color: #50575e;
+    font-size: 12px;
+    border-left: 1px solid #c3d9e8;
+    padding-left: 8px;
+}
+
+
+.ahbmessagemw {
+    min-width: 170px; /* Set your desired pixels here */
+    display: block;   /* Ensures the div respects the width */
+}
+
+/* Styling the customer detail divs below the badge */
+.ahbaptimes + div, 
+.ahb-appointment-badge + div {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #2c3338;
+}
+
+.ahbmessagemw div:nth-child(n+4):not(:last-child) {
+    border-top: 1px dotted #ddd;
+}
+
+/* 1. Prevent the table from collapsing too much */
+.ahb-orders-list {
+    table-layout: auto; /* Browser calculates best fit */
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* 2. Align all content to the top so icons don't float in the middle */
+.ahb-orders-list th, 
+.ahb-orders-list td {
+    vertical-align: top !important; /* Forces icons and text to line up at the top */
+    padding: 12px 8px !important;
+    word-break: break-word; /* Allows long text to wrap instead of pushing columns */
+}
+
+/* 3. Assign specific widths to narrow columns */
+.ahb-orders-list th:nth-child(1) { width: 30px; }  /* Checkbox */
+.ahb-orders-list th:nth-child(2) { width: 50px; }  /* ID */
+.ahb-orders-list th:nth-child(3) { width: 100px; } /* Submission Date */
+.ahb-orders-list th:nth-child(4) { width: 40%; } /* Email */
+.ahb-orders-list th:nth-child(5) { width: 60%; } /* Message */
+.ahb-orders-list th:nth-child(6) { width: 80px;text-align: center; } /* Paid Status */
+.ahb-orders-list .cpnopr select{width:100%;max-width:150px}
+.ahb-orders-list th:nth-child(7) {max-width:160px;width: 160px;}
+
+.ahb-orders-list .cpnopr .inline{white-space: nowrap;}
+
+
+/* 4. Ensure the Message column takes the remaining space but doesn't shrink too small */
+.ahb-orders-list td:nth-child(5) {
+    min-width: 250px;
+}
+
+/* 5. Prevent the Badge from overflowing its own cell */
+.ahb-appointment-badge {
+    display: flex; /* Changed from inline-flex to flex */
+    flex-wrap: wrap; /* Allows the service text to drop to a new line if narrow */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Target the Submission Date column */
+.ahb-orders-list th.col-submission-date,
+.ahb-orders-list td:nth-child(3) {
+    width: 1% !important;        /* Trick to force minimum possible width */
+    white-space: normal !important; /* Allows text to wrap/stack */
+    min-width: 85px !important;   /* Just enough for the date string */
+    line-height: 1.3;
+    font-size: 11px;             /* Optional: smaller font saves more space */
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+/* Ensure the date and time have a natural break point */
+.ahb-orders-list td:nth-child(3) {
+    word-spacing: 100vw; /* Forces a wrap at every space character */
+}
+
+.buttonnf {float:none !important;min-height:40px !important;}
+.selectmh {min-height:40px !important;}
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+.tablenav.top .ahbno-wrap-div{display:inline-flex;}
+.tablenav.top .ahbno-wrap-div input {margin-right:2px}
+@media screen and (max-width: 782px) {
+    .tablenav.top .ahbno-wrap-div {
+        display: inline;
+        text-align:center;
+    }
+    .tablenav.top .ahbno-wrap-div input,.tablenav.top .ahbno-wrap-div select {
+        width:calc(50% - 5px);
+        max-width: none;
+        margin-top:3px;
+    }
+    .ahbnoprint.tablenav.bottom .actions input,.ahbnoprint.tablenav.bottom .actions select{
+        width:calc(50%);
+        max-width: none;
+        margin:3px 5px 0px 0px !important;
+    }
+    .ahbnoprint .alignleft,.ahbnoprint .alignright{float:none;width:100%;display:inline-flex}
+    .dex_printable_contents{min-width:782px !important;}
+}
+@media screen and (max-width: 768px) {
+    #dex_table_form table, 
+    #dex_table_form tbody{ 
+        display: block; 
+        width: 100% !important;
+    }
+    #dex_table_form thead { 
+        display: contents; 
+    }
+    #dex_table_form thead tr {
+        display: flex;
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        border-bottom: none;
+        border-radius: 8px 8px 0 0;
+    }
+    #dex_table_form thead tr:nth-child(1){
+        padding: 0px;
+        margin: 0px;
+    }
+    #dex_table_form thead th:not(.column-cb) { 
+        display: none;
+    }
+    #dex_table_form thead th.column-cb {
+        display: block;
+        width: 50px !important;
+        padding: 10px !important;
+    }
+    #dex_table_form tr {
+        display: flex;
+        flex-wrap: wrap; 
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        background: #fff;
+        border-radius: 0 0 8px 8px; 
+    }
+    #dex_table_form th.check-column {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px !important;
+        min-width: 50px;
+        background: #f9f9f9;
+        border-right: 1px solid #eee;
+        padding: 6px 0px 0px !important;
+    }
+    #dex_table_form td {
+        display: block;
+        flex: 1; /* Ocupa el espacio restante */
+        min-width: calc(100% - 60px); 
+        border: none;
+        padding: 8px 15px !important;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    #dex_table_form td:nth-child(2),
+    #dex_table_form td:nth-child(3) {
+        flex: none;
+        width: calc(100% - 150px) !important;
+        min-width: 100px;
+        font-size: 11px;
+        color: #666;
+        border-bottom: none;
+        background: #f9f9f9;        
+        padding: 12px 0px 0px 30px !important;
+        font-size: 14px;
+    }
+    #dex_table_form td:nth-child(2) {
+        width: 100px !important;
+    }
+	#dex_table_form td:nth-child(2):before {
+        content: "\f483";
+        font-family: dashicons;
+        font-size: 18px;
+    }
+    #dex_table_form td:nth-child(3) {
+        word-spacing: normal;
+    }
+    #dex_table_form td:nth-child(3):before {
+        content: "\f469";
+        font-family: dashicons;
+        font-size: 18px;
+    }
+    #dex_table_form td.ahbmessage {
+        width: 100%;
+        background: #fff;
+    }
+    #dex_table_form td.cpnopr,
+    #dex_table_form td[align="center"] {
+        width: 100%;
+        background: #fafafa;
+    }
+    #dex_table_form td a {
+        word-break: break-all;
+    }
+	.ahb-orderssection-container .wp-list-table.widefat{border:0px !important}
+}

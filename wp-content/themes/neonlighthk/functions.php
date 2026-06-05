@@ -7,6 +7,26 @@
 // Load translations (must be global)
 require_once get_template_directory() . '/inc/translations.php';
 
+// Load custom post types
+require_once get_template_directory() . '/inc/cpt.php';
+
+// Register ?lang= query var so WordPress doesn't 404 on ?lang=zh / ?lang=en / ?lang=cn
+add_filter('query_vars', function($vars) {
+    $vars[] = 'lang';
+    $vars[] = 'contact_submitted';
+    $vars[] = 'contact_error';
+    return $vars;
+});
+
+// Force front-page.php for the homepage even with query vars like ?lang=zh
+add_filter('template_include', function($template) {
+    if (is_front_page()) {
+        $front = get_template_directory() . '/front-page.php';
+        if (file_exists($front)) return $front;
+    }
+    return $template;
+}, 1);
+
 // Force custom templates with high priority to override WooCommerce
 add_filter('template_include', function($template) {
     if (is_page(13)) {
