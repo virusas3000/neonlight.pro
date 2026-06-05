@@ -18,7 +18,7 @@ $lang = nl_lang();
 	<?php endwhile; ?>
 
 	<!-- Blog Posts Grid -->
-	<section class="nl-blog-grid">
+	<section class="nl-projects-section">
 		<?php
 		$args = array(
 			'post_type'      => 'post',
@@ -84,8 +84,8 @@ $lang = nl_lang();
 	max-width: 100% !important;
 	padding: 0 !important;
 }
-.nl-blog-grid {
-	max-width: 100% !important;
+.nl-projects-section {
+	max-width: 100%;
 	margin: 0 auto;
 	padding: 0 24px 60px;
 }
