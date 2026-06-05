@@ -75,23 +75,26 @@ $lang = nl_lang();
 			<a href="https://instagram.com/neonlight.pro" target="_blank">INSTAGRAM @ NEONLIGHT.PRO</a>
 		</p>
 		<div class="nl-about-gallery">
-			<?php
-			$gallery = get_post_meta(get_the_ID(), '_nl_lookbook_gallery', true);
-			$images  = is_array($gallery) ? $gallery : array();
-			if (!empty($images)) :
-			?>
-				<div class="nl-gallery-grid">
-					<?php foreach ($images as $img_id) : ?>
-						<div class="nl-gallery-item">
-							<a href="<?php echo esc_url(wp_get_attachment_image_url($img_id, 'large')); ?>" data-lightbox="lookbook" data-title="<?php echo esc_attr(get_the_title($img_id)); ?>">
-								<?php echo wp_get_attachment_image($img_id, 'medium_large', false, array('loading' => 'lazy')); ?>
-							</a>
-						</div>
-					<?php endforeach; ?>
+			<div class="nl-gallery-grid">
+				<div class="nl-gallery-item">
+					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
 				</div>
-			<?php else : ?>
-				<p style="text-align:center; opacity:0.6; padding:40px 0;">Gallery coming soon</p>
-			<?php endif; ?>
+				<div class="nl-gallery-item">
+					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-2.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+				</div>
+				<div class="nl-gallery-item">
+					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-3.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+				</div>
+				<div class="nl-gallery-item">
+					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-4.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+				</div>
+				<div class="nl-gallery-item">
+					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-5.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+				</div>
+				<div class="nl-gallery-item">
+					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-6.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+				</div>
+			</div>
 		</div>
 	</section>
 
