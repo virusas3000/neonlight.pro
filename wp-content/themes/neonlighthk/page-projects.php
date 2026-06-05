@@ -80,8 +80,12 @@ $lang = nl_lang();
 </div>
 
 <style>
+.nl-page.nl-projects {
+	max-width: 100%;
+	padding: 0;
+}
 .nl-blog-grid {
-	max-width: 1100px;
+	max-width: 100%;
 	margin: 0 auto;
 	padding: 0 24px 60px;
 }
@@ -108,7 +112,7 @@ $lang = nl_lang();
 }
 .nl-blog-card__img {
 	width: 100%;
-	aspect-ratio: 16/10;
+	aspect-ratio: 21/9;
 	overflow: hidden;
 	background: #111;
 }
