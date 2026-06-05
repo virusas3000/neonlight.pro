@@ -81,11 +81,11 @@ $lang = nl_lang();
 
 <style>
 .nl-page.nl-projects {
-	max-width: 100%;
-	padding: 0;
+	max-width: 100% !important;
+	padding: 0 !important;
 }
 .nl-blog-grid {
-	max-width: 100%;
+	max-width: 100% !important;
 	margin: 0 auto;
 	padding: 0 24px 60px;
 }
