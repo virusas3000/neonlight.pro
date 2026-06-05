@@ -75,7 +75,23 @@ $lang = nl_lang();
 			<a href="https://instagram.com/neonlight.pro" target="_blank">INSTAGRAM @ NEONLIGHT.PRO</a>
 		</p>
 		<div class="nl-about-gallery">
-			<p style="text-align:center; opacity:0.6; padding:40px 0;">Gallery coming soon</p>
+			<?php
+			$gallery = get_post_meta(get_the_ID(), '_nl_lookbook_gallery', true);
+			$images  = is_array($gallery) ? $gallery : [];
+			if (!empty($images)) :
+			?>
+				<div class="nl-gallery-grid">
+					<?php foreach ($images as $img_id) : ?>
+						<div class="nl-gallery-item">
+							<a href="<?php echo esc_url(wp_get_attachment_image_url($img_id, 'large')); ?>" data-lightbox="lookbook" data-title="<?php echo esc_attr(get_the_title($img_id)); ?>">
+								<?php echo wp_get_attachment_image($img_id, 'medium_large', false, ['loading' => 'lazy']); ?>
+							</a>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			<?php else : ?
+				<p style="text-align:center; opacity:0.6; padding:40px 0;">Gallery coming soon</p>
+			<?php endif; ?>
 		</div>
 	</section>
 
@@ -142,6 +158,29 @@ $lang = nl_lang();
 }
 .nl-about-content .wp-block-button__link:hover {
 	background: #008c7a;
+}
+.nl-gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+	margin: 24px 0;
+}
+.nl-gallery-item img {
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	object-fit: cover;
+	aspect-ratio: 4/3;
+	transition: transform 0.2s;
+}
+.nl-gallery-item a:hover img {
+	transform: scale(1.03);
+}
+@media (max-width: 768px) {
+	.nl-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+	.nl-gallery-grid { grid-template-columns: 1fr; }
 }
 </style>
 

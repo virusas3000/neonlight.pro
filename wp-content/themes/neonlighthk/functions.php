@@ -264,6 +264,94 @@ add_action('add_meta_boxes', function() {
 	);
 });
 
+// ===== LOOKBOOK GALLERY META BOX (WP Media Library repeater) =====
+add_action('add_meta_boxes', function () {
+	add_meta_box(
+		'nl_lookbook_gallery',
+		__('Lookbook Gallery', 'neonlighthk'),
+		function ($post) {
+			wp_nonce_field('nl_save_lookbook_gallery', 'nl_lookbook_gallery_nonce');
+			$gallery = get_post_meta($post->ID, '_nl_lookbook_gallery', true);
+			$images  = is_array($gallery) ? $gallery : [];
+		?>
+			<div id="nl-gallery-wrap">
+				<ul id="nl-gallery-list" style="display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:0;">
+					<?php foreach ($images as $img_id) : ?>
+						<li data-id="<?php echo esc_attr($img_id); ?>" style="position:relative;">
+							<?php echo wp_get_attachment_image($img_id, 'thumbnail'); ?>
+							<a href="#" class="nl-remove-img" style="position:absolute;top:2px;right:2px;background:#c00;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:12px;">×</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				<input type="hidden" name="nl_lookbook_gallery" id="nl_lookbook_gallery_input" value="<?php echo esc_attr(implode(',', $images)); ?>">
+				<button type="button" class="button" id="nl-add-gallery-img"><?php _e('Add Images', 'neonlighthk'); ?></button>
+			</div>
+			<style>
+			#nl-gallery-list li { cursor: move; }
+			#nl-gallery-list li img { border-radius: 4px; }
+			</style>
+			<script>
+			jQuery(function($) {
+				var frame;
+				$('#nl-add-gallery-img').on('click', function(e) {
+					e.preventDefault();
+					if (frame) { frame.open(); return; }
+					frame = wp.media({
+						title: '<?php _e("Select Images", "neonlighthk"); ?>',
+						button: { text: '<?php _e("Add to Gallery", "neonlighthk"); ?>' },
+						multiple: true,
+						library: { type: 'image' }
+					});
+					frame.on('select', function() {
+						var attachments = frame.state().get('selection').map(function(a) { return a.toJSON(); });
+						attachments.forEach(function(att) {
+							$('#nl-gallery-list').append('<li data-id="' + att.id + '"><img src="' + att.sizes.thumbnail.url + '" width="150" height="150"><a href="#" class="nl-remove-img" style="position:absolute;top:2px;right:2px;background:#c00;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:12px;">×</a></li>');
+						});
+						nl_update_gallery_input();
+					});
+					frame.open();
+				});
+				$('#nl-gallery-list').on('click', '.nl-remove-img', function(e) {
+					e.preventDefault();
+					$(this).closest('li').remove();
+					nl_update_gallery_input();
+				});
+				$('#nl-gallery-list').sortable({
+					stop: function() { nl_update_gallery_input(); }
+				});
+				function nl_update_gallery_input() {
+					var ids = [];
+					$('#nl-gallery-list li').each(function() { ids.push($(this).data('id')); });
+					$('#nl_lookbook_gallery_input').val(ids.join(','));
+				}
+			});
+			</script>
+		<?php
+		},
+		'page',
+		'normal',
+		'high'
+	);
+});
+
+add_action('save_post', function ($post_id) {
+	if (
+		!isset($_POST['nl_lookbook_gallery_nonce']) ||
+		!wp_verify_nonce($_POST['nl_lookbook_gallery_nonce'], 'nl_save_lookbook_gallery') ||
+		defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ||
+		!current_user_can('edit_post', $post_id)
+	) {
+		return;
+	}
+	if (isset($_POST['nl_lookbook_gallery'])) {
+		$raw = sanitize_text_field($_POST['nl_lookbook_gallery']);
+		$ids = array_filter(array_map('intval', explode(',', $raw)));
+		update_post_meta($post_id, '_nl_lookbook_gallery', $ids);
+	} else {
+		delete_post_meta($post_id, '_nl_lookbook_gallery');
+	}
+});
+
 // ===== WORKSHOP PRODUCT HELPER =====
 function nl_get_or_create_workshop_product($workshop_id, $title, $price) {
 	$existing = get_posts([
