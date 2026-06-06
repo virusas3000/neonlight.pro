@@ -68,6 +68,7 @@ function nl_dictionary() {
 
         // Lookbook & About page
         'lookbook_about_title' => ['en'=>'Lookbook & About Us', 'zh'=>'範例·關於我們', 'cn'=>'范例·关于我们'],
+        'about_title'   => ['en'=>'LED NEON SIGNS', 'zh'=>'LED霓虹燈', 'cn'=>'LED霓虹灯'],
         'about_heading' => ['en'=>'About Us', 'zh'=>'關於我們', 'cn'=>'关于我们'],
         'about_story' => ['en'=>'Neon Light HK is a creative studio specializing in neon sign design and production. We bring your ideas to life with custom neon creations for businesses, events, and personal spaces.', 'zh'=>'Neon Light HK 是一家專注於霓虹燈設計及製作的創意工作室。我們為商業、活動及個人空間打造獨特的霓虹燈作品。', 'cn'=>'Neon Light HK 是一家专注于霓虹灯设计及制作的创意工作室。我们为商业、活动及个人空间打造独特的霓虹灯作品。'],
         'about_services_heading' => ['en'=>'Our Services', 'zh'=>'服務範圍', 'cn'=>'服务范围'],
@@ -114,7 +115,7 @@ function nl_dictionary() {
         // Visit
         'visit_title'   => ['en'=>'VISIT US',    'zh'=>'來訪我們',   'cn'=>'来访我们'],
         'visit_at'      => ['en'=>'at',          'zh'=>'於',         'cn'=>'于'],
-        'visit_addr1'   => ['en'=>'U/F,Central Pier 8,Hong Kong · 香港中環8號碼頭U層', 'zh'=>'香港中環8號碼頭U層 · U/F,Central Pier 8,Hong Kong', 'cn'=>'香港中环8号码头U层 · U/F,Central Pier 8,Hong Kong'],
+        'visit_addr1'   => ['en'=>'U/F, Central Pier 8, Hong Kong', 'zh'=>'香港中環8號碼頭U層', 'cn'=>'香港中环8号码头U层'],
         'visit_hours'   => ['en'=>'Mon – Sat: 12:00 – 19:00<br>Sun & Public Holidays: Closed', 'zh'=>'週一至週六：12:00 – 19:00<br>週日及公眾假期：休息', 'cn'=>'周一至周六：12:00 – 19:00<br>周日及公众假期：休息'],
 
         // Clients

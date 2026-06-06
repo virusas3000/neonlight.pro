@@ -39,10 +39,10 @@ $lang = nl_lang();
 
                 <div class="nl-service-contact">
                     <p>61319328</p>
-                    <p><a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
+                    <p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
                 </div>
 
-                <a href="mailto:cantopopforyou@gmail.com?subject=Quote%20Request%20-%20Send%20Design">
+                <a href="mailto:www.neonlight.pro@gmail.com?subject=Quote%20Request%20-%20Send%20Design">
                     <button class="nl-btn-primary nl-btn-wide"><?php echo nl_t('neon_quote_btn'); ?></button>
                 </a>
             </div>
@@ -66,10 +66,10 @@ $lang = nl_lang();
 
                 <div class="nl-service-contact">
                     <p>61319328</p>
-                    <p><a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
+                    <p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
                 </div>
 
-                <a href="mailto:cantopopforyou@gmail.com?subject=Quote%20Request%20-%20Design%20Service">
+                <a href="mailto:www.neonlight.pro@gmail.com?subject=Quote%20Request%20-%20Design%20Service">
                     <button class="nl-btn-primary nl-btn-wide"><?php echo nl_t('neon_quote_btn'); ?></button>
                 </a>
             </div>

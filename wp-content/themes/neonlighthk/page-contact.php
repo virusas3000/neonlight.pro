@@ -17,7 +17,7 @@ get_header();
 			<p style="margin-bottom:8px;"><strong>NEON LIGHT HK</strong></p>
 			<p style="margin-bottom:24px; opacity:0.7;"><?php echo nl_t('hero_label'); ?></p>
 			<p style="margin-bottom:8px;">📞 61319328</p>
-			<p style="margin-bottom:8px;">✉️ <a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
+			<p style="margin-bottom:8px;">✉️ <a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			<p style="margin-bottom:8px;">📍 <?php echo nl_t('visit_addr1'); ?></p>
 			<p style="margin-top:24px;">
 				<a href="https://www.instagram.com/neonlighthk/" target="_blank" rel="noopener">Instagram: @neonlighthk</a>

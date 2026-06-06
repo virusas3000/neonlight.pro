@@ -148,10 +148,13 @@ $lang = nl_lang();
 	<div class="nl-customise-hero__bg" style="background-image:url('<?php echo get_template_directory_uri(); ?>/assets/images/hanfu-hero.jpg');"></div>
 	<div class="nl-customise-hero__overlay">
 		<div class="nl-customise-hero__subtitle"><?php echo $lang === 'en' ? 'Traditional Chinese Clothing' : '傳統漢服體驗'; ?></div>
-		<h1 class="nl-customise-hero__title">HANFU</h1>
+		<h1 class="nl-customise-hero__title"><?php echo nl_t('nav_hanfu'); ?></h1>
 		<div class="nl-customise-hero__tagline"><?php echo $lang === 'en' ? 'RENTAL · PHOTOSHOOT · EVENTS' : '租借 · 拍攝 · 活動'; ?></div>
 	</div>
 </div>
+
+<!-- Page Title -->
+<h1 class="nl-page__title"><?php echo nl_t('nav_hanfu'); ?></h1>
 
 <div class="nl-customise-cards">
 	<div class="nl-customise-cards__wrap">
@@ -175,9 +178,9 @@ $lang = nl_lang();
 			<div class="nl-customise-card__divider"></div>
 			<div class="nl-customise-card__contact">
 				61319328<br>
-				<a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a>
+				<a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a>
 			</div>
-			<a href="mailto:cantopopforyou@gmail.com?subject=Hanfu%20Quote%20Request" class="nl-customise-card__btn">
+			<a href="mailto:www.neonlight.pro@gmail.com?subject=Hanfu%20Quote%20Request" class="nl-customise-card__btn">
 				<?php echo $lang === 'en' ? 'QUOTE' : '報價'; ?>
 			</a>
 		</div>
@@ -200,71 +203,14 @@ $lang = nl_lang();
 			<div class="nl-customise-card__divider"></div>
 			<div class="nl-customise-card__contact">
 				61319328<br>
-				<a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a>
+				<a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a>
 			</div>
-			<a href="mailto:cantopopforyou@gmail.com?subject=Hanfu%20Design%20Service" class="nl-customise-card__btn">
+			<a href="mailto:www.neonlight.pro@gmail.com?subject=Hanfu%20Design%20Service" class="nl-customise-card__btn">
 				<?php echo $lang === 'en' ? 'QUOTE' : '報價'; ?>
 			</a>
 		</div>
 
 	</div>
-</div>
-
-<!-- Existing Hanfu Product Grid -->
-<div class="nl-page" style="padding-top:40px;">
-	<h2 class="nl-page__title" style="font-size:22px;letter-spacing:4px;"><?php echo $lang === 'en' ? 'AVAILABLE HANFU' : '現貨漢服'; ?></h2>
-	<p style="text-align:center;color:#666;margin-top:-12px;margin-bottom:24px;"><?php echo $lang === 'en' ? 'Traditional Chinese clothing for photoshoots & events' : '傳統中式服裝，適合拍攝及活動'; ?></p>
-
-	<?php
-	$args = [
-		'post_type'      => 'nl_hanfu',
-		'posts_per_page' => 50,
-		'post_status'    => 'publish',
-		'orderby'        => 'date',
-		'order'          => 'DESC',
-	];
-	$items = new WP_Query($args);
-
-	if ($items->have_posts()) : ?>
-		<div class="nl-product-grid">
-			<?php while ($items->have_posts()) : $items->the_post(); ?>
-				<?php
-				$price  = get_post_meta(get_the_ID(), 'rental_price', true);
-				$sizes  = get_post_meta(get_the_ID(), 'available_sizes', true);
-				$era    = get_post_meta(get_the_ID(), 'dynasty_era', true);
-				?>
-				<div class="nl-product-card">
-					<a href="<?php echo esc_url(get_permalink() . '?lang=' . $lang); ?>" class="nl-product-card__link">
-						<?php if (has_post_thumbnail()) : ?>
-							<div class="nl-product-card__image">
-								<?php the_post_thumbnail('medium'); ?>
-							</div>
-						<?php else : ?>
-							<div class="nl-product-card__image nl-product-card__image--placeholder">
-								<span><?php echo nl_t('shop_no_image'); ?></span>
-							</div>
-						<?php endif; ?>
-						<h3 class="nl-product-card__title"><?php the_title(); ?></h3>
-						<div class="nl-product-card__price">
-							<span class="nl-product-card__price-current"><?php echo $price ? 'HK$' . number_format($price) : ''; ?></span>
-						</div>
-						<?php if ($sizes || $era) : ?>
-							<div style="padding:0 12px 8px;font-size:13px;color:#888;">
-								<?php echo esc_html(($era ? $era : '') . ($era && $sizes ? ' · ' : '') . ($sizes ? $sizes : '')); ?>
-							</div>
-						<?php endif; ?>
-					</a>
-					<div class="nl-product-card__cart">
-						<a href="<?php echo esc_url(get_permalink() . '?lang=' . $lang); ?>" class="nl-btn-primary" style="display:inline-block;text-decoration:none;text-align:center;">
-							<?php echo nl_t('booking_now'); ?>
-						</a>
-					</div>
-				</div>
-			<?php endwhile; wp_reset_postdata(); ?>
-		</div>
-	<?php else : ?>
-		<p style="text-align:center;"><?php _e('No hanfu items available at the moment.', 'neonlighthk'); ?></p>
-	<?php endif; ?>
 </div>
 
 <?php get_footer(); ?>

@@ -31,12 +31,12 @@
 				</svg>
 				61319328
 			</a>
-			<a href="mailto:cantopopforyou@gmail.com">
+			<a href="mailto:www.neonlight.pro@gmail.com">
 				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
 					<polyline points="22,6 12,13 2,6" />
 				</svg>
-				cantopopforyou@gmail.com
+				www.neonlight.pro@gmail.com
 			</a>
 			<span>
 				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -68,7 +68,7 @@
 			</button>
 
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>?lang=<?php echo nl_lang(); ?>" class="nl-logo">
-				<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/neon-sign-logo.jpg" alt="Neon Light HK" style="max-height:70px; max-width:200px; width:auto; display:block;">
+				<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/neon-sign-logo.jpg" alt="Neon Light HK">
 			</a>
 
 			<nav class="nl-nav" aria-label="Primary">

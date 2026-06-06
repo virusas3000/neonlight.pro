@@ -7,7 +7,7 @@ get_header();
 ?>
 
 <div class="nl-page">
-	<h1 class="nl-page__title">租借 · RENTAL</h1>
+	<h1 class="nl-page__title"><?php echo nl_t('rental_title'); ?></h1>
 	<?php if ( have_posts() ) : ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 			<?php the_content(); ?>

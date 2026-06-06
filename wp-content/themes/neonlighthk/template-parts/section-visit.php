@@ -11,7 +11,6 @@
 		<address class="nl-visit__address">
 			<?php echo nl_t('visit_addr1'); ?>
 		</address>
-		<p><?php echo nl_t('visit_hours'); ?></p>
 	</div>
 	<div class="nl-visit__right">
 		<div class="nl-visit__map">

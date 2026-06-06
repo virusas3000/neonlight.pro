@@ -9,6 +9,9 @@ get_header();
 
 <div class="nl-page nl-neon-services">
 
+	<!-- Page Title -->
+	<h1 class="nl-page__title" style="text-align:center;margin:40px 0 20px;"><?php echo nl_t('nav_neon'); ?></h1>
+
 	<!-- Hero Section -->
 	<section class="nl-neon-hero" style="background-image:url('<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-hero.jpg');">
 		<div class="nl-neon-hero__overlay"></div>
@@ -30,13 +33,13 @@ get_header();
 			</div>
 			<div class="nl-neon-section__contact">
 <p><a href="tel:+85261319328">61319328</a></p>
-				<p><a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
+				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			</div>
 		</div>
 		<div class="nl-neon-section__image">
 			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-custom-design.jpg" alt="Custom Neon Design">
 		</div>
-		<a href="mailto:cantopopforyou@gmail.com?subject=Neon%20Quote%20Request" class="nl-neon-quote-btn">
+		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Quote%20Request" class="nl-neon-quote-btn">
 			<?php echo nl_t('neon_quote_btn'); ?>
 		</a>
 	</section>
@@ -52,13 +55,13 @@ get_header();
 			</div>
 			<div class="nl-neon-section__contact">
 <p><a href="tel:+85261319328">61319328</a></p>
-				<p><a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
+				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			</div>
 		</div>
 		<div class="nl-neon-section__image">
 			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-design-service.jpg" alt="Neon Design Service" style="transform:scaleX(-1);">
 		</div>
-		<a href="mailto:cantopopforyou@gmail.com?subject=Neon%20Design%20Service%20Quote" class="nl-neon-quote-btn">
+		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Design%20Service%20Quote" class="nl-neon-quote-btn">
 			<?php echo nl_t('neon_quote_btn'); ?>
 		</a>
 	</section>

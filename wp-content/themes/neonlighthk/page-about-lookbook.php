@@ -10,158 +10,116 @@ $lang = nl_lang();
 
 <div class="nl-page nl-about">
 	<h1 class="nl-page__title">
-		<?php echo nl_t('lookbook_about_title'); ?>
+		<?php if ($lang === 'en') : ?>LOOKBOOK &amp; ABOUT US
+		<?php elseif ($lang === 'cn') : ?>范例 &amp; 关于我们
+		<?php else : ?>範例 &amp; 關於我們
+		<?php endif; ?>
 	</h1>
 
-	<!-- Language-specific content -->
-	<?php if ( $lang === 'en' ) : ?>
+	<!-- About Us Section -->
+	<section class="nl-about-section">
+		<h2 class="nl-heading">
+			<?php if ($lang === 'en') : ?>ABOUT US
+			<?php elseif ($lang === 'cn') : ?>关于我们
+			<?php else : ?>關於我們
+			<?php endif; ?>
+		</h2>
 
-		<div class="nl-page-content nl-about-content">
-			<div class="nl-about-section">
-				<h2>ABOUT US · 關於我們</h2>
-				<p class="nl-intro-en"><strong>NEON LIGHT HK</strong> is a creative studio specializing in neon sign design and production. We are dedicated to crafting unique neon pieces for every client — whether it is commercial signage, event decor, or personal space decoration, we turn your ideas into glowing neon reality.</p>
-				<p class="nl-intro-en">In addition to custom neon design, we also offer neon sign rental services and hands-on workshop experiences, allowing more people to discover and fall in love with this distinctive visual art form.</p>
-			</div>
-			<div class="nl-about-section">
-				<h2 class="nl-heading-en">IRREGULart — Creative Experience Events</h2>
-				<p class="nl-intro-en"><strong>IRREGULart Creative Experience Events</strong> is an artistic collaboration between JUST BE and IRREGULart. Through a variety of immersive art experiences, we invite you to leave behind the hustle and stress of daily life, reconnect with your purest self in the creative process, and enjoy the present moment.</p>
-				<p class="nl-desc-en">「JUST BE」means <em>Just be yourself</em> — letting go of external expectations and limitations, returning to your most authentic state, focusing on the present, and doing what you love. We believe everyone holds unlimited creative potential; all it takes is a relaxed environment to unlock the artistic inspiration within.</p>
-				<p class="nl-intro-en"><strong>IRREGULart</strong> stands for <em>irregular art</em> — breaking away from traditional artistic frameworks and constraints through free exploration and experimentation, inspiring participants to discover their own artistic language. We do not pursue cookie-cutter perfection; instead, we encourage everyone to find their own unique form of expression.</p>
-				<p class="nl-desc-en">In a world full of rules and standards, we aim to provide a free, pressure-free creative space where you can relax and enjoy the joy and satisfaction that art brings. Every event is a fresh exploration — whether you are an art beginner or a seasoned creator, you will find inspiration and fun here.</p>
-				<p class="nl-intro-en"><strong>IRREGULart</strong> will launch a series of exciting workshops covering multiple art forms, led by professional instructors in a relaxed and pleasant atmosphere. Learn new skills and meet like-minded friends. We believe art is not just creation — it is a way of life. Let art become part of your everyday routine and creativity a habit.</p>
-				<p class="nl-desc-en">For more event details or to register, please visit our website or follow us on Instagram for the latest updates. We look forward to meeting you at our events and enjoying the creative journey together!</p>
-				<div class="nl-cta-en">
-					<a href="/workshop/?lang=en" class="wp-block-button__link">Explore Workshops</a>
-				</div>
-			</div>
-		</div>
+<?php if ($lang === 'en') : ?>
+		<p class="nl-body">JUST BE (Art and Culture Workshop) is located in the 1868 Art Village in Ma Wan, while IRREGULart is located in Tsim Sha Tsui, Central, and Stanley. The workshops offer a variety of diverse art courses, guiding participants to unleash their creativity and enhance their artistic expression. They also provide one-stop services such as neon light customization, event coordination, venue balloon decoration, and magic shows, making them popular with families, couples, friends' gatherings, birthday parties, schools, businesses, and various organizations.</p>
 
-	<?php elseif ( $lang === 'cn' ) : ?>
+		<h3 class="nl-subheading">ART WORKSHOP PROGRAMS</h3>
+		<p class="nl-body">JUST BE and IRREGULart offer a diverse range of art and culture workshops:</p>
+		<p class="nl-programs-list">Tie-dyeing | Turkish mosaic lamp making | Turkish coffee experience | Art jamming | Fluid painting | Stained glass nightlights | Floating vases | Eco-friendly art creation | TUFTING | Neon light art | Perler bead crafts | Film photography and developing | Hanfu experience | Chinese painting | Fashion design | Professional makeup courses | Painting, ink painting, and watercolor courses | Handicrafts | Paper crafts | Handmade weaving | Parent-child workshops | STEM courses | Electronic keyboard, handpan, guitar, Hawaiian guitar, Indian accordion, Indian mridangam drum experience | Intangible cultural heritage lacquer fan making | Parent-child cooking classes | Professional coffee roasting | Cookie, specialty cheesecake, traditional mooncake, and snow skin mooncake making</p>
+		<p class="nl-body">Outreach services, customized solutions, and on-site customization services are also available, covering various intangible cultural heritage themed workshops.</p>
 
-		<div class="nl-page-content nl-about-content">
-			<div class="nl-about-section">
-				<h2>关于我们 · ABOUT US</h2>
-				<p class="nl-intro-cn"><strong>NEON LIGHT HK</strong> 是专注于霓虹灯设计及制作的创意工作室。我们致力于为每位客人打造独一无二的霓虹灯作品，无论是商业招牌、活动布置，还是个人空间装饰，都能将你的创意化为闪耀的霓虹光芒。</p>
-				<p class="nl-intro-cn">除了客制化霓虹灯设计，我们亦提供霓虹灯租借服务及工作坊体验，让更多人能够接触并喜爱这项独特的视觉艺术。</p>
-			</div>
-			<div class="nl-about-section">
-				<h2 class="nl-heading-cn">IRREGULart 非典型美术体验活动</h2>
-				<p class="nl-intro-cn"><strong>「IRREGULart 非典型美术体验活动」</strong> 是 JUST BE 联乘 IRREGULart 共同推出的艺术企划，期望透过不同类型的艺术体验活动，让大家放下日常的繁忙与压力，在创作过程中找回最纯粹的自我，专注当下，享受与自己相处的时光。</p>
-				<p class="nl-desc-cn">「JUST BE」意指「Just be yourself」——放下外界的期望与束缚，回归最真实的状态，专注于当下，做自己喜欢的事。我们相信每个人都拥有无限的创意潜能，只需一个放松的环境，便能释放内心的艺术灵感。</p>
-				<p class="nl-intro-cn"><strong>IRREGULart</strong> 代表「不规则的艺术」，象征打破传统艺术的框架与限制，透过自由探索与尝试，启发参加者发掘属于自己的艺术语言。我们不追求千篇一律的完美作品，而是鼓励每个人在创作中找到专属的表达方式。</p>
-				<p class="nl-desc-cn">在这个充满规则与标准的世界里，我们希望提供一个自由、无压力的创作空间，让大家能够放松心情，享受艺术带来的愉悦与满足感。每次活动都是一次全新的探索，无论你是艺术新手还是创作达人，都能在这里找到属于你的灵感与乐趣。</p>
-				<p class="nl-intro-cn"><strong>IRREGULart</strong> 更会推出一系列精彩的工作坊，涵盖多种艺术形式，由专业导师带领，让你在轻松愉快的氛围中学习新技能，并结识志同道合的朋友。我们相信，艺术不仅是一种创作，更是一种生活态度——让艺术融入日常，让创作成为习惯。</p>
-				<p class="nl-desc-cn">如欲了解更多活动详情或报名参加，请浏览我们的网站或追踪 Instagram 获取最新资讯。期待在活动中与你见面，一起享受创作的乐趣！</p>
-				<div class="nl-cta-cn">
-					<a href="/workshop/?lang=cn" class="wp-block-button__link">浏览工作坊</a>
-				</div>
-			</div>
-		</div>
+		<p class="nl-body">The workshop regularly offers various themed workshops, allowing participants to create unique crafts by hand and connect with diverse global art and culture through hands-on experience. A complete set of craft materials is provided, enabling participants to personally experience the entire process from material selection and design to the finished product. Completed pieces can be taken home, adding a personal touch to daily life.</p>
+		<p class="nl-body">Customers can also bring their own old utensils for upcycling. Through simple craft techniques, old items are given a new look, giving furniture and old objects a second life, allowing meaningful items to retain unique memories.</p>
+		<p class="nl-cta">Interested? Inquire and register now!</p>
 
-	<?php else : // zh — default Traditional Chinese from DB ?>
+<?php elseif ($lang === 'cn') : ?>
+		<p class="nl-body">JUST BE（艺术文化工作坊）位于马湾1868的艺术村、IRREGULart位于尖沙咀、中环以及赤柱，工作坊开设各式多元化艺术课程，既可引导学员发挥创意、提升艺术表达能力，亦提供霓虹灯订制、活动统筹、场地气球布置及魔术表演等一站式服务，深受亲子活动、情侣约会、好友聚会、生日派对、学校、企业及各类团体机构青睐。</p>
 
-		<?php while (have_posts()) : the_post(); ?>
-			<div class="nl-page-content nl-about-content">
-				<?php the_content(); ?>
-			</div>
-		<?php endwhile; ?>
+		<h3 class="nl-subheading">课程项目</h3>
+		<p class="nl-body">JUST BE、IRREGULart艺术文化工作坊课程种类丰富多元：</p>
+		<p class="nl-programs-list">彩色扎染｜土耳其马赛克灯制作｜土耳其咖啡体验｜Art jamming｜流体画｜玻璃彩绘小夜灯｜浮游花瓶｜环保艺术创作｜TUFTING簇绒｜霓虹冷光线艺术｜拼豆手作｜菲林摄影连冲晒｜汉服体验｜中国画｜服装设计｜专业化妆课程｜绘画、水墨画、水彩课程｜手工劳作｜纸艺工艺｜手作编织｜亲子专属工作坊｜STEM科创课程｜电子琴、手碟、结他、夏威夷小结他、印度手风琴、印度密当加鼓乐器体验｜非遗飘漆扇制作｜亲子小厨师烹饪课｜职人咖啡烘焙｜曲奇｜特色芝士蛋糕｜传统月饼及冰皮月饼手作</p>
+		<p class="nl-body">另备外展服务、客制化方案及上门定制服务，同时涵盖各类非遗主题工作坊。</p>
 
-	<?php endif; ?>
+		<p class="nl-body">工作坊定期推出各式主题体验课，学员可在课堂亲手打造独一无二的特色工艺，藉手作接触全球多元艺术文化。场内备齐全套手作原材料，由选料、设计到成品全流程亲自动手制作，完成作品可自行带走，为日常增添专属仪式感。</p>
+		<p class="nl-body">顾客亦可自备旧器皿到场改造，透过简单手作技法为旧物重塑全新样貌，赋予家俬、旧物件二次价值，让具纪念意义的旧物重焕生机、留存独特回忆。</p>
+		<p class="nl-cta">心动就快查询报名啦</p>
+
+<?php else : // zh ?>
+		<p class="nl-body">JUST BE（藝術文化工作坊）位於馬灣1868的藝術村、IRREGULart位於尖沙咀、中環以及赤柱，工作坊開設各式多元化藝術課程，既可引導學員發揮創意、提升藝術表達能力，亦提供霓虹燈訂製、活動統籌、場地氣球佈置及魔術表演等一站式服務，深受親子活動、情侶約會、好友聚會、生日派對、學校、企業及各類團體機構青睞。</p>
+
+		<h3 class="nl-subheading">課程項目</h3>
+		<p class="nl-body">JUST BE、IRREGULart藝術文化工作坊課程種類豐富多元：</p>
+		<p class="nl-programs-list">彩色扎染｜土耳其馬賽克燈製作｜土耳其咖啡體驗｜Art jamming｜流體畫｜玻璃彩繪小夜燈｜浮游花瓶｜環保藝術創作｜TUFTING簇絨｜霓虹冷光線藝術｜拼豆手作｜菲林攝影連沖曬｜漢服體驗｜中國畫｜服裝設計｜專業化妝課程｜繪畫、水墨畫、水彩課程｜手工勞作｜紙藝工藝｜手作編織｜親子專屬工作坊｜STEM科創課程｜電子琴、手碟、結他、夏威夷小結他、印度手風琴、印度密當加鼓樂器體驗｜非遺飄漆扇製作｜親子小廚師烹飪課｜職人咖啡烘焙｜曲奇｜特色芝士蛋糕｜傳統月餅及冰皮月餅手作</p>
+		<p class="nl-body">另備外展服務、客製化方案及上門定制服務，同時涵蓋各類非遺主題工作坊。</p>
+
+		<p class="nl-body">工作坊定期推出各式主題體驗課，學員可在課堂親手打造獨一無二的特色工藝，藉手作接觸全球多元藝術文化。場內備齊全套手作原材料，由選料、設計到成品全流程親自動手製作，完成作品可自行帶走，為日常增添專屬儀式感。</p>
+		<p class="nl-body">顧客亦可自備舊器皿到場改造，透過簡單手作技法為舊物重塑全新樣貌，賦予傢俬、舊物件二次價值，讓具紀念意義的舊物重煥生機、留存獨特回憶。</p>
+		<p class="nl-cta">心動就快查詢報名啦</p>
+<?php endif; ?>
+	</section>
 
 	<!-- Lookbook / Gallery Section -->
 	<section class="nl-about-section">
-		<h2><?php echo nl_t('lookbook_heading'); ?></h2>
 		<p class="nl-about-ig">
 			<a href="https://instagram.com/neonlight.pro" target="_blank">INSTAGRAM @ NEONLIGHT.PRO</a>
 		</p>
 		<div class="nl-about-gallery">
 			<div class="nl-gallery-grid">
-				<div class="nl-gallery-item">
-					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-				</div>
-				<div class="nl-gallery-item">
-					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-2.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-				</div>
-				<div class="nl-gallery-item">
-					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-3.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-				</div>
-				<div class="nl-gallery-item">
-					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-4.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-				</div>
-				<div class="nl-gallery-item">
-					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-5.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-				</div>
-				<div class="nl-gallery-item">
-					<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-6.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
-				</div>
+				<div class="nl-gallery-item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+				<div class="nl-gallery-item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+				<div class="nl-gallery-item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+				<div class="nl-gallery-item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+				<div class="nl-gallery-item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+				<div class="nl-gallery-item"><img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Contact Section -->
-	<section class="nl-about-section">
-		<h2><?php echo nl_t('contact_title'); ?></h2>
-		<div class="nl-about-contact">
-			<p><strong>Tel:</strong> <a href="tel:+85261319328">61319328</a></p>
-			<p><strong>Email:</strong> <a href="mailto:cantopopforyou@gmail.com">cantopopforyou@gmail.com</a></p>
-			<p><strong>Address:</strong> <?php echo nl_t('visit_addr1'); ?></p>
-		</div>
-	</section>
 </div>
 
 <style>
-.nl-about-content .nl-intro-en,
-.nl-about-content .nl-intro-zh,
-.nl-about-content .nl-intro-cn,
-.nl-about-content .nl-desc-en,
-.nl-about-content .nl-desc-zh,
-.nl-about-content .nl-desc-cn,
-.nl-about-content .nl-upcycle-en,
-.nl-about-content .nl-upcycle-zh,
-.nl-about-content .nl-upcycle-cn {
-	font-size: 1.05rem;
-	line-height: 1.7;
-	margin-bottom: 16px;
-}
-.nl-about-content .nl-heading-en,
-.nl-about-content .nl-heading-zh,
-.nl-about-content .nl-heading-cn {
+.nl-about-section { margin-bottom: 48px; }
+.nl-heading {
 	font-size: 1.4rem;
 	font-weight: 600;
-	margin: 32px 0 16px;
+	margin: 0 0 16px;
 	color: #111;
 }
-.nl-about-content .nl-programs-en,
-.nl-about-content .nl-programs-zh,
-.nl-about-content .nl-programs-cn {
-	margin: 0 0 24px 20px;
-	padding: 0;
-	list-style: disc;
+.nl-subheading {
+	font-size: 1.2rem;
+	font-weight: 600;
+	margin: 32px 0 12px;
+	color: #111;
 }
-.nl-about-content .nl-programs-en li,
-.nl-about-content .nl-programs-zh li,
-.nl-about-content .nl-programs-cn li {
-	margin-bottom: 6px;
+.nl-body {
+	font-size: 1.05rem;
+	line-height: 1.8;
+	margin-bottom: 16px;
+	color: #333;
+}
+.nl-programs-list {
 	font-size: 1rem;
+	line-height: 1.9;
+	color: #444;
+	margin: 16px 0;
+	padding: 16px 20px;
+	background: #f8f8f8;
+	border-radius: 12px;
 }
-.nl-about-content .nl-cta-en,
-.nl-about-content .nl-cta-zh,
-.nl-about-content .nl-cta-cn {
-	margin: 24px 0 32px;
+.nl-cta {
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #111;
+	margin-top: 32px;
+	text-align: center;
 }
-.nl-about-content .wp-block-button__link {
-	display: inline-block;
-	padding: 12px 28px;
-	background: #00a896;
-	color: #fff;
-	border-radius: 999px;
-	font-weight: 500;
-	text-decoration: none;
-	font-size: 1rem;
-}
-.nl-about-content .wp-block-button__link:hover {
-	background: #008c7a;
-}
+.nl-about-ig { text-align: center; margin-bottom: 24px; }
+.nl-about-ig a { color: #00a896; font-weight: 500; }
 .nl-gallery-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -174,13 +132,13 @@ $lang = nl_lang();
 	border-radius: 8px;
 	object-fit: cover;
 	aspect-ratio: 4/3;
-	transition: transform 0.2s;
 }
-.nl-gallery-item a:hover img {
-	transform: scale(1.03);
-}
+.nl-about-contact { line-height: 1.8; }
+.nl-about-contact a { color: #00a896; }
 @media (max-width: 768px) {
 	.nl-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+	.nl-body { font-size: 1rem; }
+	.nl-programs-list { padding: 12px 14px; }
 }
 @media (max-width: 480px) {
 	.nl-gallery-grid { grid-template-columns: 1fr; }

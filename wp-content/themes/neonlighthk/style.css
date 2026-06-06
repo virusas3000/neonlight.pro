@@ -1,7 +1,7 @@
 /*
 Theme Name: NeonLightHK
 Author: Neon Light HK
-Version: 1.0.0
+Version: 1.0.2
 License: GPL-2.0+
 Text Domain: neonlighthk
 */
@@ -34,9 +34,16 @@ ul, ol { list-style:none; }
 .nl-header { background:var(--nl-white); position:sticky; top:0; z-index:1000; border-bottom:1px solid rgba(0,0,0,0.06); }
 .nl-header__inner { max-width:1200px; margin:0 auto; padding:16px 20px; display:flex; flex-direction:column; align-items:center; gap:12px; position:relative; }
 .nl-logo { display:flex; flex-direction:column; align-items:center; color:var(--nl-black); justify-content:center; }
+.nl-logo img { max-height:70px; width:auto; display:block; }
 .nl-logo__neon { font-family:var(--font-en); font-size:2.2rem; font-weight:700; letter-spacing:.12em; line-height:1; text-transform:uppercase; display:flex; align-items:center; }
 .nl-logo__o { display:inline-block; width:.65em; height:.65em; border:2.5px solid var(--nl-black); border-radius:2px; transform:rotate(45deg); margin:0 .08em; position:relative; top:-.05em; }
 .nl-logo__sub { font-family:var(--font-en); font-size:.75rem; font-weight:500; letter-spacing:.25em; margin-top:4px; color:var(--nl-black); }
+@media (min-width:769px) {
+	.nl-logo img { max-height:140px; }
+	.nl-logo__neon { font-size:3.6rem; }
+	.nl-logo__sub { font-size:.95rem; }
+	.nl-topbar { font-size:15px; }
+}
 .nl-nav { width:100%; }
 .nl-nav .menu { display:flex; justify-content:center; gap:0; flex-wrap:wrap; }
 .nl-nav .menu li a { display:block; padding:12px 22px; font-family:var(--font-en); font-size:1.4rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--nl-black); position:relative; white-space:nowrap; }
@@ -62,6 +69,16 @@ ul, ol { list-style:none; }
 	.nl-mobile-toggle { display:block; }
 }
 
+@media (prefers-color-scheme: dark) {
+	.nl-header { background:#0a0a0f; border-bottom:1px solid rgba(255,255,255,0.1); }
+	.nl-logo, .nl-logo__neon, .nl-logo__sub { color:#fff; }
+	.nl-mobile-toggle span { background:#fff; }
+	.nl-bag-btn { color:#fff; }
+	.nl-mobile-menu { background:#0a0a0f; }
+	.nl-mobile-menu ul li a { color:#fff; border-bottom:1px solid rgba(255,255,255,0.1); }
+	.nl-mobile-menu__close { color:#fff; }
+}
+
 .nl-hero { position:relative; height:100vh; min-height:600px; display:flex; align-items:center; justify-content:center; text-align:center; color:var(--nl-white); overflow:hidden; }
 .nl-hero__bg { position:absolute; inset:0; background-size:cover; background-position:center; z-index:0; }
 .nl-hero__bg::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.6) 100%); }
@@ -84,7 +101,7 @@ ul, ol { list-style:none; }
 .nl-service-card__arrow { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border:2px solid var(--nl-cyan); border-radius:50%; color:var(--nl-cyan); margin-top:24px; transition:var(--transition); }
 .nl-service-card:hover .nl-service-card__arrow { background:var(--nl-cyan); color:var(--nl-black); }
 .nl-service-card__arrow svg { width:16px; height:16px; }
-@media (max-width:640px) { .nl-service-card { aspect-ratio:16/10; }
+@media (max-width:640px) { .nl-service-card { aspect-ratio:4/3; }
 	.nl-service-card__content h3 { font-size:0.9rem; }
 	.nl-service-card__content h2 { font-size:1.8rem; letter-spacing:.2em; }
 	.nl-service-card__arrow { width:36px; height:36px; margin-top:12px; }

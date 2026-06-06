@@ -11,7 +11,6 @@ $lang = nl_lang();
 <div class="nl-page nl-projects">
 	<!-- Page title from WordPress backend -->
 	<?php while (have_posts()) : the_post(); ?>
-		<h1 class="nl-page__title"><?php the_title(); ?></h1>
 		<div class="nl-page-content nl-projects-content">
 			<?php the_content(); ?>
 		</div>

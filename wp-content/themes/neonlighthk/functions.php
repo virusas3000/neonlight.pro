@@ -10,6 +10,9 @@ require_once get_template_directory() . '/inc/translations.php';
 // Load custom post types
 require_once get_template_directory() . '/inc/cpt.php';
 
+// Admin language picker for all posts, CPTs, and WooCommerce products
+require_once get_template_directory() . '/inc/admin-lang-picker.php';
+
 // Register ?lang= query var so WordPress doesn't 404 on ?lang=zh / ?lang=en / ?lang=cn
 add_filter('query_vars', function($vars) {
     $vars[] = 'lang';
@@ -18,17 +21,33 @@ add_filter('query_vars', function($vars) {
     return $vars;
 });
 
-// Force front-page.php for the homepage even with query vars like ?lang=zh
-add_filter('template_include', function($template) {
-    if (is_front_page()) {
-        $front = get_template_directory() . '/front-page.php';
-        if (file_exists($front)) return $front;
+// Fix front-page routing when query vars (e.g. ?lang=en) cause WordPress to 404
+add_action('template_redirect', function() {
+    $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    if ($uri === '/' || $uri === '' || $uri === '/index.php') {
+        // Force 200 OK and front-page flags regardless of what WP thinks
+        status_header(200);
+        global $wp_query;
+        $wp_query->is_404 = false;
+        $wp_query->is_home = false;
+        $wp_query->is_front_page = true;
     }
-    return $template;
 }, 1);
 
 // Force custom templates with high priority to override WooCommerce
 add_filter('template_include', function($template) {
+    // Use REQUEST_URI instead of is_front_page() which fails with query vars on Vercel
+    if (isset($_SERVER['REQUEST_URI'])) {
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        if ($uri === '/' || $uri === '' || $uri === '/index.php') {
+            $front = get_template_directory() . '/front-page.php';
+            if (file_exists($front)) return $front;
+        }
+    }
+    if (is_front_page()) {
+        $front = get_template_directory() . '/front-page.php';
+        if (file_exists($front)) return $front;
+    }
     if (is_page(13)) {
         $about_template = get_template_directory() . '/page-about.php';
         if (file_exists($about_template)) return $about_template;
@@ -418,6 +437,12 @@ function nl_translate_document_title($parts) {
     }
     if (is_product()) {
         $parts['title'] = get_the_title() . ' – ' . nl_t('shop_title');
+    }
+    if (is_page_template('page-about-lookbook.php')) {
+        $parts['title'] = $lang === 'en' ? 'Lookbook & About Us' : ($lang === 'cn' ? '范例 & 关于我们' : '範例 & 關於我們');
+    }
+    if (is_page_template('page-about.php')) {
+        $parts['title'] = $lang === 'en' ? 'About Us' : ($lang === 'cn' ? '关于我们' : '關於我們');
     }
     return $parts;
 }
