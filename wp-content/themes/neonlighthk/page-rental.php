@@ -10,8 +10,8 @@ get_header('shop');
 
 $lang = nl_lang();
 
-// Query WooCommerce products in Rental category
-$args = [
+// Query WooCommerce products in Balloon category filtered by language
+$base_args = [
 	'post_type'      => 'product',
 	'posts_per_page' => 50,
 	'post_status'    => 'publish',
@@ -24,8 +24,34 @@ $args = [
 			'terms'    => 'balloon-magic',
 		],
 	],
+	'meta_query'     => [
+		[
+			'key'     => '_nl_post_lang',
+			'value'   => $lang,
+			'compare' => '=',
+		],
+	],
 ];
-$products = new WP_Query($args);
+$products = new WP_Query($base_args);
+
+// Fallback: if no products match the language, show all in category
+if (!$products->have_posts()) {
+	$fallback_args = [
+		'post_type'      => 'product',
+		'posts_per_page' => 50,
+		'post_status'    => 'publish',
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'tax_query'      => [
+			[
+				'taxonomy' => 'product_cat',
+				'field'    => 'slug',
+				'terms'    => 'balloon-magic',
+			],
+		],
+	];
+	$products = new WP_Query($fallback_args);
+}
 $total = $products->found_posts;
 $showing = min(12, $total);
 ?>
