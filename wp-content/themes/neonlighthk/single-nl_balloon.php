@@ -37,7 +37,31 @@
                 <h3><?php _e( "What's Included", 'neonlighthk' ); ?></h3>
                 <p><?php echo nl2br( esc_html( $includes ) ); ?></p>
             </div>
-            <?php endif; ?>
+            <?php endif; ?
+        </div>
+
+        <!-- Product Details -->
+        <div class="nl-balloon-details">
+            <h2 class="nl-balloon-details__title"><?php echo nl_t('product_details_info'); ?></h2>
+            <table class="nl-balloon-details__table">
+                <tbody>
+                    <?php if ( $price ) : ?>
+                    <tr><th><?php _e('Price', 'neonlighthk'); ?></th><td>HKD <?php echo esc_html( number_format( $price ) ); ?></td></tr>
+                    <?php endif; ?>
+                    <?php if ( $category ) : ?
+                    <tr><th><?php _e('Category', 'neonlighthk'); ?></th><td><?php echo esc_html( ucfirst( str_replace( '_', ' ', $category ) ) ); ?></td></tr>
+                    <?php endif; ?
+                    <?php if ( $duration ) : ?
+                    <tr><th><?php _e('Duration', 'neonlighthk'); ?></th><td><?php echo esc_html( $duration ); ?></td></tr>
+                    <?php endif; ?
+                    <?php if ( $booking_req ) : ?
+                    <tr><th><?php _e('Booking', 'neonlighthk'); ?></th><td><?php _e('Booking Required', 'neonlighthk'); ?></td></tr>
+                    <?php endif; ?
+                    <?php if ( $includes ) : ?
+                    <tr><th><?php _e('Includes', 'neonlighthk'); ?></th><td><?php echo nl2br( esc_html( $includes ) ); ?></td></tr>
+                    <?php endif; ?
+                </tbody>
+            </table>
         </div>
 
         <?php
@@ -67,5 +91,25 @@
 <?php endwhile; ?>
 
 </main>
+
+<style>
+/* Balloon & Magic Detail Page */
+.nl-balloon-details { margin-top: 40px; }
+.nl-balloon-details__title {
+	font-size: 1.25rem; font-weight: 700; margin: 0 0 16px; color: #111;
+	border-bottom: 2px solid #00d4b0; padding-bottom: 8px; display: inline-block;
+}
+.nl-balloon-details__table {
+	width: 100%; border-collapse: collapse; font-size: .95rem;
+}
+.nl-balloon-details__table th,
+.nl-balloon-details__table td {
+	padding: 12px 16px; text-align: left; border-bottom: 1px solid #eee;
+}
+.nl-balloon-details__table th {
+	width: 30%; font-weight: 600; color: #333; background: #f9f9f9;
+}
+.nl-balloon-details__table td { color: #555; }
+</style>
 
 <?php get_footer(); ?>

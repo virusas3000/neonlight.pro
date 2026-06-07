@@ -67,6 +67,71 @@ get_header('shop'); ?>
 			</div>
 		</div>
 
+		<!-- Product Details -->
+		<div class="nl-product-details">
+			<?php
+			$long_desc = get_the_content();
+			if (!empty($long_desc)) : ?>
+				<div class="nl-product-details__section">
+					<h2><?php echo nl_t('product_details_desc'); ?></h2>
+					<div class="nl-product-details__content">
+						<?php echo apply_filters('the_content', $long_desc); ?>
+					</div>
+				</div>
+			<?php endif; ?>
+
+			<?php
+			$attributes = $product->get_attributes();
+			if (!empty($attributes)) : ?>
+				<div class="nl-product-details__section">
+					<h2><?php echo nl_t('product_details_specs'); ?></h2>
+					<table class="nl-product-details__table">
+						<tbody>
+						<?php foreach ($attributes as $attribute) :
+							$label = wc_attribute_label($attribute->get_name());
+							$value = '';
+							if ($attribute->is_taxonomy()) {
+								$terms = wp_get_post_terms($product->get_id(), $attribute->get_name(), ['fields' => 'names']);
+								$value = implode(', ', $terms);
+							} else {
+								$value = implode(', ', $attribute->get_options());
+							}
+							if ($value) : ?>
+							<tr>
+								<th><?php echo esc_html($label); ?></th>
+								<td><?php echo esc_html($value); ?></td>
+							</tr>
+							<?php endif;
+						endforeach; ?>
+						</tbody>
+					</table>
+				</div>
+			<?php endif; ?>
+
+			<?php
+			$sku = $product->get_sku();
+			$dimensions = $product->get_dimensions(false);
+			$weight = $product->get_weight();
+			if ($sku || $dimensions || $weight) : ?>
+				<div class="nl-product-details__section">
+					<h2><?php echo nl_t('product_details_info'); ?></h2>
+					<table class="nl-product-details__table">
+						<tbody>
+						<?php if ($sku) : ?>
+							<tr><th><?php echo nl_t('product_sku'); ?></th><td><?php echo esc_html($sku); ?></td></tr>
+						<?php endif; ?>
+						<?php if ($dimensions) : ?>
+							<tr><th><?php echo nl_t('product_dimensions'); ?></th><td><?php echo esc_html($dimensions); ?></td></tr>
+						<?php endif; ?>
+						<?php if ($weight) : ?>
+							<tr><th><?php echo nl_t('product_weight'); ?></th><td><?php echo esc_html($weight); ?> kg</td></tr>
+						<?php endif; ?>
+						</tbody>
+					</table>
+				</div>
+			<?php endif; ?>
+		</div>
+
 		<!-- Related Products -->
 		<?php
 		$related = wc_get_related_products($product->get_id(), 4);
@@ -172,6 +237,27 @@ get_header('shop'); ?>
 .nl-product-cart .nl-btn-primary:hover { background:#00bfa0; }
 
 .nl-product-stock { margin-top:16px; font-size:.9rem; color:#777; }
+
+/* Product Details */
+.nl-product-details { margin-top: 48px; }
+.nl-product-details__section { margin-bottom: 40px; }
+.nl-product-details__section h2 {
+	font-size:1.25rem; font-weight:700; margin:0 0 16px; color:#111;
+	border-bottom:2px solid #00d4b0; padding-bottom:8px; display:inline-block;
+}
+.nl-product-details__content { font-size:1rem; line-height:1.7; color:#444; }
+.nl-product-details__content p { margin-bottom:12px; }
+.nl-product-details__table {
+	width:100%; border-collapse:collapse; font-size:.95rem;
+}
+.nl-product-details__table th,
+.nl-product-details__table td {
+	padding:12px 16px; text-align:left; border-bottom:1px solid #eee;
+}
+.nl-product-details__table th {
+	width:30%; font-weight:600; color:#333; background:#f9f9f9;
+}
+.nl-product-details__table td { color:#555; }
 
 /* Related products */
 .nl-related-products { margin-top: 60px; }
