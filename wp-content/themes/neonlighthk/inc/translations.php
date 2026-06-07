@@ -105,7 +105,7 @@ function nl_dictionary() {
         'card_purchase' => ['en'=>'PURCHASE',   'zh'=>'購買現貨',   'cn'=>'购买现货'],
         'card_customise'=> ['en'=>'CUSTOMISE',  'zh'=>'訂製設計',   'cn'=>'订制设计'],
         'card_workshop' => ['en'=>'WORKSHOP',   'zh'=>'工作坊',     'cn'=>'工作坊'],
-        'card_rental'   => ['en'=>'RENTAL',     'zh'=>'租借服務',   'cn'=>'租借服务'],
+        'card_balloon'  => ['en'=>'BALLOON & MAGIC', 'zh'=>'氣球 & 魔術', 'cn'=>'气球 & 魔术'],
 
         // Gallery
         'gallery_title' => ['en'=>'OUR WORKS',  'zh'=>'作品參考',   'cn'=>'作品参考'],
