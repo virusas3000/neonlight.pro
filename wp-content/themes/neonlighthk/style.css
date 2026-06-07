@@ -26,9 +26,9 @@ a { color:inherit; text-decoration:none; transition:var(--transition); }
 img { max-width:100%; height:auto; display:block; }
 ul, ol { list-style:none; }
 
-.nl-topbar { background:var(--nl-white); color:var(--nl-black); font-size:.75rem; padding:8px 0; position:relative; z-index:1001; border-bottom:1px solid rgba(0,0,0,0.06); }
+.nl-topbar { background:var(--nl-cyan); color:var(--nl-white); font-size:.75rem; padding:8px 0; position:relative; z-index:1001; }
 .nl-topbar__inner { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; justify-content:center; gap:24px; flex-wrap:wrap; align-items:center; }
-.nl-topbar__inner a, .nl-topbar__inner span { color:var(--nl-black); display:flex; align-items:center; gap:6px; font-weight:400; letter-spacing:.02em; }
+.nl-topbar__inner a, .nl-topbar__inner span { color:var(--nl-white); display:flex; align-items:center; gap:6px; font-weight:400; letter-spacing:.02em; }
 @media (max-width:768px) { .nl-topbar__inner { gap:12px; font-size:.7rem; flex-direction:column; } .nl-topbar__inner span:last-child { display:none; } }
 
 .nl-header { background:#2563eb; position:sticky; top:0; z-index:1000; border-bottom:1px solid rgba(0,0,0,0.06); }
