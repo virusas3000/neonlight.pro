@@ -43,25 +43,14 @@ $lang = nl_lang();
 			'order'   => 'DESC',
 		);
 
-		// Fallback: if no posts with language meta, show all
 		$blog_posts = new WP_Query($args);
-		if (!$blog_posts->have_posts()) {
-			$args = array(
-				'post_type'      => 'post',
-				'posts_per_page' => 12,
-				'post_status'    => 'publish',
-				'orderby'        => 'date',
-				'order'          => 'DESC',
-			);
-			$blog_posts = new WP_Query($args);
-		}
 
 		if ($blog_posts->have_posts()) :
 	?>
 			<div class="nl-blog-grid__inner">
 				<?php while ($blog_posts->have_posts()) : $blog_posts->the_post(); ?>
 					<article class="nl-blog-card">
-						<a href="<?php the_permalink(); ?>" class="nl-blog-card__link">
+						<a href="<?php the_permalink(); ?>?lang=<?php echo nl_lang(); ?>" class="nl-blog-card__link">
 							<?php if (has_post_thumbnail()) : ?>
 								<div class="nl-blog-card__img">
 									<?php the_post_thumbnail('medium_large', ['loading' => 'lazy']); ?>
