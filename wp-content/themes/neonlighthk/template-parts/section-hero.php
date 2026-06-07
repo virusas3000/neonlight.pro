@@ -1,20 +1,15 @@
 <?php
 /**
- * Hero Section — 2×2 Image Card Grid
+ * Hero Section
  * @package NeonLightHK
  */
 ?>
-<section class="nl-hero-grid">
-	<div class="nl-hero-card">
-		<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/hero-1.jpg" alt="Neon Science" loading="eager">
-	</div>
-	<div class="nl-hero-card">
-		<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/hero-2.jpg" alt="Neon Signs Collection" loading="eager">
-	</div>
-	<div class="nl-hero-card">
-		<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/hero-3.jpg" alt="Neon maSKorea" loading="eager">
-	</div>
-	<div class="nl-hero-card">
-		<img src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/hero-4.jpg" alt="Neon Welcome You Forever Whale" loading="eager">
+<section class="nl-hero">
+	<div class="nl-hero__bg" style="background-image:url('/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/hero-main.jpg');"></div>
+	<div class="nl-hero__content">
+		<h4 class="nl-hero__subtitle"><?php echo nl_t('hero_label'); ?></h4>
+		<h1 class="nl-hero__headline"><?php echo nl_t('hero_title'); ?></h1>
+		<h2 class="nl-hero__title"><?php echo nl_t('hero_subtitle'); ?></h2>
+		<a href="<?php echo esc_url( home_url( '/neon-services/' ) ); ?>?lang=<?php echo nl_lang(); ?>" class="nl-hero__btn"><?php echo nl_t('hero_cta'); ?></a>
 	</div>
 </section>
