@@ -118,6 +118,8 @@ ul, ol { list-style:none; }
 }
 
 .nl-lookbook { padding:80px 20px; text-align:center; background:var(--nl-white); }
+.nl-lookbook__video { width:100%; max-width:1000px; margin:0 auto 40px; border-radius:12px; overflow:hidden; }
+.nl-lookbook__video video { width:100%; height:auto; display:block; aspect-ratio:16/9; object-fit:cover; }
 .nl-lookbook__inner { max-width:1000px; margin:0 auto; }
 .nl-lookbook__cn { font-family:var(--font-cn); font-size:1rem; font-weight:400; letter-spacing:.2em; margin-bottom:8px; color:var(--nl-gray); }
 .nl-lookbook__en { font-family:var(--font-en); font-size:1.5rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:16px; }

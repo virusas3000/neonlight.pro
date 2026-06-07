@@ -5,6 +5,11 @@
  */
 ?>
 <section class="nl-lookbook">
+	<div class="nl-lookbook__video">
+		<video autoplay muted loop playsinline preload="auto" poster="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg">
+			<source src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/videos/hero-video.mp4" type="video/mp4">
+		</video>
+	</div>
 	<div class="nl-lookbook__inner">
 		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
 		<h2 class="nl-lookbook__en"><?php echo nl_t('gallery_title'); ?></h2>
