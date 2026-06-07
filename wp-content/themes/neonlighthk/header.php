@@ -25,7 +25,7 @@
 	<!-- Top Contact Bar -->
 	<div class="nl-topbar">
 		<div class="nl-topbar__inner">
-			<a href="tel:+85261319328">
+			<a href="https://wa.me/85261319328">
 				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
 				</svg>
@@ -61,12 +61,6 @@
 	<!-- Header -->
 	<header class="nl-header">
 		<div class="nl-header__inner">
-			<button class="nl-mobile-toggle" aria-label="Open Menu" onclick="document.querySelector('.nl-mobile-menu').classList.add('is-open')">
-				<span></span>
-				<span></span>
-				<span></span>
-			</button>
-
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>?lang=<?php echo nl_lang(); ?>" class="nl-logo">
 				<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/neon-sign-logo.jpg" alt="Neon Light HK">
 			</a>
@@ -83,31 +77,15 @@
 				</ul>
 			</nav>
 
-			<div class="nl-header__actions">
-				<?php if ( function_exists( 'wc_get_cart_url' ) ) { ?>
-				<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="nl-bag-btn" aria-label="Cart">
-					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-						<path d="M6 6h15l-1.5 9h-12z" />
-						<circle cx="9" cy="20" r="1.5" />
-						<circle cx="18" cy="20" r="1.5" />
-						<path d="M6 6L5 3H2" />
-					</svg>
-				</a>
-				<?php } ?>
-			</div>
+			<?php if ( function_exists( 'wc_get_cart_url' ) ) { ?>
+			<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="nl-bag-btn" aria-label="Cart">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+					<path d="M6 6h15l-1.5 9h-12z" />
+					<circle cx="9" cy="20" r="1.5" />
+					<circle cx="18" cy="20" r="1.5" />
+					<path d="M6 6L5 3H2" />
+				</svg>
+			</a>
+			<?php } ?>
 		</div>
 	</header>
-
-	<!-- Mobile Menu -->
-	<div class="nl-mobile-menu">
-		<button class="nl-mobile-menu__close" aria-label="Close Menu" onclick="document.querySelector('.nl-mobile-menu').classList.remove('is-open')">✕</button>
-		<ul id="menu-primary-menu" class="menu">
-			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(96)) ); ?>"><?php echo nl_t('nav_about_lookbook'); ?></a></li>
-			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(45)) ); ?>"><?php echo nl_t('nav_workshop'); ?></a></li>
-			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(95)) ); ?>"><?php echo nl_t('nav_neon'); ?></a></li>
-			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(31)) ); ?>"><?php echo nl_t('nav_projects'); ?></a></li>
-		<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), home_url('/neon-products/')) ); ?>"><?php echo nl_t('nav_products'); ?></a></li>
-			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(12)) ); ?>"><?php echo nl_t('nav_balloon'); ?></a></li>
-			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(138)) ); ?>"><?php echo nl_t('nav_hanfu'); ?></a></li>
-		</ul>
-	</div>

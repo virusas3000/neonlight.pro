@@ -32,7 +32,7 @@ get_header();
 				<p><?php echo nl_t('neon_custom_desc_en'); ?></p>
 			</div>
 			<div class="nl-neon-section__contact">
-<p><a href="tel:+85261319328">61319328</a></p>
+<p><a href="https://wa.me/85261319328">61319328</a></p>
 				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			</div>
 		</div>
@@ -54,7 +54,7 @@ get_header();
 				<p><?php echo nl_t('neon_design_desc_en'); ?></p>
 			</div>
 			<div class="nl-neon-section__contact">
-<p><a href="tel:+85261319328">61319328</a></p>
+<p><a href="https://wa.me/85261319328">61319328</a></p>
 				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
 			</div>
 		</div>

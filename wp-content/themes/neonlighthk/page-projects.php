@@ -9,6 +9,15 @@ $lang = nl_lang();
 ?>
 
 <div class="nl-page nl-projects">
+
+	<div class="nl-page-header">
+		<h1 class="nl-page-title"><?php
+			if ($lang === 'en') { echo 'PROJECTS'; }
+			elseif ($lang === 'cn') { echo '活动'; }
+			else { echo '活動'; }
+		?></h1>
+	</div>
+
 	<!-- Page title from WordPress backend -->
 	<?php while (have_posts()) : the_post(); ?>
 		<div class="nl-page-content nl-projects-content">
@@ -87,6 +96,21 @@ $lang = nl_lang();
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 0 24px 60px;
+}
+.nl-page-header {
+	text-align: center;
+	padding: 40px 20px 24px;
+}
+.nl-page-title {
+	font-size: 1.8rem;
+	font-weight: 700;
+	color: #111;
+	margin: 0;
+	letter-spacing: .05em;
+}
+@media (max-width: 768px) {
+	.nl-page-header { padding: 24px 16px 16px; }
+	.nl-page-title { font-size: 1.4rem; }
 }
 .nl-blog-grid__inner {
 	display: grid;
