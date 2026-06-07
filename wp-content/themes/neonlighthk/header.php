@@ -22,6 +22,24 @@
 </head>
 <body <?php body_class(); ?>>
 
+	<!-- Blue Logo Banner — TOP -->
+	<div class="nl-header__top">
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>?lang=<?php echo nl_lang(); ?>" class="nl-logo">
+			<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/neon-sign-logo.jpg" alt="Neon Light HK">
+		</a>
+
+		<?php if ( function_exists( 'wc_get_cart_url' ) ) { ?>
+		<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="nl-bag-btn" aria-label="Cart">
+			<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+				<path d="M6 6h15l-1.5 9h-12z" />
+				<circle cx="9" cy="20" r="1.5" />
+				<circle cx="18" cy="20" r="1.5" />
+				<path d="M6 6L5 3H2" />
+			</svg>
+		</a>
+		<?php } ?>
+	</div>
+
 	<!-- Top Contact Bar -->
 	<div class="nl-topbar">
 		<div class="nl-topbar__inner">
@@ -58,24 +76,8 @@
 		</div>
 	</div>
 
-	<!-- Header -->
+	<!-- Header — Nav only -->
 	<header class="nl-header">
-		<div class="nl-header__top">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>?lang=<?php echo nl_lang(); ?>" class="nl-logo">
-				<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/neon-sign-logo.jpg" alt="Neon Light HK">
-			</a>
-
-			<?php if ( function_exists( 'wc_get_cart_url' ) ) { ?>
-			<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="nl-bag-btn" aria-label="Cart">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-					<path d="M6 6h15l-1.5 9h-12z" />
-					<circle cx="9" cy="20" r="1.5" />
-					<circle cx="18" cy="20" r="1.5" />
-					<path d="M6 6L5 3H2" />
-				</svg>
-			</a>
-			<?php } ?>
-		</div>
 		<div class="nl-header__nav-bar">
 			<nav class="nl-nav" aria-label="Primary">
 				<ul id="menu-primary-menu" class="menu">
