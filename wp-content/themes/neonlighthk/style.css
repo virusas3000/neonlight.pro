@@ -32,6 +32,16 @@ ul, ol { list-style:none; }
 @media (max-width:768px) { .nl-topbar__inner { gap:12px; font-size:.7rem; flex-direction:column; } .nl-topbar__inner span:last-child { display:none; } }
 
 .nl-header { background:var(--nl-white); position:sticky; top:0; z-index:1000; border-bottom:1px solid rgba(0,0,0,0.06); }
+.nl-header__top { background:#2563eb; padding:16px 20px; display:flex; justify-content:center; align-items:center; position:relative; }
+.nl-header__top .nl-logo img { max-height:70px; width:auto; display:block; }
+.nl-header__top .nl-bag-btn { display:block; color:#fff; padding:8px; transition:var(--transition); position:absolute; right:20px; top:50%; transform:translateY(-50%); }
+.nl-header__top .nl-bag-btn:hover { color:var(--nl-cyan); }
+.nl-header__nav-bar { background:var(--nl-white); padding:0; }
+.nl-header__nav-bar .nl-nav { width:100%; }
+.nl-header__nav-bar .nl-nav .menu { display:flex; justify-content:center; gap:0; flex-wrap:wrap; }
+.nl-header__nav-bar .nl-nav .menu li a { display:block; padding:12px 22px; font-family:var(--font-en); font-size:1.4rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--nl-black); position:relative; white-space:nowrap; }
+.nl-header__nav-bar .nl-nav .menu li a::after { content:''; position:absolute; bottom:4px; left:18px; right:18px; height:1px; background:var(--nl-cyan); transform:scaleX(0); transition:var(--transition); }
+.nl-header__nav-bar .nl-nav .menu li a:hover::after, .nl-header__nav-bar .nl-nav .menu li.current-menu-item a::after { transform:scaleX(1); }
 .nl-header__inner { max-width:1200px; margin:0 auto; padding:16px 20px; display:flex; flex-direction:column; align-items:center; gap:12px; position:relative; }
 .nl-logo { display:flex; flex-direction:column; align-items:center; color:var(--nl-black); justify-content:center; }
 .nl-logo img { max-height:70px; width:auto; display:block; }
@@ -39,16 +49,11 @@ ul, ol { list-style:none; }
 .nl-logo__o { display:inline-block; width:.65em; height:.65em; border:2.5px solid var(--nl-black); border-radius:2px; transform:rotate(45deg); margin:0 .08em; position:relative; top:-.05em; }
 .nl-logo__sub { font-family:var(--font-en); font-size:.75rem; font-weight:500; letter-spacing:.25em; margin-top:4px; color:var(--nl-black); }
 @media (min-width:769px) {
-	.nl-logo img { max-height:140px; }
+	.nl-header__top .nl-logo img { max-height:140px; }
 	.nl-logo__neon { font-size:3.6rem; }
 	.nl-logo__sub { font-size:.95rem; }
 	.nl-topbar { font-size:15px; }
 }
-.nl-nav { width:100%; }
-.nl-nav .menu { display:flex; justify-content:center; gap:0; flex-wrap:wrap; }
-.nl-nav .menu li a { display:block; padding:12px 22px; font-family:var(--font-en); font-size:1.4rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--nl-black); position:relative; white-space:nowrap; }
-.nl-nav .menu li a::after { content:''; position:absolute; bottom:4px; left:18px; right:18px; height:1px; background:var(--nl-cyan); transform:scaleX(0); transition:var(--transition); }
-.nl-nav .menu li a:hover::after, .nl-nav .menu li.current-menu-item a::after { transform:scaleX(1); }
 .nl-header__actions { position:absolute; right:20px; top:50%; transform:translateY(-50%); }
 .nl-bag-btn { display:block; color:var(--nl-black); padding:8px; transition:var(--transition); }
 .nl-bag-btn:hover { color:var(--nl-cyan); }
@@ -60,18 +65,18 @@ ul, ol { list-style:none; }
 .nl-mobile-menu ul li a { display:block; padding:10px 0; font-size:.95rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; border-bottom:1px solid rgba(0,0,0,0.06); line-height:1.4; }
 .nl-mobile-menu__close { position:absolute; top:14px; right:16px; background:none; border:none; font-size:1.3rem; cursor:pointer; padding:6px; color:var(--nl-black); }
 @media (max-width:768px) {
-	.nl-nav { display:block; width:100%; margin-top:4px; }
-	.nl-nav .menu { flex-wrap:wrap; justify-content:center; gap:0; }
-	.nl-nav .menu li a { padding:6px 10px; font-size:.78rem; letter-spacing:.08em; white-space:nowrap; }
+	.nl-header__nav-bar .nl-nav { display:block; width:100%; margin-top:4px; }
+	.nl-header__nav-bar .nl-nav .menu { flex-wrap:wrap; justify-content:center; gap:0; }
+	.nl-header__nav-bar .nl-nav .menu li a { padding:6px 10px; font-size:.78rem; letter-spacing:.08em; white-space:nowrap; }
 	.nl-mobile-toggle { display:none !important; }
 	.nl-mobile-menu { display:none !important; }
 	.nl-header__actions { position:absolute; right:16px; top:16px; transform:none; }
 }
 
 @media (prefers-color-scheme: dark) {
-	.nl-header { background:#0a0a0f; border-bottom:1px solid rgba(255,255,255,0.1); }
+	.nl-header__nav-bar { background:#0a0a0f; }
+	.nl-header__nav-bar .nl-nav .menu li a { color:#fff; }
 	.nl-logo, .nl-logo__neon, .nl-logo__sub { color:#fff; }
-	.nl-nav .menu li a { color:#fff; }
 	.nl-mobile-toggle span { background:#fff; }
 	.nl-bag-btn { color:#fff; }
 	.nl-mobile-menu { background:#0a0a0f; }

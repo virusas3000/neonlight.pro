@@ -60,22 +60,10 @@
 
 	<!-- Header -->
 	<header class="nl-header">
-		<div class="nl-header__inner">
+		<div class="nl-header__top">
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>?lang=<?php echo nl_lang(); ?>" class="nl-logo">
 				<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/neon-sign-logo.jpg" alt="Neon Light HK">
 			</a>
-
-			<nav class="nl-nav" aria-label="Primary">
-				<ul id="menu-primary-menu" class="menu">
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(96)) ); ?>"><?php echo nl_t('nav_about_lookbook'); ?></a></li>
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(45)) ); ?>"><?php echo nl_t('nav_workshop'); ?></a></li>
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(95)) ); ?>"><?php echo nl_t('nav_neon'); ?></a></li>
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(31)) ); ?>"><?php echo nl_t('nav_projects'); ?></a></li>
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), home_url('/neon-products/')) ); ?>"><?php echo nl_t('nav_products'); ?></a></li>
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(12)) ); ?>"><?php echo nl_t('nav_balloon'); ?></a></li>
-					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(138)) ); ?>"><?php echo nl_t('nav_hanfu'); ?></a></li>
-				</ul>
-			</nav>
 
 			<?php if ( function_exists( 'wc_get_cart_url' ) ) { ?>
 			<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="nl-bag-btn" aria-label="Cart">
@@ -87,5 +75,18 @@
 				</svg>
 			</a>
 			<?php } ?>
+		</div>
+		<div class="nl-header__nav-bar">
+			<nav class="nl-nav" aria-label="Primary">
+				<ul id="menu-primary-menu" class="menu">
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(96)) ); ?>"><?php echo nl_t('nav_about_lookbook'); ?></a></li>
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(45)) ); ?>"><?php echo nl_t('nav_workshop'); ?></a></li>
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(95)) ); ?>"><?php echo nl_t('nav_neon'); ?></a></li>
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(31)) ); ?>"><?php echo nl_t('nav_projects'); ?></a></li>
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), home_url('/neon-products/')) ); ?>"><?php echo nl_t('nav_products'); ?></a></li>
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(12)) ); ?>"><?php echo nl_t('nav_balloon'); ?></a></li>
+					<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(138)) ); ?>"><?php echo nl_t('nav_hanfu'); ?></a></li>
+				</ul>
+			</nav>
 		</div>
 	</header>
