@@ -39,7 +39,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-admin-customizer',
 			'rewrite'           => array( 'slug' => 'workshop-item' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
@@ -69,7 +69,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-store',
 			'rewrite'           => array( 'slug' => 'rental-item' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
@@ -99,7 +99,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-art',
 			'rewrite'           => array( 'slug' => 'custom-order-item' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
@@ -129,7 +129,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-format-gallery',
 			'rewrite'           => array( 'slug' => 'project-item' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
@@ -159,7 +159,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-visibility',
 			'rewrite'           => array( 'slug' => 'lookbook-item' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
@@ -189,7 +189,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-translation',
 			'rewrite'           => array( 'slug' => 'hanfu' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
@@ -219,7 +219,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-smiley',
 			'rewrite'           => array( 'slug' => 'balloon-magic' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => true,
+			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
 		)
 	);
