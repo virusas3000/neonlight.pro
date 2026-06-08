@@ -130,6 +130,43 @@ add_action('template_redirect', function() {
     }
 });
 
+/* ===== RENAME "POSTS" TO "PROJECTS" IN WP ADMIN ===== */
+add_action('admin_menu', function() {
+    global $menu;
+    global $submenu;
+    foreach ($menu as &$item) {
+        if (isset($item[0]) && $item[0] === 'Posts') {
+            $item[0] = 'Projects';
+            $item[6] = 'dashicons-format-gallery';
+        }
+    }
+    if (isset($submenu['edit.php'])) {
+        foreach ($submenu['edit.php'] as &$sub) {
+            $sub[0] = str_replace(['Posts', 'Post'], ['Projects', 'Project'], $sub[0]);
+        }
+    }
+}, 999);
+
+add_action('init', function() {
+    global $wp_post_types;
+    if (isset($wp_post_types['post'])) {
+        $labels = &$wp_post_types['post']->labels;
+        $labels->name               = 'Projects';
+        $labels->singular_name      = 'Project';
+        $labels->add_new            = 'Add New';
+        $labels->add_new_item       = 'Add New Project';
+        $labels->edit_item          = 'Edit Project';
+        $labels->new_item           = 'New Project';
+        $labels->view_item          = 'View Project';
+        $labels->search_items       = 'Search Projects';
+        $labels->not_found          = 'No projects found';
+        $labels->not_found_in_trash = 'No projects found in Trash';
+        $labels->all_items          = 'All Projects';
+        $labels->menu_name          = 'Projects';
+        $labels->name_admin_bar     = 'Project';
+    }
+}, 999);
+
 // Theme setup
 add_action( 'after_setup_theme', function() {
 	// Title tag support
