@@ -74,9 +74,22 @@ add_action('save_post', function ($post_id) {
 /* ===== ADMIN LIST COLUMNS ===== */
 function nl_add_lang_column($columns) {
     $new = [];
+    $done = false;
     foreach ($columns as $k => $v) {
         $new[$k] = $v;
-        if ($k === 'title') {
+        if (!$done && in_array($k, ['title', 'name'], true)) {
+            $new['nl_lang'] = __('Lang', 'neonlighthk');
+            $done = true;
+        }
+    }
+    if (!$done) {
+        $keys = array_keys($new);
+        if (count($keys) > 0) {
+            $first = $keys[0];
+            $rest  = array_slice($new, 1, null, true);
+            $new   = [$first => $new[$first], 'nl_lang' => __('Lang', 'neonlighthk')];
+            $new   = array_merge($new, $rest);
+        } else {
             $new['nl_lang'] = __('Lang', 'neonlighthk');
         }
     }
@@ -189,5 +202,77 @@ add_action('save_post', function ($post_id) {
     if (!isset($_REQUEST['bulk_edit'])) return;
     if (isset($_REQUEST['nl_post_lang']) && in_array($_REQUEST['nl_post_lang'], ['en', 'zh', 'cn'])) {
         update_post_meta($post_id, '_nl_post_lang', sanitize_text_field($_REQUEST['nl_post_lang']));
+    }
+});
+
+/* ===== DUPLICATE POST / PROJECT ===== */
+add_filter('post_row_actions', 'nl_add_duplicate_link', 10, 2);
+function nl_add_duplicate_link($actions, $post) {
+    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
+    if (!in_array($post->post_type, $types)) return $actions;
+    $url = wp_nonce_url(
+        add_query_arg([
+            'action'    => 'nl_duplicate_post',
+            'post'      => $post->ID,
+            'post_type' => $post->post_type,
+        ], admin_url('edit.php')),
+        'nl_duplicate_post_' . $post->ID
+    );
+    $actions['nl_duplicate'] = '<a href="' . esc_url($url) . '">' . __('Duplicate', 'neonlighthk') . '</a>';
+    return $actions;
+}
+
+add_action('admin_init', function () {
+    if (!isset($_GET['action']) || $_GET['action'] !== 'nl_duplicate_post') return;
+    if (!isset($_GET['post'])) return;
+    $post_id = (int) $_GET['post'];
+    check_admin_referer('nl_duplicate_post_' . $post_id);
+    if (!current_user_can('edit_post', $post_id)) wp_die(__('Insufficient permissions.', 'neonlighthk'));
+
+    $post = get_post($post_id);
+    if (!$post) wp_die(__('Post not found.', 'neonlighthk'));
+
+    $new_id = wp_insert_post([
+        'post_author'       => $post->post_author,
+        'post_content'      => $post->post_content,
+        'post_title'        => $post->post_title . ' (Copy)',
+        'post_excerpt'      => $post->post_excerpt,
+        'post_status'       => 'draft',
+        'post_type'         => $post->post_type,
+        'post_parent'       => $post->post_parent,
+        'menu_order'        => $post->menu_order,
+    ]);
+
+    if (is_wp_error($new_id)) wp_die($new_id->get_error_message());
+
+    // Copy taxonomies
+    $taxonomies = get_object_taxonomies($post->post_type);
+    foreach ($taxonomies as $tax) {
+        $terms = wp_get_object_terms($post_id, $tax, ['fields' => 'slugs']);
+        if (!is_wp_error($terms) && !empty($terms)) {
+            wp_set_object_terms($new_id, $terms, $tax);
+        }
+    }
+
+    // Copy post meta
+    $meta = get_post_meta($post_id);
+    foreach ($meta as $key => $values) {
+        if ($key === '_nl_post_lang') continue; // user can choose language on edit
+        foreach ($values as $val) {
+            update_post_meta($new_id, $key, maybe_unserialize($val));
+        }
+    }
+
+    $redirect = add_query_arg([
+        'post_type' => $post->post_type,
+        'nl_duplicated' => 1,
+    ], admin_url('edit.php'));
+    wp_safe_redirect($redirect);
+    exit;
+});
+
+add_action('admin_notices', function () {
+    if (isset($_GET['nl_duplicated'])) {
+        echo '<div class="notice notice-success is-dismissible"><p>' . __('Post duplicated successfully.', 'neonlighthk') . '</p></div>';
     }
 });
