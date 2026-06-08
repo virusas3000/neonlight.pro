@@ -7,19 +7,19 @@
 if (!defined('ABSPATH')) exit;
 
 /* ===== LANGUAGE META BOX ===== */
-add_action('add_meta_boxes', function () {
+add_action('add_meta_boxes', 'nl_register_lang_meta_boxes', 10, 2);
+function nl_register_lang_meta_boxes($post_type, $post) {
     $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project', 'product'];
-    foreach ($types as $type) {
-        add_meta_box(
-            'nl_lang_meta',
-            __('Language', 'neonlighthk'),
-            'nl_render_lang_meta_box',
-            $type,
-            'side',
-            'high'
-        );
-    }
-});
+    if (!in_array($post_type, $types)) return;
+    add_meta_box(
+        'nl_lang_meta',
+        __('Language', 'neonlighthk'),
+        'nl_render_lang_meta_box',
+        $post_type,
+        'side',
+        'high'
+    );
+}
 
 function nl_render_lang_meta_box($post) {
     wp_nonce_field('nl_save_lang', 'nl_lang_nonce');
