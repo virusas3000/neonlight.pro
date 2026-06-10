@@ -7,7 +7,7 @@
 <section class="nl-lookbook">
 	<div class="nl-lookbook__video">
 		<video autoplay muted loop playsinline preload="auto" poster="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/images/work-1.jpg">
-			<source src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/videos/hero-video.mp4?v=2" type="video/mp4">
+			<source src="/wp-content/themes/<?php echo get_stylesheet(); ?>/assets/videos/hero-video.mp4?v=3" type="video/mp4">
 		</video>
 	</div>
 	<div class="nl-lookbook__inner">
