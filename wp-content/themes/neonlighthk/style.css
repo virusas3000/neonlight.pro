@@ -121,8 +121,6 @@ ul, ol { list-style:none; }
 .nl-lookbook__video { width:100%; max-width:1000px; margin:0 auto 40px; border-radius:12px; overflow:hidden; }
 .nl-lookbook__video video { width:100%; height:auto; display:block; aspect-ratio:16/9; object-fit:cover; }
 .nl-lookbook__inner { max-width:1000px; margin:0 auto; }
-.nl-lookbook__cn { font-family:var(--font-cn); font-size:1rem; font-weight:400; letter-spacing:.2em; margin-bottom:8px; color:var(--nl-gray); }
-.nl-lookbook__en { font-family:var(--font-en); font-size:1.5rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:16px; }
 .nl-lookbook__handle { font-family:var(--font-en); font-size:.85rem; font-weight:500; letter-spacing:.25em; text-transform:uppercase; color:var(--nl-gray); margin-bottom:40px; }
 .nl-lookbook__handle a { color:var(--nl-cyan); }
 .nl-instagram-feed { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
