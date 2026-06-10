@@ -11,6 +11,8 @@
 		</video>
 	</div>
 	<div class="nl-lookbook__inner">
+		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
+		<h2 class="nl-lookbook__en"><?php echo nl_t('gallery_title'); ?></h2>
 		<p class="nl-lookbook__handle">
 			<a href="https://instagram.com/neonlight.pro" target="_blank">INSTAGRAM @ NEONLIGHT.PRO</a>
 		</p>
