@@ -11,8 +11,14 @@
 		</video>
 	</div>
 	<div class="nl-lookbook__inner">
-		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
+		<?php $lang = nl_lang(); ?>
+		<?php if ($lang === 'en') : ?>
 		<h2 class="nl-lookbook__en"><?php echo nl_t('gallery_title'); ?></h2>
+		<?php elseif ($lang === 'cn') : ?>
+		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
+		<?php else : ?>
+		<h3 class="nl-lookbook__cn"><?php echo nl_t('gallery_title'); ?></h3>
+		<?php endif; ?>
 		<p class="nl-lookbook__handle">
 			<a href="https://instagram.com/neonlight.pro" target="_blank">INSTAGRAM @ NEONLIGHT.PRO</a>
 		</p>
