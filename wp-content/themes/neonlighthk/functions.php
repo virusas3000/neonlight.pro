@@ -36,33 +36,60 @@ add_action('template_redirect', function() {
 
 // Force custom templates with high priority to override WooCommerce
 add_filter('template_include', function($template) {
-    // Use REQUEST_URI instead of is_front_page() which fails with query vars on Vercel
-    if (isset($_SERVER['REQUEST_URI'])) {
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        if ($uri === '/' || $uri === '' || $uri === '/index.php') {
-            $front = get_template_directory() . '/front-page.php';
-            if (file_exists($front)) return $front;
-        }
-    }
-    if (is_front_page()) {
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    $path = rtrim($path, '/');
+    
+    // Front page
+    if ($path === '' || $path === '/' || $path === '/index.php') {
         $front = get_template_directory() . '/front-page.php';
         if (file_exists($front)) return $front;
     }
-    if (is_page(13)) {
-        $about_template = get_template_directory() . '/page-about.php';
-        if (file_exists($about_template)) return $about_template;
+    
+    // Page templates by URI path (bypasses CPT archive conflicts)
+    $map = [
+        '/about-lookbook'       => 'page-about-lookbook.php',
+        '/workshop'       => 'page-workshop.php',
+        '/neon-services'  => 'page-neon-services.php',
+        '/projects'       => 'page-projects.php',
+        '/neon-products'  => 'page-neon-products.php',
+        '/balloon'        => 'page-balloon.php',
+        '/hanfu'          => 'page-hanfu.php',
+    ];
+    foreach ($map as $route => $tpl) {
+        if ($path === $route) {
+            $full = get_template_directory() . '/' . $tpl;
+            if (file_exists($full)) return $full;
+        }
     }
-    if (is_page(31)) {
-        $projects_template = get_template_directory() . '/page-projects.php';
-        if (file_exists($projects_template)) return $projects_template;
+    
+    // Fallback to page IDs for edge cases
+    if (is_page(96) || is_page('about-lookbook')) {
+        $t = get_template_directory() . '/page-about.php';
+        if (file_exists($t)) return $t;
     }
-    if (is_page(4)) {
-        $products_template = get_template_directory() . '/page-products.php';
-        if (file_exists($products_template)) return $products_template;
+    if (is_page(45) || is_page('workshop')) {
+        $t = get_template_directory() . '/page-workshop.php';
+        if (file_exists($t)) return $t;
+    }
+    if (is_page(95) || is_page('neon-services')) {
+        $t = get_template_directory() . '/page-neon-services.php';
+        if (file_exists($t)) return $t;
+    }
+    if (is_page(31) || is_page('projects')) {
+        $t = get_template_directory() . '/page-projects.php';
+        if (file_exists($t)) return $t;
     }
     if (is_page(171) || is_page('neon-products')) {
-        $neon_products_template = get_template_directory() . '/page-neon-products.php';
-        if (file_exists($neon_products_template)) return $neon_products_template;
+        $t = get_template_directory() . '/page-neon-products.php';
+        if (file_exists($t)) return $t;
+    }
+    if (is_page(12) || is_page('balloon')) {
+        $t = get_template_directory() . '/page-balloon.php';
+        if (file_exists($t)) return $t;
+    }
+    if (is_page(138) || is_page('hanfu')) {
+        $t = get_template_directory() . '/page-hanfu.php';
+        if (file_exists($t)) return $t;
     }
     return $template;
 }, 999);

@@ -70,10 +70,10 @@ $showing = min(12, $total);
 						<h3 class="nl-product-card__title"><?php the_title(); ?></h3>
 						<div class="nl-product-card__price">
 							<?php if ($product->is_on_sale() && $product->get_sale_price()) : ?>
-								<span class="nl-product-card__price-regular">$<?php echo number_format($product->get_regular_price(),2); ?></span>
-								<span class="nl-product-card__price-sale">$<?php echo number_format($product->get_sale_price(),2); ?></span>
+								<span class="nl-product-card__price-regular">$<?php echo number_format(floatval($product->get_regular_price()),2); ?></span>
+								<span class="nl-product-card__price-sale">$<?php echo number_format(floatval($product->get_sale_price()),2); ?></span>
 							<?php else : ?>
-								<span class="nl-product-card__price-current">$<?php echo number_format($product->get_regular_price(),2); ?></span>
+								<span class="nl-product-card__price-current">$<?php echo number_format(floatval($product->get_regular_price()),2); ?></span>
 							<?php endif; ?>
 						</div>
 					</a>
