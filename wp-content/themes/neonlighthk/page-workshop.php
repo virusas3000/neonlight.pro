@@ -294,6 +294,16 @@ $workshops = [
 
 <div class="nl-workshop-page">
 
+    <!-- Hero Section -->
+    <section class="nl-hero" style="background-image:url('<?php echo get_template_directory_uri(); ?>/assets/images/hero-workshop.jpg');">
+        <div class="nl-hero-overlay"></div>
+        <div class="nl-hero-content">
+            <p class="nl-hero-label"><?php echo nl_t('ws_hero_zh'); ?></p>
+            <h1 class="nl-hero-title"><?php echo nl_t('ws_hero_en'); ?></h1>
+            <p class="nl-hero-subtitle"><?php echo nl_t('ws_hero_sub'); ?></p>
+        </div>
+    </section>
+
     <h1 class="nl-workshop-page__title"><?php echo nl_t('ws_title'); ?></h1>
 
     <?php if ($interest_message === 'saved') : ?>        <div class="nl-notice nl-notice--success">
@@ -377,7 +387,15 @@ $workshops = [
                  class="nl-workshop-card__image"
                  onerror="this.style.display='none';this.parentElement.style.gridTemplateColumns='1fr'">
             <div class="nl-workshop-card__info">
-                <h3 class="nl-workshop-card__title"><?php echo nl_lang()==='en' ? esc_html($ws['title_en']) : esc_html($ws['title']); ?></h3>
+                <h3 class="nl-workshop-card__title">
+                    <a href="javascript:void(0);" class="js-open-booking" style="color:inherit;text-decoration:none;cursor:pointer;"
+                       data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
+                       data-title="<?php echo nl_lang()==='en' ? esc_attr($ws['title_en']) : esc_attr($ws['title']); ?>"
+                       data-price="<?php echo esc_attr($ws['price']); ?>"
+                       data-price-display="<?php echo esc_attr($ws['price_display']); ?>">
+                        <?php echo nl_lang()==='en' ? esc_html($ws['title_en']) : esc_html($ws['title']); ?>
+                    </a>
+                </h3>
                 <p class="nl-workshop-card__subtitle"><?php echo esc_html($ws['subtitle']); ?></p>
                 <div class="nl-workshop-card__meta">
                     <span>⏱ <?php echo esc_html($ws['duration']); ?></span>
