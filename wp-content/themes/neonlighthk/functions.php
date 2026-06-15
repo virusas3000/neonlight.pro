@@ -49,6 +49,7 @@ add_filter('template_include', function($template) {
     $map = [
         '/about-lookbook'       => 'page-about-lookbook.php',
         '/workshop'       => 'page-workshop.php',
+        '/workshop-detail' => 'page-workshop-detail.php',
         '/neon-services'  => 'page-neon-services.php',
         '/projects'       => 'page-projects.php',
         '/neon-products'  => 'page-neon-products.php',

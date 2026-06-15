@@ -388,11 +388,7 @@ $workshops = [
                  onerror="this.style.display='none';this.parentElement.style.gridTemplateColumns='1fr'">
             <div class="nl-workshop-card__info">
                 <h3 class="nl-workshop-card__title">
-                    <a href="javascript:void(0);" class="js-open-booking" style="color:inherit;text-decoration:none;cursor:pointer;"
-                       data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
-                       data-title="<?php echo nl_lang()==='en' ? esc_attr($ws['title_en']) : esc_attr($ws['title']); ?>"
-                       data-price="<?php echo esc_attr($ws['price']); ?>"
-                       data-price-display="<?php echo esc_attr($ws['price_display']); ?>">
+                    <a href="<?php echo home_url('/workshop-detail/?id=' . esc_attr($ws['id'])); ?>" style="color:inherit;text-decoration:none;">
                         <?php echo nl_lang()==='en' ? esc_html($ws['title_en']) : esc_html($ws['title']); ?>
                     </a>
                 </h3>
