@@ -6,17 +6,72 @@
 get_header();
 
 $workshop_id = sanitize_text_field($_GET['id'] ?? '');
+$lang = nl_lang();
 
-$workshops = [
-    ['id'=>'neon-eng','title'=>'霓虹燈英文潦草','title_en'=>'Neon English Cursive','subtitle'=>'8cm height · 冷光線藝術工作坊','duration'=>'2 hr','price'=>328,'price_display'=>'HK$328 / person','image'=>'workshop-neon.jpg'],
-    ['id'=>'neon-cn','title'=>'霓虹燈單字中文','title_en'=>'Neon Chinese Character','subtitle'=>'12cm height · 圈底連中文 · 冷光線藝術工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-neon.jpg'],
-    ['id'=>'neon-art','title'=>'霓虹燈 Art Jamming','title_en'=>'Neon Art Jamming','subtitle'=>'20x20cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>498,'price_display'=>'HK$498 / person','image'=>'workshop-neon.jpg'],
-    ['id'=>'neon-pixel','title'=>'霓虹燈拼豆','title_en'=>'Neon Pixel Beads','subtitle'=>'10x20cm / 15x15cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>'workshop-neon.jpg'],
-];
+/* ---------- Try to load from nl_workshop CPT first ---------- */
+$workshop_post = null;
+if ($workshop_id) {
+    $posts = get_posts([
+        'post_type'      => 'nl_workshop',
+        'post_status'    => 'publish',
+        'posts_per_page' => 1,
+        'name'           => $workshop_id,
+    ]);
+    if (!empty($posts)) {
+        $workshop_post = $posts[0];
+    }
+}
 
-$ws = null;
-foreach ($workshops as $w) {
-    if ($w['id'] === $workshop_id) { $ws = $w; break; }
+/* ---------- Build $ws array from CPT or hardcoded fallback ---------- */
+if ($workshop_post) {
+    $pid = $workshop_post->ID;
+    $title     = $lang==='en' ? get_the_title($pid) : get_the_title($pid);
+    $title_en  = get_post_meta($pid, '_nl_workshop_title_en', true) ?: get_the_title($pid);
+    $title_zh  = get_the_title($pid);
+
+    $gallery_ids = get_post_meta($pid, '_nl_workshop_gallery', true);
+    $gallery_ids = is_array($gallery_ids) ? $gallery_ids : [];
+    if (empty($gallery_ids) && has_post_thumbnail($pid)) {
+        $gallery_ids = [get_post_thumbnail_id($pid)];
+    }
+    $gallery_urls = array_map(function($aid){ return wp_get_attachment_image_url($aid, 'large'); }, $gallery_ids);
+    $gallery_urls = array_filter($gallery_urls);
+
+    $ws = [
+        'id'            => $workshop_id,
+        'title'         => $lang==='en' ? ($title_en ?: $title) : $title_zh,
+        'title_en'      => $title_en,
+        'subtitle'      => get_post_meta($pid, '_nl_workshop_size', true) . ' · ' . get_post_meta($pid, '_nl_workshop_duration', true),
+        'duration'      => get_post_meta($pid, '_nl_workshop_duration', true) ?: '2 hr',
+        'price'         => floatval(get_post_meta($pid, '_nl_workshop_price', true)),
+        'price_display' => 'HK$' . get_post_meta($pid, '_nl_workshop_price', true) . ' / person',
+        'desc_en'       => get_post_meta($pid, '_nl_workshop_desc_en', true),
+        'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
+        'desc_cn'       => get_post_meta($pid, '_nl_workshop_desc_cn', true),
+        'includes_en'   => get_post_meta($pid, '_nl_workshop_includes_en', true),
+        'includes_zh'   => get_post_meta($pid, '_nl_workshop_includes_zh', true),
+        'highlights_en' => get_post_meta($pid, '_nl_workshop_highlights_en', true),
+        'highlights_zh' => get_post_meta($pid, '_nl_workshop_highlights_zh', true),
+        'location'      => get_post_meta($pid, '_nl_workshop_location', true),
+        'location_en'   => get_post_meta($pid, '_nl_workshop_location_en', true),
+        'meeting'       => get_post_meta($pid, '_nl_workshop_meeting_point', true),
+        'meeting_en'    => get_post_meta($pid, '_nl_workshop_meeting_point_en', true),
+        'gallery'       => $gallery_urls,
+        'image'         => $gallery_urls[0] ?? '',
+        'max_group'     => get_post_meta($pid, '_nl_workshop_max_group', true),
+        'min_age'       => get_post_meta($pid, '_nl_workshop_min_age', true),
+        'booking_url'   => get_post_meta($pid, '_nl_workshop_booking_url', true),
+    ];
+} else {
+    /* ---------- Hardcoded fallback ---------- */
+    $workshops = [
+        ['id'=>'neon-eng','title'=>'霓虹燈英文潦草','title_en'=>'Neon English Cursive','subtitle'=>'8cm height · 冷光線藝術工作坊','duration'=>'2 hr','price'=>328,'price_display'=>'HK$328 / person','image'=>''],
+        ['id'=>'neon-cn','title'=>'霓虹燈單字中文','title_en'=>'Neon Chinese Character','subtitle'=>'12cm height · 圈底連中文 · 冷光線藝術工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>''],
+        ['id'=>'neon-art','title'=>'霓虹燈 Art Jamming','title_en'=>'Neon Art Jamming','subtitle'=>'20x20cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>498,'price_display'=>'HK$498 / person','image'=>''],
+        ['id'=>'neon-pixel','title'=>'霓虹燈拼豆','title_en'=>'Neon Pixel Beads','subtitle'=>'10x20cm / 15x15cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>''],
+    ];
+    $ws = null;
+    foreach ($workshops as $w) { if ($w['id'] === $workshop_id) { $ws = $w; break; } }
 }
 
 if (!$ws) {
@@ -24,35 +79,68 @@ if (!$ws) {
     exit;
 }
 
-$lang = nl_lang();
-$title = $lang==='en' ? $ws['title_en'] : $ws['title'];
-
+$title = $ws['title'];
 $locations = [
     ['name'=>'中環8號碼頭','name_en'=>'Central Pier 8','address'=>'香港中環8號碼頭U層','address_en'=>'U/F,Central Pier 8,Hong Kong'],
     ['name'=>'尖沙咀東匯大廈','name_en'=>'Tsim Sha Tsui','address'=>'尖沙咀寶勒巷27號東匯大廈14樓全層','address_en'=>'14/F, Tung Wui Commercial Building, 27 Prat Avenue, Tsim Sha Tsui, Kowloon, HK'],
     ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
     ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
 ];
+
+$gallery = $ws['gallery'] ?? [];
+$has_gallery = !empty($gallery) && is_array($gallery);
+$hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/images/hero-workshop.jpg');
 ?>
 
 <style>
-.nl-detail-hero{background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('<?php echo get_template_directory_uri(); ?>/assets/images/<?php echo esc_attr($ws['image']); ?>') center/cover no-repeat;color:#fff;padding:120px 20px 80px;text-align:center}
-.nl-detail-hero h1{font-size:2.8rem;font-weight:700;margin-bottom:12px;letter-spacing:2px}
-.nl-detail-hero p{font-size:1.1rem;opacity:.9}
-.nl-detail-body{max-width:800px;margin:0 auto;padding:40px 20px}
-.nl-detail-meta{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
-.nl-detail-meta span{background:#f5f5f5;padding:10px 20px;border-radius:999px;font-size:.95rem}
-.nl-detail-section{margin-bottom:48px}
-.nl-detail-section h2{font-size:1.4rem;margin-bottom:16px;font-weight:600}
-.nl-detail-section p{color:#555;line-height:1.7}
-.nl-detail-card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:32px;margin-bottom:24px}
-.nl-detail-price{font-size:2rem;font-weight:700;color:#00d4b0;margin-bottom:8px}
+/* ---------- Hero & Gallery ---------- */
+.nl-detail-hero{position:relative;width:100%;height:340px;overflow:hidden}
+.nl-detail-hero img,.nl-detail-hero__bg{width:100%;height:100%;object-fit:cover;display:block}
+.nl-detail-hero__overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.65) 100%);pointer-events:none}
+.nl-detail-hero__info{position:absolute;bottom:0;left:0;right:0;padding:28px 20px 20px;color:#fff}
+.nl-detail-hero__info h1{font-size:1.9rem;font-weight:700;margin-bottom:6px;letter-spacing:1px;line-height:1.2}
+.nl-detail-hero__info p{font-size:1rem;opacity:.9}
+.nl-detail-hero__view{position:absolute;bottom:16px;right:16px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:.85rem;cursor:pointer;display:flex;align-items:center;gap:6px;backdrop-filter:blur(4px);z-index:2}
+.nl-detail-hero__view svg{width:16px;height:16px}
+
+/* Thumbnail strip */
+.nl-detail-thumbs{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;background:#f8f8f8;-webkit-overflow-scrolling:touch}
+.nl-detail-thumbs::-webkit-scrollbar{display:none}
+.nl-detail-thumbs img{flex-shrink:0;width:88px;height:88px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
+.nl-detail-thumbs img.active{border-color:#00d4b0}
+
+/* Lightbox */
+.nl-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:10000;flex-direction:column}
+.nl-lightbox.active{display:flex}
+.nl-lightbox__top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;color:#fff}
+.nl-lightbox__counter{font-size:.9rem;opacity:.8}
+.nl-lightbox__close{background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:0 4px;line-height:1}
+.nl-lightbox__stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;padding:0 48px;touch-action:pan-y}
+.nl-lightbox__stage img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:4px;user-select:none}
+.nl-lightbox__arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.nl-lightbox__arrow.prev{left:8px}
+.nl-lightbox__arrow.next{right:8px}
+.nl-lightbox__dots{display:flex;justify-content:center;gap:6px;padding:12px}
+.nl-lightbox__dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4)}
+.nl-lightbox__dots span.active{background:#fff}
+
+/* Body */
+.nl-detail-body{max-width:800px;margin:0 auto;padding:24px 16px 40px}
+.nl-detail-meta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
+.nl-detail-meta span{background:#f5f5f5;padding:10px 20px;border-radius:999px;font-size:.9rem}
+.nl-detail-card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:24px;margin-bottom:24px}
+.nl-detail-price{font-size:1.8rem;font-weight:700;color:#00d4b0;margin-bottom:8px}
 .nl-detail-book{display:inline-block;padding:14px 40px;background:#00d4b0;color:#fff;border-radius:30px;font-weight:600;font-size:1rem;text-decoration:none;cursor:pointer;border:none}
 .nl-detail-book:hover{background:#00bfa0}
-.nl-detail-back{display:inline-block;margin-top:40px;color:#666;text-decoration:none;font-size:.95rem}
+.nl-detail-back{display:inline-block;margin-top:32px;color:#666;text-decoration:none;font-size:.9rem}
 .nl-detail-back:hover{color:#00d4b0}
+.nl-detail-section{margin-bottom:36px}
+.nl-detail-section h2{font-size:1.25rem;margin-bottom:12px;font-weight:600}
+.nl-detail-section p,.nl-detail-section ul{color:#555;line-height:1.7}
+.nl-detail-section ul{padding-left:18px}
+.nl-detail-section li{margin-bottom:6px}
 
-/* Modal styles */
+/* Modal */
 .nl-booking-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998}
 .nl-booking-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;width:92%;max-width:640px;max-height:92vh;overflow-y:auto;border-radius:20px;z-index:9999;padding:44px 40px}
 .nl-booking-modal.active,.nl-booking-overlay.active{display:block}
@@ -76,40 +164,85 @@ $locations = [
 .nl-btn-primary{background:#00d4b0;color:#fff}
 .nl-btn-primary:disabled{background:#ccc;cursor:not-allowed}
 .nl-btn-secondary{background:#f0f0f0;color:#333}
+
 @media(max-width:640px){
-  .nl-detail-hero h1{font-size:2rem}
-  .nl-detail-hero{padding:80px 16px 50px}
-  .nl-location-grid{grid-template-columns:1fr}
-  .nl-booking-modal{width:98%;max-width:none;padding:40px 24px 32px;border-radius:20px}
-  .nl-booking-modal__close{font-size:36px;top:14px;right:18px}
-  .nl-booking-modal__title{font-size:1.9rem;margin-bottom:10px}
-  .nl-booking-modal__price{font-size:1.4rem;margin-bottom:32px}
-  .nl-booking-step__title{font-size:1.5rem;margin-bottom:24px}
-  .nl-booking-field{margin-bottom:24px}
-  .nl-booking-field label{font-size:1.15rem;margin-bottom:10px}
-  .nl-booking-field input,.nl-booking-field select,.nl-booking-field textarea{padding:16px;font-size:17px;border-radius:8px}
-  .nl-location-card{padding:22px;border-radius:12px}
-  .nl-location-card__name{font-size:1.25rem;margin-bottom:8px}
-  .nl-location-card__addr{font-size:1.05rem;line-height:1.5}
-  .nl-booking-actions{margin-top:32px}
-  .nl-booking-actions button{padding:16px 36px;font-size:17px;border-radius:30px}
+    .nl-detail-hero{height:280px}
+    .nl-detail-hero__info h1{font-size:1.6rem}
+    .nl-detail-hero__info{padding:20px 16px 16px}
+    .nl-detail-thumbs img{width:72px;height:72px}
+    .nl-lightbox__arrow{width:36px;height:36px}
+    .nl-detail-body{padding:20px 12px 32px}
+    .nl-booking-modal{width:98%;max-width:none;padding:40px 24px 32px;border-radius:20px}
+    .nl-booking-modal__close{font-size:36px;top:14px;right:18px}
+    .nl-booking-modal__title{font-size:1.9rem;margin-bottom:10px}
+    .nl-booking-modal__price{font-size:1.4rem;margin-bottom:32px}
+    .nl-booking-step__title{font-size:1.5rem;margin-bottom:24px}
+    .nl-booking-field{margin-bottom:24px}
+    .nl-booking-field label{font-size:1.15rem;margin-bottom:10px}
+    .nl-booking-field input,.nl-booking-field select,.nl-booking-field textarea{padding:16px;font-size:17px;border-radius:8px}
+    .nl-location-card{padding:22px;border-radius:12px}
+    .nl-location-card__name{font-size:1.25rem;margin-bottom:8px}
+    .nl-location-card__addr{font-size:1.05rem;line-height:1.5}
+    .nl-booking-actions{margin-top:32px}
+    .nl-booking-actions button{padding:16px 36px;font-size:17px;border-radius:30px}
 }
 </style>
 
+<!-- Hero + Gallery -->
 <section class="nl-detail-hero">
-    <h1><?php echo esc_html($title); ?></h1>
-    <p><?php echo esc_html($ws['subtitle']); ?></p>
+    <img src="<?php echo esc_url($hero_img); ?>" alt="<?php echo esc_attr($title); ?>" class="nl-detail-hero__bg" />
+    <div class="nl-detail-hero__overlay"></div>
+    <div class="nl-detail-hero__info">
+        <h1><?php echo esc_html($title); ?></h1>
+        <p><?php echo esc_html($ws['subtitle'] ?? ''); ?></p>
+    </div>
+    <?php if ($has_gallery && count($gallery) > 1): ?>
+    <button class="nl-detail-hero__view" onclick="openLightbox(0)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <?php echo $lang==='en' ? 'View images' : '查看圖片'; ?>
+    </button>
+    <?php endif; ?>
 </section>
+
+<?php if ($has_gallery && count($gallery) > 1): ?>
+<div class="nl-detail-thumbs">
+    <?php foreach ($gallery as $i => $url): ?>
+    <img src="<?php echo esc_url($url); ?>" alt="" class="<?php echo $i===0 ? 'active' : ''; ?>" onclick="openLightbox(<?php echo $i; ?>)" />
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<!-- Lightbox -->
+<div class="nl-lightbox" id="nlLightbox">
+    <div class="nl-lightbox__top">
+        <span class="nl-lightbox__counter" id="lbCounter">1 / 1</span>
+        <button class="nl-lightbox__close" onclick="closeLightbox()">&times;</button>
+    </div>
+    <div class="nl-lightbox__stage">
+        <button class="nl-lightbox__arrow prev" onclick="lbPrev()">&#10094;</button>
+        <img src="" alt="" id="lbImage" />
+        <button class="nl-lightbox__arrow next" onclick="lbNext()">&#10095;</button>
+    </div>
+    <div class="nl-lightbox__dots" id="lbDots"></div>
+</div>
 
 <div class="nl-detail-body">
     <div class="nl-detail-meta">
         <span>⏱ <?php echo esc_html($ws['duration']); ?></span>
         <span>💰 <?php echo esc_html($ws['price_display']); ?></span>
+        <?php if (!empty($ws['max_group'])): ?><span>👥 <?php echo esc_html($ws['max_group']); ?> max</span><?php endif; ?>
+        <?php if (!empty($ws['min_age'])): ?><span>🎂 <?php echo esc_html($ws['min_age']); ?>+</span><?php endif; ?>
     </div>
 
     <div class="nl-detail-card">
         <div class="nl-detail-price"><?php echo esc_html($ws['price_display']); ?></div>
         <p style="color:#666;margin-bottom:24px"><?php echo esc_html($ws['subtitle']); ?></p>
+
+        <?php if (!empty($ws['booking_url'])): ?>
+        <a href="<?php echo esc_url($ws['booking_url']); ?>" class="nl-detail-book" target="_blank">
+            <?php echo nl_t('ws_book'); ?>
+        </a>
+        <?php else: ?>
         <button class="nl-detail-book js-open-booking"
                 data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
                 data-title="<?php echo esc_attr($title); ?>"
@@ -117,31 +250,75 @@ $locations = [
                 data-price-display="<?php echo esc_attr($ws['price_display']); ?>">
             <?php echo nl_t('ws_book'); ?>
         </button>
+        <?php endif; ?>
     </div>
 
     <div class="nl-detail-section">
         <h2><?php echo $lang==='en' ? 'About This Workshop' : '關於此工作坊'; ?></h2>
-        <p><?php echo $lang==='en'
-            ? 'Join us for a hands-on EL wire art workshop where you\'ll create your own neon light masterpiece. All materials and tools are provided. No prior experience needed.'
-            : '參加我們的冷光線藝術工作坊，親手製作屬於你的霓虹燈作品。我們提供所有材料及工具，無需任何經驗。'; ?></p>
+        <p>
+            <?php
+            $desc = $lang==='en' ? ($ws['desc_en'] ?? '') : ($ws['desc_zh'] ?? '');
+            if (empty($desc) && $lang==='en') {
+                $desc = 'Join us for a hands-on EL wire art workshop where you\'ll create your own neon light masterpiece. All materials and tools are provided. No prior experience needed.';
+            } elseif (empty($desc)) {
+                $desc = '參加我們的冷光線藝術工作坊，親手製作屬於你的霓虹燈作品。我們提供所有材料及工具，無需任何經驗。';
+            }
+            echo nl2br(esc_html($desc));
+            ?>
+        </p>
     </div>
 
     <div class="nl-detail-section">
-        <h2><?php echo $lang==='en' ? 'What\'s Included' : '費用包括'; ?></h2>
-        <p><?php echo $lang==='en'
-            ? '• All materials and tools<br>• Professional instructor guidance<br>• Your finished neon artwork to take home<br>• Workshop completion certificate'
-            : '• 所有材料及工具<br>• 專業導師指導<br>• 完成作品可帶回家<br>• 工作坊完成證書'; ?></p>
+        <h2><?php echo $lang==='en' ? 'Highlights' : '工作坊亮點'; ?></h2>
+        <ul>
+            <?php
+            $highlights = $lang==='en' ? ($ws['highlights_en'] ?? '') : ($ws['highlights_zh'] ?? '');
+            if (empty($highlights)) {
+                $highlights = $lang==='en'
+                    ? "Hands-on EL wire bending\nTake home your own neon sign\nNo experience needed\nProfessional instructor guidance"
+                    : "親手彎曲冷光線\n帶走自製霓虹燈牌\n無需經驗\n專業導師指導";
+            }
+            foreach (array_filter(explode("\n", $highlights)) as $line) {
+                echo '<li>' . esc_html(trim($line)) . '</li>';
+            }
+            ?>
+        </ul>
+    </div>
+
+    <div class="nl-detail-section">
+        <h2><?php echo $lang==='en' ? "What's Included" : '費用包括'; ?></h2>
+        <ul>
+            <?php
+            $includes = $lang==='en' ? ($ws['includes_en'] ?? '') : ($ws['includes_zh'] ?? '');
+            if (empty($includes)) {
+                $includes = $lang==='en'
+                    ? "All materials and tools\nProfessional instructor guidance\nYour finished neon artwork to take home\nWorkshop completion certificate"
+                    : "所有材料及工具\n專業導師指導\n完成作品可帶回家\n工作坊完成證書";
+            }
+            foreach (array_filter(explode("\n", $includes)) as $line) {
+                echo '<li>' . esc_html(trim($line)) . '</li>';
+            }
+            ?>
+        </ul>
     </div>
 
     <div class="nl-detail-section">
         <h2><?php echo $lang==='en' ? 'Location' : '地點'; ?></h2>
-        <p>PMQ元創方 · 中環鴨巴甸街35號<br>Central, Hong Kong</p>
+        <p>
+            <?php
+            $loc  = $lang==='en' ? ($ws['location_en'] ?? '') : ($ws['location'] ?? '');
+            $meet = $lang==='en' ? ($ws['meeting_en'] ?? '') : ($ws['meeting'] ?? '');
+            if ($loc) { echo esc_html($loc) . '<br>'; }
+            if ($meet) { echo esc_html($meet); }
+            if (!$loc) { echo 'PMQ元創方 · 中環鴨巴甸街35號<br>Central, Hong Kong'; }
+            ?>
+        </p>
     </div>
 
     <a href="<?php echo home_url('/workshop/'); ?>" class="nl-detail-back">← <?php echo $lang==='en' ? 'Back to Workshops' : '返回工作坊列表'; ?></a>
 </div>
 
-<!-- Booking Modal -->
+<!-- Booking Modal (same as before) -->
 <div class="nl-booking-overlay" id="bookingOverlay"></div>
 <div class="nl-booking-modal" id="bookingModal">
     <button class="nl-booking-modal__close" id="bookingClose">×</button>
@@ -173,7 +350,7 @@ $locations = [
             </div>
         </div>
 
-        <!-- Step 2: Date &amp; Time -->
+        <!-- Step 2: Date & Time -->
         <div class="nl-booking-step" id="step2">
             <h4 class="nl-booking-step__title">2. <?php echo nl_t('ws_step2'); ?></h4>
             <div class="nl-booking-field">
@@ -256,6 +433,63 @@ $locations = [
 </div>
 
 <script>
+/* ---------- Lightbox ---------- */
+const galleryImages = <?php echo json_encode(array_values($gallery)); ?>;
+let lbIndex = 0;
+
+function openLightbox(idx) {
+    if (!galleryImages.length) return;
+    lbIndex = idx;
+    updateLightbox();
+    document.getElementById('nlLightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('nlLightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+function updateLightbox() {
+    document.getElementById('lbImage').src = galleryImages[lbIndex];
+    document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + galleryImages.length;
+    // dots
+    const dotsContainer = document.getElementById('lbDots');
+    dotsContainer.innerHTML = '';
+    galleryImages.forEach((_, i) => {
+        const span = document.createElement('span');
+        if (i === lbIndex) span.classList.add('active');
+        dotsContainer.appendChild(span);
+    });
+}
+function lbNext() {
+    lbIndex = (lbIndex + 1) % galleryImages.length;
+    updateLightbox();
+}
+function lbPrev() {
+    lbIndex = (lbIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateLightbox();
+}
+
+// Swipe
+let touchStartX = 0;
+document.getElementById('nlLightbox').addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive:true});
+document.getElementById('nlLightbox').addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - touchStartX;
+    if (diff < -40) lbNext();
+    else if (diff > 40) lbPrev();
+}, {passive:true});
+
+// Keyboard
+document.addEventListener('keydown', e => {
+    const lb = document.getElementById('nlLightbox');
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') lbNext();
+    if (e.key === 'ArrowLeft') lbPrev();
+});
+
+/* ---------- Booking Modal (same) ---------- */
 document.addEventListener('DOMContentLoaded',function(){
     const modal=document.getElementById('bookingModal');
     const overlay=document.getElementById('bookingOverlay');
@@ -263,7 +497,6 @@ document.addEventListener('DOMContentLoaded',function(){
     let selectedLocation=null;
     let currentStep=1;
 
-    // Open modal
     document.querySelectorAll('.js-open-booking').forEach(btn=>{
         btn.addEventListener('click',function(){
             document.getElementById('modalWorkshopTitle').textContent=this.dataset.title;
@@ -281,13 +514,11 @@ document.addEventListener('DOMContentLoaded',function(){
     overlay.addEventListener('click',closeModal);
     function closeModal(){modal.classList.remove('active');overlay.classList.remove('active');}
 
-    // 2-day advance restriction
     const dateInput=document.getElementById('bookingDate');
     const minDate=new Date();
     minDate.setDate(minDate.getDate()+2);
     dateInput.min=minDate.toISOString().split('T')[0];
 
-    // Location selection
     let selectedLocationIdx=null;
     document.querySelectorAll('.nl-location-card').forEach(card=>{
         card.addEventListener('click',function(){
@@ -301,7 +532,6 @@ document.addEventListener('DOMContentLoaded',function(){
         });
     });
 
-    // Step navigation
     document.getElementById('btnStep1Next').addEventListener('click',()=>goToStep(2));
     document.getElementById('btnStep2Back').addEventListener('click',()=>goToStep(1));
     document.getElementById('btnStep2Next').addEventListener('click',()=>goToStep(3));
@@ -343,7 +573,6 @@ document.addEventListener('DOMContentLoaded',function(){
         goToStep(1);
     }
 
-    // Date/time validation
     dateInput.addEventListener('change',validateStep2);
     document.getElementById('bookingTime').addEventListener('change',validateStep2);
     function validateStep2(){
