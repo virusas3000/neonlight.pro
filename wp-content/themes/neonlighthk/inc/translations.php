@@ -132,6 +132,9 @@ function nl_dictionary() {
 
         // Workshop
         'ws_title'      => ['en'=>'WORKSHOP',    'zh'=>'工作坊',     'cn'=>'工作坊'],
+        'ws_hero_zh'    => ['en'=>'Neon Light Workshop', 'zh'=>'霓虹燈工作坊', 'cn'=>'霓虹灯工作坊'],
+        'ws_hero_en'    => ['en'=>'WORKSHOP',    'zh'=>'WORKSHOP',   'cn'=>'WORKSHOP'],
+        'ws_hero_sub'   => ['en'=>'Design & Create Your Own Neon', 'zh'=>'設計及製作專屬霓虹燈', 'cn'=>'设计及制作专属霓虹灯'],
         'ws_contact'    => ['en'=>'Contact Us',  'zh'=>'聯絡我們',   'cn'=>'联络我们'],
         'ws_whatsapp'   => ['en'=>'WhatsApp',    'zh'=>'WhatsApp',   'cn'=>'WhatsApp'],
         'ws_email'      => ['en'=>'Email',       'zh'=>'電郵',       'cn'=>'电邮'],
