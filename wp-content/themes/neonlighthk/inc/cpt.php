@@ -39,7 +39,7 @@ function nl_register_custom_post_types() {
 			'menu_icon'         => 'dashicons-admin-customizer',
 			'rewrite'           => array( 'slug' => 'workshop-item' ),
 			'capability_type'   => 'post',
-			'show_in_menu'      => false,
+			'show_in_menu'      => true,
 			'show_in_nav_menus' => true,
 		)
 	);

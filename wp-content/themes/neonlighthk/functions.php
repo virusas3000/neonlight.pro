@@ -13,6 +13,9 @@ require_once get_template_directory() . '/inc/cpt.php';
 // Admin language picker for all posts, CPTs, and WooCommerce products
 require_once get_template_directory() . '/inc/admin-lang-picker.php';
 
+// Workshop admin meta boxes (price, duration, description, gallery, etc.)
+require_once get_template_directory() . '/inc/workshop-meta.php';
+
 // Register ?lang= query var so WordPress doesn't 404 on ?lang=zh / ?lang=en / ?lang=cn
 add_filter('query_vars', function($vars) {
     $vars[] = 'lang';
