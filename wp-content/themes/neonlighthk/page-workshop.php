@@ -148,55 +148,7 @@ $locations = [
     ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
     ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
 ];
-
-$workshops = [
-	// === 霓虹燈 · NEON ===
-	['id'=>'neon-eng','title'=>'霓虹燈英文潦草','title_en'=>'Neon English Cursive','subtitle'=>'8cm height · 冷光線藝術工作坊','duration'=>'2 hr','price'=>328,'price_display'=>'HK$328 / person','image'=>'card-workshop.jpg'],
-	['id'=>'neon-cn','title'=>'霓虹燈單字中文','title_en'=>'Neon Chinese Character','subtitle'=>'12cm height · 圈底連中文 · 冷光線藝術工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-neon.jpg'],
-	['id'=>'neon-art','title'=>'霓虹燈 Art Jamming','title_en'=>'Neon Art Jamming','subtitle'=>'20x20cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>498,'price_display'=>'HK$498 / person','image'=>'workshop-neon.jpg'],
-	['id'=>'neon-pixel','title'=>'霓虹燈拼豆','title_en'=>'Neon Pixel Beads','subtitle'=>'10x20cm / 15x15cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>'workshop-neon.jpg'],
-
-	// === 扎染 · TIE-DYE ===
-	['id'=>'tiedye-shirt','title'=>'扎染小童/成人T-shirt','title_en'=>'Tie-dye T-shirt','subtitle'=>'Sizes: 小童100–150 / 成人M–5XL','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-tiedye.jpg'],
-	['id'=>'tiedye-small','title'=>'扎染方巾/細斜孭袋/筆袋/日式細袋/細環保袋','title_en'=>'Tie-dye Accessories','subtitle'=>'方巾 / 細斜孭袋 / 筆袋 / 日式細袋 / 細環保袋','duration'=>'2 hr','price'=>368,'price_display'=>'HK$368 / person','image'=>'workshop-tiedye.jpg'],
-	['id'=>'tiedye-big','title'=>'扎染漁夫帽/背包/環保袋/頸巾/咕𠱸袋','title_en'=>'Tie-dye Large Items','subtitle'=>'漁夫帽 / 背包 / 環保袋 / 頸巾 / 咕𠱸袋（不包咕𠱸）','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-tiedye.jpg'],
-
-	// === 土耳其馬賽克 · TURKISH MOSAIC ===
-	['id'=>'mosaic-coaster','title'=>'土耳其馬賽克杯墊','title_en'=>'Mosaic Coaster','subtitle'=>'土耳其馬賽克工作坊','duration'=>'2 hr','price'=>368,'price_display'=>'HK$368 / person','image'=>'workshop-mosaic.jpg'],
-	['id'=>'mosaic-frame','title'=>'土耳其馬賽克相框','title_en'=>'Mosaic Photo Frame','subtitle'=>'土耳其馬賽克工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-mosaic.jpg'],
-	['id'=>'mosaic-candle','title'=>'土耳其馬賽克蠟燭台','title_en'=>'Mosaic Candle Holder','subtitle'=>'土耳其馬賽克工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-mosaic.jpg'],
-	['id'=>'mosaic-lamp','title'=>'土耳其馬賽克枱燈','title_en'=>'Mosaic Table Lamp','subtitle'=>'土耳其馬賽克工作坊','duration'=>'2.5 hr','price'=>528,'price_display'=>'HK$528 / person','image'=>'workshop-mosaic.jpg'],
-	['id'=>'mosaic-goose','title'=>'土耳其馬賽克鵝頸燈','title_en'=>'Mosaic Goose-neck Lamp','subtitle'=>'土耳其馬賽克工作坊','duration'=>'2.5 hr','price'=>598,'price_display'=>'HK$598 / person','image'=>'workshop-mosaic.jpg'],
-	['id'=>'mosaic-moon','title'=>'土耳其馬賽克月亮燈','title_en'=>'Mosaic Moon Lamp','subtitle'=>'土耳其馬賽克工作坊','duration'=>'2.5 hr','price'=>698,'price_display'=>'HK$698 / person','image'=>'workshop-mosaic.jpg'],
-
-	// === Art Jamming ===
-	['id'=>'artjam-20','title'=>'Art Jamming 20x20cm','title_en'=>'Art Jamming 20x20cm','subtitle'=>'畫布油畫工作坊','duration'=>'2 hr','price'=>368,'price_display'=>'HK$368 / person','image'=>'workshop-artjam.jpg'],
-	['id'=>'artjam-25','title'=>'Art Jamming 25x30cm','title_en'=>'Art Jamming 25x30cm','subtitle'=>'畫布油畫工作坊','duration'=>'2 hr','price'=>428,'price_display'=>'HK$428 / person','image'=>'workshop-artjam.jpg'],
-	['id'=>'artjam-40','title'=>'Art Jamming 40x50cm','title_en'=>'Art Jamming 40x50cm','subtitle'=>'畫布油畫工作坊','duration'=>'2.5 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>'workshop-artjam.jpg'],
-
-	// === 流體畫 · FLUID ART ===
-	['id'=>'fluid-20','title'=>'流體畫 20x20cm','title_en'=>'Fluid Art 20x20cm','subtitle'=>'流體畫工作坊','duration'=>'2 hr','price'=>368,'price_display'=>'HK$368 / person','image'=>'workshop-fluid.jpg'],
-	['id'=>'fluid-25','title'=>'流體畫 25x30cm','title_en'=>'Fluid Art 25x30cm','subtitle'=>'流體畫工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-fluid.jpg'],
-	['id'=>'fluid-40','title'=>'流體畫 40x50cm','title_en'=>'Fluid Art 40x50cm','subtitle'=>'流體畫工作坊','duration'=>'2.5 hr','price'=>668,'price_display'=>'HK$668 / person','image'=>'workshop-fluid.jpg'],
-	['id'=>'fluid-bear','title'=>'流體熊/兔仔','title_en'=>'Fluid Bear / Rabbit','subtitle'=>'流體畫工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-fluid.jpg'],
-	['id'=>'fluid-clock','title'=>'流體時鐘','title_en'=>'Fluid Art Clock','subtitle'=>'流體畫工作坊','duration'=>'2 hr','price'=>468,'price_display'=>'HK$468 / person','image'=>'workshop-fluid.jpg'],
-	['id'=>'fluid-gold','title'=>'金盤流體畫','title_en'=>'Gold Plate Fluid Art','subtitle'=>'流體畫工作坊','duration'=>'2 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>'workshop-fluid.jpg'],
-
-	// === 趣味手工 · FUN CRAFTS ===
-	['id'=>'craft-pixels','title'=>'趣味拼豆','title_en'=>'Pixel Beads','subtitle'=>'手工工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-	['id'=>'craft-fan','title'=>'非遺飄漆扇','title_en'=>'Heritage Lacquer Fan','subtitle'=>'手工工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-	['id'=>'craft-paper','title'=>'古法造紙手工','title_en'=>'Traditional Papermaking','subtitle'=>'手工工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-	['id'=>'craft-scarf','title'=>'水拓絲巾','title_en'=>'Water Marbling Scarf','subtitle'=>'手工工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-	['id'=>'craft-glass','title'=>'玻璃彩小夜燈','title_en'=>'Stained Glass Night Lamp','subtitle'=>'玻璃工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-	['id'=>'craft-flower','title'=>'花藝浮游花瓶DIY','title_en'=>'Floating Flower Vase DIY','subtitle'=>'花藝工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-	['id'=>'craft-mandala','title'=>'曼達拉編織 30cm','title_en'=>'Mandala Weaving 30cm','subtitle'=>'編織工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-craft.jpg'],
-
-	// === TUFTING ===
-	['id'=>'tuft-25','title'=>'TUFTING 25x25cm','title_en'=>'Tufting 25x25cm','subtitle'=>'毛線槍工作坊','duration'=>'2 hr','price'=>438,'price_display'=>'HK$438 / person','image'=>'workshop-tufting.jpg'],
-	['id'=>'tuft-30','title'=>'TUFTING 30x40cm','title_en'=>'Tufting 30x40cm','subtitle'=>'毛線槍工作坊','duration'=>'2.5 hr','price'=>498,'price_display'=>'HK$498 / person','image'=>'workshop-tufting.jpg'],
-	['id'=>'tuft-50','title'=>'TUFTING 50x50cm','title_en'=>'Tufting 50x50cm','subtitle'=>'毛線槍工作坊','duration'=>'3 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>'workshop-tufting.jpg'],
-	['id'=>'tuft-70','title'=>'TUFTING 70x70cm','title_en'=>'Tufting 70x70cm','subtitle'=>'毛線槍工作坊','duration'=>'3.5 hr','price'=>698,'price_display'=>'HK$698 / person','image'=>'workshop-tufting.jpg'],
-];
+$workshops = [];
 ?>
 
 <style>
