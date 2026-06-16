@@ -271,8 +271,9 @@ $workshops = [
 .nl-btn-secondary{background:#f0f0f0;color:#333}
 
 @media(max-width:640px){
-    .nl-workshop-card{grid-template-columns:1fr}
-    .nl-workshop-card__image{height:160px}
+    .nl-workshop-card{grid-template-columns:120px 1fr;gap:12px}
+    .nl-workshop-card__image{height:auto;min-height:0;align-self:stretch}
+    .nl-workshop-card__info{padding:12px}
     .nl-interest-form__grid{grid-template-columns:1fr}
     .nl-interest-form__grid textarea,.nl-interest-form__grid .nl-field--full,.nl-interest-form__checkboxes{grid-column:span 1}
     .nl-location-grid{grid-template-columns:1fr}
@@ -404,7 +405,7 @@ $workshops = [
             <img src="<?php echo esc_url($cover_url); ?>"
                  alt="<?php echo esc_attr($ws['title']); ?>"
                  class="nl-workshop-card__image"
-                 onerror="this.style.display='none';this.parentElement.style.gridTemplateColumns='1fr'">
+                 onerror="this.style.opacity='0';this.parentElement.style.gridTemplateColumns='1fr'">
             <div class="nl-workshop-card__info">
                 <h3 class="nl-workshop-card__title">
                     <a href="<?php echo home_url('/workshop-detail/?id=' . esc_attr($ws['id'])); ?>" style="color:inherit;text-decoration:none;">
