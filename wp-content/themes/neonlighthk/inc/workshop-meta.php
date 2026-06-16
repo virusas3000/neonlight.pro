@@ -48,6 +48,9 @@ function nl_workshop_meta_box_callback( $post ) {
 	];
 
 	$gallery_ids = is_array( $fields['_nl_workshop_gallery'] ) ? $fields['_nl_workshop_gallery'] : [];
+
+	$cover_id    = get_post_meta( $post->ID, '_nl_workshop_cover', true );
+	$cover_url   = $cover_id ? wp_get_attachment_image_url( $cover_id, 'medium' ) : '';
 	?>
 	<style>
 		.nl-meta-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px; }
@@ -140,6 +143,21 @@ function nl_workshop_meta_box_callback( $post ) {
 			<input type="url" name="_nl_workshop_booking_url" value="<?php echo esc_attr( $fields['_nl_workshop_booking_url'] ); ?>" placeholder="https://..." />
 		</div>
 		<div class="nl-meta-field full">
+			<label><?php _e( 'Cover Photo', 'neonlighthk' ); ?></label>
+			<input type="hidden" name="_nl_workshop_cover" id="nl_workshop_cover_input" value="<?php echo esc_attr( $cover_id ); ?>" />
+			<button type="button" class="button" id="nl_workshop_add_cover"><?php _e( 'Select Cover Photo', 'neonlighthk' ); ?></button>
+			<div class="nl-meta-gallery" id="nl_workshop_cover_preview">
+				<?php if ( $cover_url ) : ?
+					<div class="thumb" data-id="<?php echo esc_attr( $cover_id ); ?>">
+						<img src="<?php echo esc_url( $cover_url ); ?>" alt="" />
+						<button type="button" class="remove">&times;</button>
+					</div>
+				<?php else : ?
+					<span class="nl-meta-gallery-placeholder"><?php _e( 'No cover photo selected.', 'neonlighthk' ); ?></span>
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="nl-meta-field full">
 			<label><?php _e( 'Photo Gallery', 'neonlighthk' ); ?></label>
 			<input type="hidden" name="_nl_workshop_gallery" id="nl_workshop_gallery_input" value="<?php echo esc_attr( implode( ',', $gallery_ids ) ); ?>" />
 			<button type="button" class="button" id="nl_workshop_add_images"><?php _e( 'Add Images', 'neonlighthk' ); ?></button>
@@ -193,6 +211,33 @@ function nl_workshop_meta_box_callback( $post ) {
 			var ids = [];
 			$('#nl_workshop_gallery_preview .thumb').each(function(){ ids.push($(this).data('id')); });
 			$('#nl_workshop_gallery_input').val(ids.join(','));
+		});
+
+		// Cover photo — single select
+		var coverFrame;
+		$('#nl_workshop_add_cover').on('click', function(e){
+			e.preventDefault();
+			if (coverFrame) { coverFrame.open(); return; }
+			coverFrame = wp.media({
+				title: '<?php echo esc_js( __( "Select Cover Photo", "neonlighthk" ) ); ?>',
+				button: { text: '<?php echo esc_js( __( "Set as Cover", "neonlighthk" ) ); ?>' },
+				multiple: false,
+				library: { type: 'image' }
+			});
+			coverFrame.on('select', function(){
+				var att = coverFrame.state().get('selection').first().toJSON();
+				var $preview = $('#nl_workshop_cover_preview');
+				$preview.find('.nl-meta-gallery-placeholder').remove();
+				$preview.html('<div class="thumb" data-id="'+att.id+'"><img src="'+att.sizes.thumbnail.url+'" /><button type="button" class="remove">&times;</button></div>');
+				$('#nl_workshop_cover_input').val(att.id);
+			});
+			coverFrame.open();
+		});
+		$('#nl_workshop_cover_preview').on('click', '.remove', function(e){
+			e.preventDefault();
+			$(this).closest('.thumb').remove();
+			$('#nl_workshop_cover_preview').html('<span class="nl-meta-gallery-placeholder"><?php echo esc_js( __( 'No cover photo selected.', 'neonlighthk' ) ); ?></span>');
+			$('#nl_workshop_cover_input').val('');
 		});
 	})(jQuery);
 	</script>
@@ -248,6 +293,16 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 		update_post_meta( $post_id, '_nl_workshop_gallery', $ids );
 	} else {
 		update_post_meta( $post_id, '_nl_workshop_gallery', [] );
+	}
+
+	// Cover photo — single attachment ID
+	if ( isset( $_POST['_nl_workshop_cover'] ) ) {
+		$cover_id = intval( $_POST['_nl_workshop_cover'] );
+		if ( $cover_id > 0 ) {
+			update_post_meta( $post_id, '_nl_workshop_cover', $cover_id );
+		} else {
+			delete_post_meta( $post_id, '_nl_workshop_cover' );
+		}
 	}
 } );
 

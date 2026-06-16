@@ -381,8 +381,27 @@ $workshops = [
     <h2 style="text-align:center;font-size:1.5rem;margin-bottom:30px;letter-spacing:3px">NEON DIY WORKSHOP</h2>
 
     <div class="nl-workshop-list">
-        <?php foreach ($workshops as $ws) : ?>        <div class="nl-workshop-card">
-            <img src="<?php echo get_template_directory_uri(); ?>/assets/images/<?php echo esc_attr($ws['image']); ?>"
+        <?php foreach ($workshops as $ws) :
+            // Try to find matching nl_workshop CPT for cover photo
+            $cover_url = '';
+            $ws_posts = get_posts([
+                'post_type'      => 'nl_workshop',
+                'post_status'    => 'publish',
+                'posts_per_page' => 1,
+                's'              => $ws['title'],
+            ]);
+            if (!empty($ws_posts)) {
+                $cover_id = get_post_meta($ws_posts[0]->ID, '_nl_workshop_cover', true);
+                if ($cover_id) {
+                    $cover_url = wp_get_attachment_image_url($cover_id, 'medium');
+                }
+            }
+            if (!$cover_url) {
+                $cover_url = get_template_directory_uri() . '/assets/images/' . $ws['image'];
+            }
+        ?>
+        <div class="nl-workshop-card">
+            <img src="<?php echo esc_url($cover_url); ?>"
                  alt="<?php echo esc_attr($ws['title']); ?>"
                  class="nl-workshop-card__image"
                  onerror="this.style.display='none';this.parentElement.style.gridTemplateColumns='1fr'">
