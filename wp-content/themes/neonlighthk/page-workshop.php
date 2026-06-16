@@ -388,7 +388,7 @@ $workshops = [
                 'post_type'      => 'nl_workshop',
                 'post_status'    => 'publish',
                 'posts_per_page' => 1,
-                's'              => $ws['title'],
+                'name'           => $ws['id'],
             ]);
             if (!empty($ws_posts)) {
                 $cover_id = get_post_meta($ws_posts[0]->ID, '_nl_workshop_cover', true);
