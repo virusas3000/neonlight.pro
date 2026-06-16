@@ -151,7 +151,7 @@ $locations = [
 
 $workshops = [
 	// === 霓虹燈 · NEON ===
-	['id'=>'neon-eng','title'=>'霓虹燈英文潦草','title_en'=>'Neon English Cursive','subtitle'=>'8cm height · 冷光線藝術工作坊','duration'=>'2 hr','price'=>328,'price_display'=>'HK$328 / person','image'=>'workshop-neon.jpg'],
+	['id'=>'neon-eng','title'=>'霓虹燈英文潦草','title_en'=>'Neon English Cursive','subtitle'=>'8cm height · 冷光線藝術工作坊','duration'=>'2 hr','price'=>328,'price_display'=>'HK$328 / person','image'=>'card-workshop.jpg'],
 	['id'=>'neon-cn','title'=>'霓虹燈單字中文','title_en'=>'Neon Chinese Character','subtitle'=>'12cm height · 圈底連中文 · 冷光線藝術工作坊','duration'=>'2 hr','price'=>398,'price_display'=>'HK$398 / person','image'=>'workshop-neon.jpg'],
 	['id'=>'neon-art','title'=>'霓虹燈 Art Jamming','title_en'=>'Neon Art Jamming','subtitle'=>'20x20cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>498,'price_display'=>'HK$498 / person','image'=>'workshop-neon.jpg'],
 	['id'=>'neon-pixel','title'=>'霓虹燈拼豆','title_en'=>'Neon Pixel Beads','subtitle'=>'10x20cm / 15x15cm · 冷光線藝術工作坊','duration'=>'2 hr','price'=>568,'price_display'=>'HK$568 / person','image'=>'workshop-neon.jpg'],
