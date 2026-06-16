@@ -264,6 +264,7 @@ $workshops = [
 .nl-booking-field{margin-bottom:20px}
 .nl-booking-field label{display:block;margin-bottom:8px;font-size:1rem;font-weight:500}
 .nl-booking-field input,.nl-booking-field select,.nl-booking-field textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box}
+input[type="date"]{min-width:0;width:100%}
 .nl-booking-actions{display:flex;justify-content:space-between;margin-top:32px}
 .nl-booking-actions button{padding:14px 32px;border-radius:30px;border:none;cursor:pointer;font-size:16px}
 .nl-btn-primary{background:#00d4b0;color:#fff}
@@ -277,7 +278,9 @@ $workshops = [
     .nl-interest-form__grid{grid-template-columns:1fr}
     .nl-interest-form__grid textarea,.nl-interest-form__grid .nl-field--full,.nl-interest-form__checkboxes{grid-column:span 1}
     .nl-location-grid{grid-template-columns:1fr}
-    .nl-booking-modal{width:98%;max-width:none;padding:40px 24px 32px;border-radius:20px}
+    .nl-booking-modal{width:98%;max-width:none;padding:32px 16px 24px;border-radius:20px}
+    .nl-booking-field input,.nl-booking-field select{padding:10px 12px;font-size:14px}
+    input[type="date"]{font-size:14px;-webkit-appearance:none;appearance:none;text-align:left}
     .nl-booking-modal__close{font-size:36px;top:14px;right:18px}
     .nl-booking-modal__title{font-size:1.9rem;margin-bottom:10px}
     .nl-booking-modal__price{font-size:1.4rem;margin-bottom:32px}
