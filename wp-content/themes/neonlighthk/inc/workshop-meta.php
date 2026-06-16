@@ -147,12 +147,12 @@ function nl_workshop_meta_box_callback( $post ) {
 			<input type="hidden" name="_nl_workshop_cover" id="nl_workshop_cover_input" value="<?php echo esc_attr( $cover_id ); ?>" />
 			<button type="button" class="button" id="nl_workshop_add_cover"><?php _e( 'Select Cover Photo', 'neonlighthk' ); ?></button>
 			<div class="nl-meta-gallery" id="nl_workshop_cover_preview">
-				<?php if ( $cover_url ) : ?
+				<?php if ( $cover_url ) : ?>
 					<div class="thumb" data-id="<?php echo esc_attr( $cover_id ); ?>">
 						<img src="<?php echo esc_url( $cover_url ); ?>" alt="" />
 						<button type="button" class="remove">&times;</button>
 					</div>
-				<?php else : ?
+				<?php else : ?>
 					<span class="nl-meta-gallery-placeholder"><?php _e( 'No cover photo selected.', 'neonlighthk' ); ?></span>
 				<?php endif; ?>
 			</div>
