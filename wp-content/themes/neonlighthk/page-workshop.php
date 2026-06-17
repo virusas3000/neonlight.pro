@@ -148,7 +148,33 @@ $locations = [
     ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
     ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
 ];
+
+/* Query CPT nl_workshop for list */
+$ws_posts = get_posts([
+    'post_type'      => 'nl_workshop',
+    'post_status'    => 'publish',
+    'posts_per_page' => -1,
+    'orderby'        => 'menu_order',
+    'order'          => 'ASC',
+]);
 $workshops = [];
+foreach ($ws_posts as $p) {
+    $price = floatval(get_post_meta($p->ID, '_nl_workshop_price', true));
+    $items = get_post_meta($p->ID, '_nl_workshop_items', true);
+    if (!empty($items) && is_array($items)) {
+        $price = floatval($items[0]['price'] ?? $price);
+    }
+    $workshops[] = [
+        'id'            => $p->post_name,
+        'title'         => $p->post_title,
+        'title_en'      => get_post_meta($p->ID, '_nl_workshop_size_en', true) ?: $p->post_title,
+        'subtitle'      => get_post_meta($p->ID, '_nl_workshop_duration', true) ?: '',
+        'duration'      => get_post_meta($p->ID, '_nl_workshop_duration', true) ?: '',
+        'price'         => $price,
+        'price_display' => $price > 0 ? 'HK$' . number_format($price) : 'Contact us',
+        'image'         => '',
+    ];
+}
 ?>
 
 <style>
