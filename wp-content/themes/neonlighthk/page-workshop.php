@@ -170,6 +170,8 @@ foreach ($ws_posts as $p) {
         'title_en'      => get_post_meta($p->ID, '_nl_workshop_title_en', true) ?: $p->post_title,
         'price'         => $price,
         'price_display' => $price > 0 ? 'HK$' . number_format($price) : 'Contact us',
+        'min_group'     => get_post_meta($p->ID, '_nl_workshop_min_group', true),
+        'max_group'     => get_post_meta($p->ID, '_nl_workshop_max_group', true),
         'image'         => '',
     ];
 }
@@ -388,12 +390,14 @@ input[type="date"]{min-width:0;width:100%}
                         data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
                         data-title="<?php echo nl_lang()==='en' ? esc_attr($ws['title_en']) : esc_attr($ws['title']); ?>"
                         data-price="<?php echo esc_attr($ws['price']); ?>"
-                        data-price-display="<?php echo esc_attr($ws['price_display']); ?>"><?php echo nl_t('ws_book'); ?></button>
+                        data-price-display="<?php echo esc_attr($ws['price_display']); ?>"
+                        data-min-group="<?php echo esc_attr(intval($ws['min_group'] ?? 1)); ?>"
+                        data-max-group="<?php echo esc_attr(intval($ws['max_group'] ?? 10)); ?>"
+                ><?php echo nl_t('ws_book'); ?></button>
             </div>
         </div>
         <?php endforeach; ?>
     </div>
-
 </div>
 
 <!-- Booking Modal -->
@@ -454,31 +458,25 @@ input[type="date"]{min-width:0;width:100%}
             <h4 class="nl-booking-step__title">3. <?php echo nl_t('ws_step3'); ?></h4>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_name'); ?></label>
-                <input type="text" name="customer_name" required placeholder="Full name">
+                <input type="text" name="customer_name" required placeholder="<?php echo esc_attr(nl_t('ws_name_ph')); ?>">
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_email_ph'); ?></label>
-                <input type="email" name="customer_email" required>
+                <input type="email" name="customer_email" required placeholder="<?php echo esc_attr(nl_t('ws_email_ph2')); ?>">
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_phone_ph'); ?></label>
-                <input type="tel" name="customer_phone" required placeholder="eg. 6123 4567">
+                <input type="tel" name="customer_phone" required placeholder="<?php echo esc_attr(nl_t('ws_phone_ph2')); ?>">
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_group_size'); ?></label>
                 <select name="group_size" id="groupSize" required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6-10</option>
-                    <option value="10">10+</option>
+                    <option value=""><?php echo nl_t('ws_group_size'); ?></option>
                 </select>
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_remarks'); ?></label>
-                <textarea name="remarks" rows="3" placeholder="Any special requests..."></textarea>
+                <textarea name="remarks" rows="3" placeholder="<?php echo esc_attr(nl_t('ws_remarks_ph')); ?>"></textarea>
             </div>
             <div class="nl-booking-actions">
                 <button type="button" class="nl-btn-secondary" id="btnStep3Back">← <?php echo nl_t('ws_back'); ?></button>
@@ -525,6 +523,17 @@ document.addEventListener('DOMContentLoaded',function(){
             document.getElementById('bookingWorkshopId').value=this.dataset.workshopId;
             document.getElementById('bookingWorkshopTitleInput').value=this.dataset.title;
             document.getElementById('bookingPrice').value=this.dataset.price;
+            // Rebuild group size dropdown
+            const minG=parseInt(this.dataset.minGroup)||1;
+            const maxG=parseInt(this.dataset.maxGroup)||10;
+            const groupSel=document.getElementById('groupSize');
+            groupSel.innerHTML='';
+            for(let g=minG;g<=maxG;g++){
+                const opt=document.createElement('option');
+                opt.value=g;
+                opt.textContent=g;
+                groupSel.appendChild(opt);
+            }
             modal.classList.add('active');
             overlay.classList.add('active');
             resetSteps();
