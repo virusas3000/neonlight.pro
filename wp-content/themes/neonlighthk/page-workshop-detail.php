@@ -40,17 +40,13 @@ if ($workshop_post) {
         'title'         => $title,
         'title_en'      => $title_en,
         'title_zh'      => $title_zh,
-        'subtitle'      => get_post_meta($pid, '_nl_workshop_duration', true),
-        'duration'      => get_post_meta($pid, '_nl_workshop_duration', true),
         'price'         => 0,
         'price_display' => '',
         'gallery'       => array_values($gallery_urls),
         'desc_en'       => get_post_meta($pid, '_nl_workshop_desc_en', true),
         'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
         'desc_cn'       => get_post_meta($pid, '_nl_workshop_desc_cn', true),
-        'max_group'     => get_post_meta($pid, '_nl_workshop_max_group', true),
         'min_group'     => get_post_meta($pid, '_nl_workshop_min_group', true),
-        'min_age'       => get_post_meta($pid, '_nl_workshop_min_age', true),
         'booking_url'   => get_post_meta($pid, '_nl_workshop_booking_url', true),
         'items'         => get_post_meta($pid, '_nl_workshop_items', true),
     ];
@@ -190,7 +186,6 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     <div class="nl-detail-hero__overlay"></div>
     <div class="nl-detail-hero__info">
         <h1><?php echo esc_html($title); ?></h1>
-        <p><?php echo esc_html($ws['subtitle'] ?? ''); ?></p>
     </div>
     <?php if ($has_gallery && count($gallery) > 1): ?>
     <button class="nl-detail-hero__view" onclick="openLightbox(0)">

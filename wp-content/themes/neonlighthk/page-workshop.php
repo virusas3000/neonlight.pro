@@ -159,17 +159,15 @@ $ws_posts = get_posts([
 ]);
 $workshops = [];
 foreach ($ws_posts as $p) {
-    $price = floatval(get_post_meta($p->ID, '_nl_workshop_price', true));
+    $price = 0;
     $items = get_post_meta($p->ID, '_nl_workshop_items', true);
     if (!empty($items) && is_array($items)) {
-        $price = floatval($items[0]['price'] ?? $price);
+        $price = floatval($items[0]['price'] ?? 0);
     }
     $workshops[] = [
         'id'            => $p->post_name,
         'title'         => $p->post_title,
-        'title_en'      => get_post_meta($p->ID, '_nl_workshop_size_en', true) ?: $p->post_title,
-        'subtitle'      => get_post_meta($p->ID, '_nl_workshop_duration', true) ?: '',
-        'duration'      => get_post_meta($p->ID, '_nl_workshop_duration', true) ?: '',
+        'title_en'      => get_post_meta($p->ID, '_nl_workshop_title_en', true) ?: $p->post_title,
         'price'         => $price,
         'price_display' => $price > 0 ? 'HK$' . number_format($price) : 'Contact us',
         'image'         => '',
@@ -383,9 +381,7 @@ input[type="date"]{min-width:0;width:100%}
                         <?php echo nl_lang()==='en' ? esc_html($ws['title_en']) : esc_html($ws['title']); ?>
                     </a>
                 </h3>
-                <p class="nl-workshop-card__subtitle"><?php echo esc_html($ws['subtitle']); ?></p>
                 <div class="nl-workshop-card__meta">
-                    <span>⏱ <?php echo esc_html($ws['duration']); ?></span>
                     <span>💰 <?php echo esc_html($ws['price_display']); ?></span>
                 </div>
                 <button class="nl-workshop-card__btn js-open-booking"

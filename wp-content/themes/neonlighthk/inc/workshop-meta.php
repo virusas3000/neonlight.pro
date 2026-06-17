@@ -26,16 +26,11 @@ function nl_workshop_meta_box_callback( $post ) {
 	wp_nonce_field( 'nl_workshop_meta_save', 'nl_workshop_meta_nonce' );
 
     $fields = [
-        '_nl_workshop_duration'         => get_post_meta( $post->ID, '_nl_workshop_duration', true ),
-        '_nl_workshop_size'             => get_post_meta( $post->ID, '_nl_workshop_size', true ),
-        '_nl_workshop_size_en'          => get_post_meta( $post->ID, '_nl_workshop_size_en', true ),
         '_nl_workshop_desc_en'          => get_post_meta( $post->ID, '_nl_workshop_desc_en', true ),
         '_nl_workshop_desc_zh'          => get_post_meta( $post->ID, '_nl_workshop_desc_zh', true ),
         '_nl_workshop_desc_cn'          => get_post_meta( $post->ID, '_nl_workshop_desc_cn', true ),
         '_nl_workshop_gallery'          => get_post_meta( $post->ID, '_nl_workshop_gallery', true ),
-        '_nl_workshop_max_group'        => get_post_meta( $post->ID, '_nl_workshop_max_group', true ),
         '_nl_workshop_min_group'        => get_post_meta( $post->ID, '_nl_workshop_min_group', true ),
-        '_nl_workshop_min_age'          => get_post_meta( $post->ID, '_nl_workshop_min_age', true ),
         '_nl_workshop_booking_url'      => get_post_meta( $post->ID, '_nl_workshop_booking_url', true ),
         '_nl_workshop_items'            => get_post_meta( $post->ID, '_nl_workshop_items', true ),
     ];
@@ -63,29 +58,9 @@ function nl_workshop_meta_box_callback( $post ) {
 	</style>
 
 	<div class="nl-meta-grid">
-		<div class="nl-meta-field">
-			<label><?php _e( 'Duration', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_duration" value="<?php echo esc_attr( $fields['_nl_workshop_duration'] ); ?>" placeholder="e.g. 2 hours" />
-		</div>
-		<div class="nl-meta-field">
-			<label><?php _e( 'Size / Height (中文)', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_size" value="<?php echo esc_attr( $fields['_nl_workshop_size'] ); ?>" placeholder="e.g. 8cm height" />
-		</div>
-		<div class="nl-meta-field">
-			<label><?php _e( 'Size / Height (EN)', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_size_en" value="<?php echo esc_attr( $fields['_nl_workshop_size_en'] ); ?>" placeholder="e.g. 8cm height" />
-		</div>
-        <div class="nl-meta-field">
-            <label><?php _e( 'Max Group Size', 'neonlighthk' ); ?></label>
-            <input type="number" name="_nl_workshop_max_group" value="<?php echo esc_attr( $fields['_nl_workshop_max_group'] ); ?>" />
-        </div>
         <div class="nl-meta-field">
             <label><?php _e( 'Min Group Size', 'neonlighthk' ); ?></label>
             <input type="number" name="_nl_workshop_min_group" value="<?php echo esc_attr( $fields['_nl_workshop_min_group'] ); ?>" />
-        </div>
-        <div class="nl-meta-field">
-            <label><?php _e( 'Min Age', 'neonlighthk' ); ?></label>
-            <input type="number" name="_nl_workshop_min_age" value="<?php echo esc_attr( $fields['_nl_workshop_min_age'] ); ?>" />
         </div>
         <div class="nl-meta-field full">
             <label><?php _e( 'Description (English)', 'neonlighthk' ); ?></label>
@@ -278,9 +253,6 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 	}
 
     $text_fields = [
-        '_nl_workshop_duration',
-        '_nl_workshop_size',
-        '_nl_workshop_size_en',
         '_nl_workshop_desc_en',
         '_nl_workshop_desc_zh',
         '_nl_workshop_desc_cn',
@@ -292,7 +264,7 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 		}
 	}
 
-    $num_fields = [ '_nl_workshop_max_group', '_nl_workshop_min_group', '_nl_workshop_min_age' ];
+    $num_fields = [ '_nl_workshop_min_group' ];
 	foreach ( $num_fields as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			update_post_meta( $post_id, $key, floatval( $_POST[ $key ] ) );
@@ -341,24 +313,5 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 
 /* ---------- Admin list columns ---------- */
 add_filter( 'manage_nl_workshop_posts_columns', function ( $columns ) {
-	$cols = [];
-	foreach ( $columns as $key => $label ) {
-		$cols[ $key ] = $label;
-		if ( $key === 'title' ) {
-			$cols['price']    = __( 'Price', 'neonlighthk' );
-			$cols['duration'] = __( 'Duration', 'neonlighthk' );
-		}
-	}
-	return $cols;
+	return $columns;
 } );
-
-add_action( 'manage_nl_workshop_posts_custom_column', function ( $column, $post_id ) {
-	switch ( $column ) {
-		case 'price':
-			echo esc_html( get_post_meta( $post_id, '_nl_workshop_price', true ) );
-			break;
-		case 'duration':
-			echo esc_html( get_post_meta( $post_id, '_nl_workshop_duration', true ) );
-			break;
-	}
-}, 10, 2 );
