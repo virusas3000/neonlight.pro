@@ -249,8 +249,16 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     <?php endif; ?>
 
     <div class="nl-detail-card">
+        <?php
+        $first_item_price = 0;
+        $first_item_display = '';
+        if ($has_items) {
+            $first_item_price = floatval($items[0]['price'] ?? 0);
+            $first_item_display = 'HK$' . number_format($first_item_price) . ' / person';
+        }
+        ?>
         <?php if ($has_items): ?>
-        <div class="nl-detail-price" id="displayPrice"><?php echo esc_html($items[0]['price_display'] ?? ''); ?></div>
+        <div class="nl-detail-price" id="displayPrice"><?php echo esc_html($first_item_display); ?></div>
         <?php else: ?>
         <div class="nl-detail-price" id="displayPrice"><?php echo esc_html($ws['price_display']); ?></div>
         <?php endif; ?>
@@ -269,8 +277,8 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
         <button class="nl-detail-book js-open-booking"
                 data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
                 data-title="<?php echo esc_attr($title); ?>"
-                data-price="<?php echo esc_attr($items[0]['price'] ?? $ws['price']); ?>"
-                data-price-display="<?php echo esc_attr($items[0]['price_display'] ?? $ws['price_display']); ?>">
+                data-price="<?php echo esc_attr($first_item_price); ?>"
+                data-price-display="<?php echo esc_attr($first_item_display); ?>">
             <?php echo nl_t('ws_book'); ?>
         </button>
         <?php endif; ?>
