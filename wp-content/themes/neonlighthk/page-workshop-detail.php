@@ -54,8 +54,6 @@ if ($workshop_post) {
         'highlights_zh' => get_post_meta($pid, '_nl_workshop_highlights_zh', true),
         'location'      => get_post_meta($pid, '_nl_workshop_location', true),
         'location_en'   => get_post_meta($pid, '_nl_workshop_location_en', true),
-        'meeting'       => get_post_meta($pid, '_nl_workshop_meeting_point', true),
-        'meeting_en'    => get_post_meta($pid, '_nl_workshop_meeting_point_en', true),
         'gallery'       => $gallery_urls,
         'image'         => $gallery_urls[0] ?? '',
         'max_group'     => get_post_meta($pid, '_nl_workshop_max_group', true),
@@ -251,60 +249,14 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
         <h2><?php echo $lang==='en' ? 'About This Workshop' : '關於此工作坊'; ?></h2>
         <p>
             <?php
-            $desc = $lang==='en' ? ($ws['desc_en'] ?? '') : ($ws['desc_zh'] ?? '');
-            if (empty($desc) && $lang==='en') {
-                $desc = 'Join us for a hands-on EL wire art workshop where you\'ll create your own neon light masterpiece. All materials and tools are provided. No prior experience needed.';
-            } elseif (empty($desc)) {
-                $desc = '參加我們的冷光線藝術工作坊，親手製作屬於你的霓虹燈作品。我們提供所有材料及工具，無需任何經驗。';
+            if ($lang === 'en') {
+                $desc = $ws['desc_en'] ?: 'Join us for a hands-on EL wire art workshop where you\'ll create your own neon light masterpiece. All materials and tools are provided. No prior experience needed.';
+            } elseif ($lang === 'zh') {
+                $desc = $ws['desc_zh'] ?: '參加我們的冷光線藝術工作坊，親手製作屬於你的霓虹燈作品。我們提供所有材料及工具，無需任何經驗。';
+            } else { // cn
+                $desc = $ws['desc_cn'] ?: '参加我们的冷光线艺术工作坊，亲手制作属于你的霓虹灯作品。我们提供所有材料及工具，无需任何经验。';
             }
             echo nl2br(esc_html($desc));
-            ?>
-        </p>
-    </div>
-
-    <div class="nl-detail-section">
-        <h2><?php echo $lang==='en' ? 'Highlights' : '工作坊亮點'; ?></h2>
-        <ul>
-            <?php
-            $highlights = $lang==='en' ? ($ws['highlights_en'] ?? '') : ($ws['highlights_zh'] ?? '');
-            if (empty($highlights)) {
-                $highlights = $lang==='en'
-                    ? "Hands-on EL wire bending\nTake home your own neon sign\nNo experience needed\nProfessional instructor guidance"
-                    : "親手彎曲冷光線\n帶走自製霓虹燈牌\n無需經驗\n專業導師指導";
-            }
-            foreach (array_filter(explode("\n", $highlights)) as $line) {
-                echo '<li>' . esc_html(trim($line)) . '</li>';
-            }
-            ?>
-        </ul>
-    </div>
-
-    <div class="nl-detail-section">
-        <h2><?php echo $lang==='en' ? "What's Included" : '費用包括'; ?></h2>
-        <ul>
-            <?php
-            $includes = $lang==='en' ? ($ws['includes_en'] ?? '') : ($ws['includes_zh'] ?? '');
-            if (empty($includes)) {
-                $includes = $lang==='en'
-                    ? "All materials and tools\nProfessional instructor guidance\nYour finished neon artwork to take home\nWorkshop completion certificate"
-                    : "所有材料及工具\n專業導師指導\n完成作品可帶回家\n工作坊完成證書";
-            }
-            foreach (array_filter(explode("\n", $includes)) as $line) {
-                echo '<li>' . esc_html(trim($line)) . '</li>';
-            }
-            ?>
-        </ul>
-    </div>
-
-    <div class="nl-detail-section">
-        <h2><?php echo $lang==='en' ? 'Location' : '地點'; ?></h2>
-        <p>
-            <?php
-            $loc  = $lang==='en' ? ($ws['location_en'] ?? '') : ($ws['location'] ?? '');
-            $meet = $lang==='en' ? ($ws['meeting_en'] ?? '') : ($ws['meeting'] ?? '');
-            if ($loc) { echo esc_html($loc) . '<br>'; }
-            if ($meet) { echo esc_html($meet); }
-            if (!$loc) { echo 'PMQ元創方 · 中環鴨巴甸街35號<br>Central, Hong Kong'; }
             ?>
         </p>
     </div>
