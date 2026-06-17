@@ -25,27 +25,19 @@ add_action( 'add_meta_boxes', function () {
 function nl_workshop_meta_box_callback( $post ) {
 	wp_nonce_field( 'nl_workshop_meta_save', 'nl_workshop_meta_nonce' );
 
-	$fields = [
-		'_nl_workshop_price'           => get_post_meta( $post->ID, '_nl_workshop_price', true ),
-		'_nl_workshop_duration'         => get_post_meta( $post->ID, '_nl_workshop_duration', true ),
-		'_nl_workshop_size'             => get_post_meta( $post->ID, '_nl_workshop_size', true ),
-		'_nl_workshop_size_en'          => get_post_meta( $post->ID, '_nl_workshop_size_en', true ),
-		'_nl_workshop_desc_en'          => get_post_meta( $post->ID, '_nl_workshop_desc_en', true ),
-		'_nl_workshop_desc_zh'          => get_post_meta( $post->ID, '_nl_workshop_desc_zh', true ),
-		'_nl_workshop_desc_cn'          => get_post_meta( $post->ID, '_nl_workshop_desc_cn', true ),
-		'_nl_workshop_gallery'          => get_post_meta( $post->ID, '_nl_workshop_gallery', true ),
-		'_nl_workshop_includes_en'      => get_post_meta( $post->ID, '_nl_workshop_includes_en', true ),
-		'_nl_workshop_includes_zh'      => get_post_meta( $post->ID, '_nl_workshop_includes_zh', true ),
-		'_nl_workshop_highlights_en'    => get_post_meta( $post->ID, '_nl_workshop_highlights_en', true ),
-		'_nl_workshop_highlights_zh'    => get_post_meta( $post->ID, '_nl_workshop_highlights_zh', true ),
-		'_nl_workshop_location'         => get_post_meta( $post->ID, '_nl_workshop_location', true ),
-		'_nl_workshop_location_en'      => get_post_meta( $post->ID, '_nl_workshop_location_en', true ),
-		'_nl_workshop_meeting_point'    => get_post_meta( $post->ID, '_nl_workshop_meeting_point', true ),
-		'_nl_workshop_meeting_point_en' => get_post_meta( $post->ID, '_nl_workshop_meeting_point_en', true ),
-		'_nl_workshop_max_group'        => get_post_meta( $post->ID, '_nl_workshop_max_group', true ),
-		'_nl_workshop_min_age'          => get_post_meta( $post->ID, '_nl_workshop_min_age', true ),
-		'_nl_workshop_booking_url'      => get_post_meta( $post->ID, '_nl_workshop_booking_url', true ),
-	];
+    $fields = [
+        '_nl_workshop_price'           => get_post_meta( $post->ID, '_nl_workshop_price', true ),
+        '_nl_workshop_duration'         => get_post_meta( $post->ID, '_nl_workshop_duration', true ),
+        '_nl_workshop_size'             => get_post_meta( $post->ID, '_nl_workshop_size', true ),
+        '_nl_workshop_size_en'          => get_post_meta( $post->ID, '_nl_workshop_size_en', true ),
+        '_nl_workshop_desc_en'          => get_post_meta( $post->ID, '_nl_workshop_desc_en', true ),
+        '_nl_workshop_desc_zh'          => get_post_meta( $post->ID, '_nl_workshop_desc_zh', true ),
+        '_nl_workshop_desc_cn'          => get_post_meta( $post->ID, '_nl_workshop_desc_cn', true ),
+        '_nl_workshop_gallery'          => get_post_meta( $post->ID, '_nl_workshop_gallery', true ),
+        '_nl_workshop_max_group'        => get_post_meta( $post->ID, '_nl_workshop_max_group', true ),
+        '_nl_workshop_min_age'          => get_post_meta( $post->ID, '_nl_workshop_min_age', true ),
+        '_nl_workshop_booking_url'      => get_post_meta( $post->ID, '_nl_workshop_booking_url', true ),
+    ];
 
 	$gallery_ids = is_array( $fields['_nl_workshop_gallery'] ) ? $fields['_nl_workshop_gallery'] : [];
 
@@ -94,52 +86,20 @@ function nl_workshop_meta_box_callback( $post ) {
 			<label><?php _e( 'Min Age', 'neonlighthk' ); ?></label>
 			<input type="number" name="_nl_workshop_min_age" value="<?php echo esc_attr( $fields['_nl_workshop_min_age'] ); ?>" />
 		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Description (English)', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_desc_en"><?php echo esc_textarea( $fields['_nl_workshop_desc_en'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Description (繁體中文)', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_desc_zh"><?php echo esc_textarea( $fields['_nl_workshop_desc_zh'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Description (简体中文)', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_desc_cn"><?php echo esc_textarea( $fields['_nl_workshop_desc_cn'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Includes List (EN) — one per line', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_includes_en" placeholder="EL wire materials&#10;Battery pack&#10;Instruction booklet"><?php echo esc_textarea( $fields['_nl_workshop_includes_en'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Includes List (中文) — one per line', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_includes_zh" placeholder="冷光線材料&#10;電池盒&#10;說明書"><?php echo esc_textarea( $fields['_nl_workshop_includes_zh'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Highlights (EN) — one per line', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_highlights_en" placeholder="Hands-on EL wire bending&#10;Take home your own neon sign&#10;No experience needed"><?php echo esc_textarea( $fields['_nl_workshop_highlights_en'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Highlights (中文) — one per line', 'neonlighthk' ); ?></label>
-			<textarea name="_nl_workshop_highlights_zh" placeholder="親手彎曲冷光線&#10;帶走自製霓虹燈牌&#10;無需經驗"><?php echo esc_textarea( $fields['_nl_workshop_highlights_zh'] ); ?></textarea>
-		</div>
-		<div class="nl-meta-field">
-			<label><?php _e( 'Location (中文)', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_location" value="<?php echo esc_attr( $fields['_nl_workshop_location'] ); ?>" />
-		</div>
-		<div class="nl-meta-field">
-			<label><?php _e( 'Location (EN)', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_location_en" value="<?php echo esc_attr( $fields['_nl_workshop_location_en'] ); ?>" />
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Meeting Point (中文)', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_meeting_point" value="<?php echo esc_attr( $fields['_nl_workshop_meeting_point'] ); ?>" />
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'Meeting Point (EN)', 'neonlighthk' ); ?></label>
-			<input type="text" name="_nl_workshop_meeting_point_en" value="<?php echo esc_attr( $fields['_nl_workshop_meeting_point_en'] ); ?>" />
-		</div>
-		<div class="nl-meta-field full">
-			<label><?php _e( 'External Booking URL (optional)', 'neonlighthk' ); ?></label>
+        <div class="nl-meta-field full">
+            <label><?php _e( 'Description (English)', 'neonlighthk' ); ?></label>
+            <textarea name="_nl_workshop_desc_en"><?php echo esc_textarea( $fields['_nl_workshop_desc_en'] ); ?></textarea>
+        </div>
+        <div class="nl-meta-field full">
+            <label><?php _e( 'Description (繁體中文)', 'neonlighthk' ); ?></label>
+            <textarea name="_nl_workshop_desc_zh"><?php echo esc_textarea( $fields['_nl_workshop_desc_zh'] ); ?></textarea>
+        </div>
+        <div class="nl-meta-field full">
+            <label><?php _e( 'Description (简体中文)', 'neonlighthk' ); ?></label>
+            <textarea name="_nl_workshop_desc_cn"><?php echo esc_textarea( $fields['_nl_workshop_desc_cn'] ); ?></textarea>
+        </div>
+        <div class="nl-meta-field full">
+            <label><?php _e( 'External Booking URL (optional)', 'neonlighthk' ); ?></label>
 			<input type="url" name="_nl_workshop_booking_url" value="<?php echo esc_attr( $fields['_nl_workshop_booking_url'] ); ?>" placeholder="https://..." />
 		</div>
 		<div class="nl-meta-field full">
@@ -256,23 +216,15 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 		return;
 	}
 
-	$text_fields = [
-		'_nl_workshop_duration',
-		'_nl_workshop_size',
-		'_nl_workshop_size_en',
-		'_nl_workshop_desc_en',
-		'_nl_workshop_desc_zh',
-		'_nl_workshop_desc_cn',
-		'_nl_workshop_includes_en',
-		'_nl_workshop_includes_zh',
-		'_nl_workshop_highlights_en',
-		'_nl_workshop_highlights_zh',
-		'_nl_workshop_location',
-		'_nl_workshop_location_en',
-		'_nl_workshop_meeting_point',
-		'_nl_workshop_meeting_point_en',
-		'_nl_workshop_booking_url',
-	];
+    $text_fields = [
+        '_nl_workshop_duration',
+        '_nl_workshop_size',
+        '_nl_workshop_size_en',
+        '_nl_workshop_desc_en',
+        '_nl_workshop_desc_zh',
+        '_nl_workshop_desc_cn',
+        '_nl_workshop_booking_url',
+    ];
 	foreach ( $text_fields as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			update_post_meta( $post_id, $key, wp_kses_post( $_POST[ $key ] ) );
