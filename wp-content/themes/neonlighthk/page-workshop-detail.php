@@ -48,17 +48,13 @@ if ($workshop_post) {
         'desc_en'       => get_post_meta($pid, '_nl_workshop_desc_en', true),
         'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
         'desc_cn'       => get_post_meta($pid, '_nl_workshop_desc_cn', true),
-        'includes_en'   => get_post_meta($pid, '_nl_workshop_includes_en', true),
-        'includes_zh'   => get_post_meta($pid, '_nl_workshop_includes_zh', true),
-        'highlights_en' => get_post_meta($pid, '_nl_workshop_highlights_en', true),
-        'highlights_zh' => get_post_meta($pid, '_nl_workshop_highlights_zh', true),
-        'location'      => get_post_meta($pid, '_nl_workshop_location', true),
-        'location_en'   => get_post_meta($pid, '_nl_workshop_location_en', true),
         'gallery'       => $gallery_urls,
         'image'         => $gallery_urls[0] ?? '',
         'max_group'     => get_post_meta($pid, '_nl_workshop_max_group', true),
+        'min_group'     => get_post_meta($pid, '_nl_workshop_min_group', true),
         'min_age'       => get_post_meta($pid, '_nl_workshop_min_age', true),
         'booking_url'   => get_post_meta($pid, '_nl_workshop_booking_url', true),
+        'items'         => get_post_meta($pid, '_nl_workshop_items', true),
     ];
 } else {
     /* ---------- Hardcoded fallback ---------- */
@@ -131,6 +127,14 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 .nl-detail-section p,.nl-detail-section ul{color:#555;line-height:1.7}
 .nl-detail-section ul{padding-left:18px}
 .nl-detail-section li{margin-bottom:6px}
+
+/* Item grid */
+.nl-item-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.nl-item-card{border:2px solid #eee;border-radius:10px;padding:18px;cursor:pointer;transition:all .2s}
+.nl-item-card:hover{border-color:#00d4b0}
+.nl-item-card.selected{border-color:#00d4b0;background:#f0fffb}
+.nl-item-card__name{font-weight:600;font-size:1.05rem;margin-bottom:6px}
+.nl-item-card__price{color:#00d4b0;font-weight:700;font-size:1.1rem}
 
 /* Modal */
 .nl-booking-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998}
@@ -223,11 +227,40 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
         <span>⏱ <?php echo esc_html($ws['duration']); ?></span>
         <span>💰 <?php echo esc_html($ws['price_display']); ?></span>
         <?php if (!empty($ws['max_group'])): ?><span>👥 <?php echo esc_html($ws['max_group']); ?> max</span><?php endif; ?>
+        <?php if (!empty($ws['min_group'])): ?><span>👤 <?php echo esc_html($ws['min_group']); ?> min</span><?php endif; ?>
         <?php if (!empty($ws['min_age'])): ?><span>🎂 <?php echo esc_html($ws['min_age']); ?>+</span><?php endif; ?>
     </div>
 
+    <?php
+    $items = $ws['items'] ?? [];
+    $items = is_array($items) ? $items : [];
+    $has_items = !empty($items);
+    ?>
+
+    <?php if ($has_items): ?
+    <div class="nl-detail-section" id="nl-items-section">
+        <h2><?php echo $lang==='en' ? 'Select Package' : '選擇套餐'; ?></h2>
+        <div class="nl-item-grid">
+            <?php foreach ($items as $idx => $item):
+                $item_name = $lang==='en' ? ($item['name'] ?? '') : ($lang==='zh' ? ($item['name_zh'] ?? '') : ($item['name_cn'] ?? ''));
+                $item_price = floatval($item['price'] ?? 0);
+                $item_display = 'HK$' . number_format($item_price) . ' / person';
+            ?>
+            <div class="nl-item-card <?php echo $idx===0 ? 'selected' : ''; ?>"
+                 data-price="<?php echo esc_attr($item_price); ?>"
+                 data-price-display="<?php echo esc_attr($item_display); ?>"
+                 data-name="<?php echo esc_attr($item_name); ?>"
+                 onclick="selectItem(this)">
+                <div class="nl-item-card__name"><?php echo esc_html($item_name); ?></div>
+                <div class="nl-item-card__price"><?php echo esc_html($item_display); ?></div>
+            </div>
+            <?php endforeach; ?
+        </div>
+    </div>
+    <?php endif; ?>
+
     <div class="nl-detail-card">
-        <div class="nl-detail-price"><?php echo esc_html($ws['price_display']); ?></div>
+        <div class="nl-detail-price" id="displayPrice"><?php echo esc_html($ws['price_display']); ?></div>
         <p style="color:#666;margin-bottom:24px"><?php echo esc_html($ws['subtitle']); ?></p>
 
         <?php if (!empty($ws['booking_url'])): ?>
@@ -435,7 +468,26 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') lbPrev();
 });
 
-/* ---------- Booking Modal (same) ---------- */
+/* ---------- Item selector ---------- */
+let selectedItemPrice = null;
+let selectedItemPriceDisplay = null;
+let selectedItemName = null;
+function selectItem(el) {
+    document.querySelectorAll('.nl-item-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedItemPrice = el.dataset.price;
+    selectedItemPriceDisplay = el.dataset.priceDisplay;
+    selectedItemName = el.dataset.name;
+    const displayPrice = document.getElementById('displayPrice');
+    if (displayPrice) displayPrice.textContent = selectedItemPriceDisplay;
+    const btn = document.querySelector('.js-open-booking');
+    if (btn) {
+        btn.dataset.price = selectedItemPrice;
+        btn.dataset.priceDisplay = selectedItemPriceDisplay;
+    }
+}
+
+/* ---------- Booking Modal ---------- */
 document.addEventListener('DOMContentLoaded',function(){
     const modal=document.getElementById('bookingModal');
     const overlay=document.getElementById('bookingOverlay');

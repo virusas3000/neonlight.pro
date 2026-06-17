@@ -35,8 +35,10 @@ function nl_workshop_meta_box_callback( $post ) {
         '_nl_workshop_desc_cn'          => get_post_meta( $post->ID, '_nl_workshop_desc_cn', true ),
         '_nl_workshop_gallery'          => get_post_meta( $post->ID, '_nl_workshop_gallery', true ),
         '_nl_workshop_max_group'        => get_post_meta( $post->ID, '_nl_workshop_max_group', true ),
+        '_nl_workshop_min_group'        => get_post_meta( $post->ID, '_nl_workshop_min_group', true ),
         '_nl_workshop_min_age'          => get_post_meta( $post->ID, '_nl_workshop_min_age', true ),
         '_nl_workshop_booking_url'      => get_post_meta( $post->ID, '_nl_workshop_booking_url', true ),
+        '_nl_workshop_items'            => get_post_meta( $post->ID, '_nl_workshop_items', true ),
     ];
 
 	$gallery_ids = is_array( $fields['_nl_workshop_gallery'] ) ? $fields['_nl_workshop_gallery'] : [];
@@ -78,14 +80,18 @@ function nl_workshop_meta_box_callback( $post ) {
 			<label><?php _e( 'Size / Height (EN)', 'neonlighthk' ); ?></label>
 			<input type="text" name="_nl_workshop_size_en" value="<?php echo esc_attr( $fields['_nl_workshop_size_en'] ); ?>" placeholder="e.g. 8cm height" />
 		</div>
-		<div class="nl-meta-field">
-			<label><?php _e( 'Max Group Size', 'neonlighthk' ); ?></label>
-			<input type="number" name="_nl_workshop_max_group" value="<?php echo esc_attr( $fields['_nl_workshop_max_group'] ); ?>" />
-		</div>
-		<div class="nl-meta-field">
-			<label><?php _e( 'Min Age', 'neonlighthk' ); ?></label>
-			<input type="number" name="_nl_workshop_min_age" value="<?php echo esc_attr( $fields['_nl_workshop_min_age'] ); ?>" />
-		</div>
+        <div class="nl-meta-field">
+            <label><?php _e( 'Max Group Size', 'neonlighthk' ); ?></label>
+            <input type="number" name="_nl_workshop_max_group" value="<?php echo esc_attr( $fields['_nl_workshop_max_group'] ); ?>" />
+        </div>
+        <div class="nl-meta-field">
+            <label><?php _e( 'Min Group Size', 'neonlighthk' ); ?></label>
+            <input type="number" name="_nl_workshop_min_group" value="<?php echo esc_attr( $fields['_nl_workshop_min_group'] ); ?>" />
+        </div>
+        <div class="nl-meta-field">
+            <label><?php _e( 'Min Age', 'neonlighthk' ); ?></label>
+            <input type="number" name="_nl_workshop_min_age" value="<?php echo esc_attr( $fields['_nl_workshop_min_age'] ); ?>" />
+        </div>
         <div class="nl-meta-field full">
             <label><?php _e( 'Description (English)', 'neonlighthk' ); ?></label>
             <textarea name="_nl_workshop_desc_en"><?php echo esc_textarea( $fields['_nl_workshop_desc_en'] ); ?></textarea>
@@ -97,6 +103,66 @@ function nl_workshop_meta_box_callback( $post ) {
         <div class="nl-meta-field full">
             <label><?php _e( 'Description (简体中文)', 'neonlighthk' ); ?></label>
             <textarea name="_nl_workshop_desc_cn"><?php echo esc_textarea( $fields['_nl_workshop_desc_cn'] ); ?></textarea>
+        </div>
+        <div class="nl-meta-field full">
+            <label><?php _e( 'Items / Packages — name + price per person', 'neonlighthk' ); ?></label>
+            <div id="nl-items-repeater">
+                <?php
+                $items = $fields['_nl_workshop_items'];
+                $items = is_array($items) ? $items : [];
+                if (empty($items)) { $items = [['name'=>'','name_zh'=>'','name_cn'=>'','price'=>'']]; }
+                foreach ($items as $i => $item):
+                ?>
+                <div class="nl-item-row" style="display:grid;grid-template-columns:1.5fr 1.5fr 1.5fr 1fr auto;gap:8px;margin-bottom:8px;align-items:center;">
+                    <input type="text" name="_nl_workshop_items[<?php echo $i; ?>][name]" value="<?php echo esc_attr($item['name'] ?? ''); ?>" placeholder="Name (EN)" />
+                    <input type="text" name="_nl_workshop_items[<?php echo $i; ?>][name_zh]" value="<?php echo esc_attr($item['name_zh'] ?? ''); ?>" placeholder="名稱 (繁體)" />
+                    <input type="text" name="_nl_workshop_items[<?php echo $i; ?>][name_cn]" value="<?php echo esc_attr($item['name_cn'] ?? ''); ?>" placeholder="名称 (简体)" />
+                    <input type="number" name="_nl_workshop_items[<?php echo $i; ?>][price]" value="<?php echo esc_attr($item['price'] ?? ''); ?>" placeholder="HK$" />
+                    <button type="button" class="button nl-item-remove">&times;</button>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="button" id="nl-item-add">+ <?php _e('Add Item','neonlighthk'); ?></button>
+            <script>
+            (function(){
+                var container = document.getElementById('nl-items-repeater');
+                var addBtn    = document.getElementById('nl-item-add');
+                function reindex() {
+                    container.querySelectorAll('.nl-item-row').forEach(function(row, idx){
+                        row.querySelectorAll('input').forEach(function(inp){
+                            var name = inp.getAttribute('name');
+                            if (name) inp.setAttribute('name', name.replace(/\[\d+\]/, '['+idx+']'));
+                        });
+                    });
+                }
+                addBtn.addEventListener('click', function(){
+                    var rows = container.querySelectorAll('.nl-item-row');
+                    var idx  = rows.length;
+                    var tpl  = rows[0] ? rows[0].outerHTML : '';
+                    if (!tpl) return;
+                    var div  = document.createElement('div');
+                    div.innerHTML = tpl;
+                    var newRow = div.firstElementChild;
+                    newRow.querySelectorAll('input').forEach(function(inp){ inp.value = ''; });
+                    newRow.querySelectorAll('input').forEach(function(inp){
+                        var name = inp.getAttribute('name');
+                        if (name) inp.setAttribute('name', name.replace(/\[\d+\]/, '['+idx+']'));
+                    });
+                    container.appendChild(newRow);
+                });
+                container.addEventListener('click', function(e){
+                    if (e.target.classList.contains('nl-item-remove')) {
+                        var row = e.target.closest('.nl-item-row');
+                        if (container.querySelectorAll('.nl-item-row').length > 1) {
+                            row.remove();
+                            reindex();
+                        } else {
+                            row.querySelectorAll('input').forEach(function(inp){ inp.value = ''; });
+                        }
+                    }
+                });
+            })();
+            </script>
         </div>
         <div class="nl-meta-field full">
             <label><?php _e( 'External Booking URL (optional)', 'neonlighthk' ); ?></label>
@@ -231,24 +297,44 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 		}
 	}
 
-	$num_fields = [ '_nl_workshop_price', '_nl_workshop_max_group', '_nl_workshop_min_age' ];
+    $num_fields = [ '_nl_workshop_price', '_nl_workshop_max_group', '_nl_workshop_min_group', '_nl_workshop_min_age' ];
 	foreach ( $num_fields as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			update_post_meta( $post_id, $key, floatval( $_POST[ $key ] ) );
 		}
 	}
 
-	// Gallery — array of attachment IDs
-	if ( isset( $_POST['_nl_workshop_gallery'] ) ) {
-		$raw = sanitize_text_field( $_POST['_nl_workshop_gallery'] );
-		$ids = array_filter( array_map( 'intval', explode( ',', $raw ) ) );
-		update_post_meta( $post_id, '_nl_workshop_gallery', $ids );
-	} else {
-		update_post_meta( $post_id, '_nl_workshop_gallery', [] );
-	}
+    // Gallery — array of attachment IDs
+    if ( isset( $_POST['_nl_workshop_gallery'] ) ) {
+        $raw = sanitize_text_field( $_POST['_nl_workshop_gallery'] );
+        $ids = array_filter( array_map( 'intval', explode( ',', $raw ) ) );
+        update_post_meta( $post_id, '_nl_workshop_gallery', $ids );
+    } else {
+        update_post_meta( $post_id, '_nl_workshop_gallery', [] );
+    }
 
-	// Cover photo — single attachment ID
-	if ( isset( $_POST['_nl_workshop_cover'] ) ) {
+    // Items / Packages repeater
+    if ( isset( $_POST['_nl_workshop_items'] ) && is_array( $_POST['_nl_workshop_items'] ) ) {
+        $items = [];
+        foreach ( $_POST['_nl_workshop_items'] as $item ) {
+            $name    = isset( $item['name'] )    ? sanitize_text_field( $item['name'] ) : '';
+            $name_zh = isset( $item['name_zh'] ) ? sanitize_text_field( $item['name_zh'] ) : '';
+            $name_cn = isset( $item['name_cn'] ) ? sanitize_text_field( $item['name_cn'] ) : '';
+            $price   = isset( $item['price'] )   ? floatval( $item['price'] ) : 0;
+            if ( $name || $name_zh || $name_cn ) {
+                $items[] = [
+                    'name'    => $name,
+                    'name_zh' => $name_zh,
+                    'name_cn' => $name_cn,
+                    'price'   => $price,
+                ];
+            }
+        }
+        update_post_meta( $post_id, '_nl_workshop_items', $items );
+    }
+
+    // Cover photo — single attachment ID
+    if ( isset( $_POST['_nl_workshop_cover'] ) ) {
 		$cover_id = intval( $_POST['_nl_workshop_cover'] );
 		if ( $cover_id > 0 ) {
 			update_post_meta( $post_id, '_nl_workshop_cover', $cover_id );
