@@ -3,8 +3,6 @@
  * Template Name: Workshop Detail
  * @package NeonLightHK
  */
-get_header();
-
 $workshop_id = sanitize_text_field($_GET['id'] ?? '');
 $lang = nl_lang();
 
@@ -38,18 +36,18 @@ if ($workshop_post) {
     $gallery_urls = array_filter($gallery_urls);
 
     $ws = [
-        'id'            => $workshop_id,
-        'title'         => $lang==='en' ? ($title_en ?: $title) : $title_zh,
+        'id'            => $workshop_post->post_name,
+        'title'         => $title,
         'title_en'      => $title_en,
-        'subtitle'      => get_post_meta($pid, '_nl_workshop_size', true) . ' · ' . get_post_meta($pid, '_nl_workshop_duration', true),
-        'duration'      => get_post_meta($pid, '_nl_workshop_duration', true) ?: '2 hr',
+        'title_zh'      => $title_zh,
+        'subtitle'      => get_post_meta($pid, '_nl_workshop_duration', true),
+        'duration'      => get_post_meta($pid, '_nl_workshop_duration', true),
         'price'         => floatval(get_post_meta($pid, '_nl_workshop_price', true)),
-        'price_display' => 'HK$' . get_post_meta($pid, '_nl_workshop_price', true) . ' / person',
+        'price_display' => floatval(get_post_meta($pid, '_nl_workshop_price', true)) > 0 ? 'HK$'.number_format(get_post_meta($pid, '_nl_workshop_price', true)) : 'Contact us',
+        'gallery'       => array_values($gallery_urls),
         'desc_en'       => get_post_meta($pid, '_nl_workshop_desc_en', true),
         'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
         'desc_cn'       => get_post_meta($pid, '_nl_workshop_desc_cn', true),
-        'gallery'       => $gallery_urls,
-        'image'         => $gallery_urls[0] ?? '',
         'max_group'     => get_post_meta($pid, '_nl_workshop_max_group', true),
         'min_group'     => get_post_meta($pid, '_nl_workshop_min_group', true),
         'min_age'       => get_post_meta($pid, '_nl_workshop_min_age', true),
@@ -66,6 +64,8 @@ if (!$ws) {
     wp_redirect(home_url('/workshop/'));
     exit;
 }
+
+get_header();
 
 $title = $ws['title'];
 $locations = [
@@ -223,13 +223,6 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 </div>
 
 <div class="nl-detail-body">
-    <div class="nl-detail-meta">
-        <span>⏱ <?php echo esc_html($ws['duration']); ?></span>
-        <span>💰 <?php echo esc_html($ws['price_display']); ?></span>
-        <?php if (!empty($ws['max_group'])): ?><span>👥 <?php echo esc_html($ws['max_group']); ?> max</span><?php endif; ?>
-        <?php if (!empty($ws['min_group'])): ?><span>👤 <?php echo esc_html($ws['min_group']); ?> min</span><?php endif; ?>
-        <?php if (!empty($ws['min_age'])): ?><span>🎂 <?php echo esc_html($ws['min_age']); ?>+</span><?php endif; ?>
-    </div>
 
     <?php
     $items = $ws['items'] ?? [];
@@ -237,7 +230,7 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     $has_items = !empty($items);
     ?>
 
-    <?php if ($has_items): ?
+    <?php if ($has_items): ?>
     <div class="nl-detail-section" id="nl-items-section">
         <h2><?php echo $lang==='en' ? 'Select Package' : '選擇套餐'; ?></h2>
         <div class="nl-item-grid">
@@ -254,7 +247,7 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
                 <div class="nl-item-card__name"><?php echo esc_html($item_name); ?></div>
                 <div class="nl-item-card__price"><?php echo esc_html($item_display); ?></div>
             </div>
-            <?php endforeach; ?
+            <?php endforeach; ?>
         </div>
     </div>
     <?php endif; ?>
