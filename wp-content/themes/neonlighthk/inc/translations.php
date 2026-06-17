@@ -192,6 +192,10 @@ function nl_dictionary() {
         'ws_booking_error'=>['en'=>'Something went wrong. Please WhatsApp 6131 9328 for enquiries.', 'zh'=>'提交失敗。請致電/WhatsApp 6131 9328 查詢。', 'cn'=>'提交失败。请致电/WhatsApp 6131 9328 查询。'],
         'ws_advance'    => ['en'=>'Must book 2 days in advance', 'zh'=>'課程需要兩日前預約', 'cn'=>'课程需要两日前预约'],
         'ws_confirm'    => ['en'=>'Payment confirms your booking. To reschedule, notify us 48 hours in advance.', 'zh'=>'付款後即確認預約。如需更改日期，請於48小時前通知。', 'cn'=>'付款后即确认预约。如需更改日期，请于48小时前通知。'],
+        'ws_name_ph'    => ['en'=>'Full name',         'zh'=>'姓名',              'cn'=>'姓名'],
+        'ws_email_ph2'  => ['en'=>'Email address',     'zh'=>'電郵地址',           'cn'=>'电邮地址'],
+        'ws_phone_ph2'  => ['en'=>'e.g. 6123 4567',    'zh'=>'例如 6123 4567',   'cn'=>'例如 6123 4567'],
+        'ws_remarks_ph' => ['en'=>'Any special requests...', 'zh'=>'備註（如有）',   'cn'=>'备注（如有）'],
 
         // Footer
         'footer_about'  => ['en'=>'ABOUT',       'zh'=>'關於',       'cn'=>'关于'],

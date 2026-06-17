@@ -30,6 +30,7 @@ function nl_workshop_meta_box_callback( $post ) {
         '_nl_workshop_desc_zh'          => get_post_meta( $post->ID, '_nl_workshop_desc_zh', true ),
         '_nl_workshop_desc_cn'          => get_post_meta( $post->ID, '_nl_workshop_desc_cn', true ),
         '_nl_workshop_gallery'          => get_post_meta( $post->ID, '_nl_workshop_gallery', true ),
+        '_nl_workshop_max_group'        => get_post_meta( $post->ID, '_nl_workshop_max_group', true ),
         '_nl_workshop_min_group'        => get_post_meta( $post->ID, '_nl_workshop_min_group', true ),
         '_nl_workshop_booking_url'      => get_post_meta( $post->ID, '_nl_workshop_booking_url', true ),
         '_nl_workshop_items'            => get_post_meta( $post->ID, '_nl_workshop_items', true ),
@@ -61,6 +62,10 @@ function nl_workshop_meta_box_callback( $post ) {
         <div class="nl-meta-field">
             <label><?php _e( 'Min Group Size', 'neonlighthk' ); ?></label>
             <input type="number" name="_nl_workshop_min_group" value="<?php echo esc_attr( $fields['_nl_workshop_min_group'] ); ?>" />
+        </div>
+        <div class="nl-meta-field">
+            <label><?php _e( 'Max Group Size', 'neonlighthk' ); ?></label>
+            <input type="number" name="_nl_workshop_max_group" value="<?php echo esc_attr( $fields['_nl_workshop_max_group'] ); ?>" />
         </div>
         <div class="nl-meta-field full">
             <label><?php _e( 'Description (English)', 'neonlighthk' ); ?></label>
@@ -264,7 +269,7 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 		}
 	}
 
-    $num_fields = [ '_nl_workshop_min_group' ];
+    $num_fields = [ '_nl_workshop_min_group', '_nl_workshop_max_group' ];
 	foreach ( $num_fields as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			update_post_meta( $post_id, $key, floatval( $_POST[ $key ] ) );

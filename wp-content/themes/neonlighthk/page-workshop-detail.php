@@ -47,6 +47,7 @@ if ($workshop_post) {
         'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
         'desc_cn'       => get_post_meta($pid, '_nl_workshop_desc_cn', true),
         'min_group'     => get_post_meta($pid, '_nl_workshop_min_group', true),
+        'max_group'     => get_post_meta($pid, '_nl_workshop_max_group', true),
         'booking_url'   => get_post_meta($pid, '_nl_workshop_booking_url', true),
         'items'         => get_post_meta($pid, '_nl_workshop_items', true),
     ];
@@ -353,31 +354,31 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
             <h4 class="nl-booking-step__title">3. <?php echo nl_t('ws_step3'); ?></h4>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_name'); ?></label>
-                <input type="text" name="customer_name" required placeholder="Full name">
+                <input type="text" name="customer_name" required placeholder="<?php echo esc_attr(nl_t('ws_name_ph')); ?>">
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_email_ph'); ?></label>
-                <input type="email" name="customer_email" required>
+                <input type="email" name="customer_email" required placeholder="<?php echo esc_attr(nl_t('ws_email_ph2')); ?>">
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_phone_ph'); ?></label>
-                <input type="tel" name="customer_phone" required placeholder="eg. 6123 4567">
+                <input type="tel" name="customer_phone" required placeholder="<?php echo esc_attr(nl_t('ws_phone_ph2')); ?>">
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_group_size'); ?></label>
                 <select name="group_size" id="groupSize" required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6-10</option>
-                    <option value="10">10+</option>
+                    <?php
+                    $min_g = intval($ws['min_group'] ?? 1);
+                    $max_g = intval($ws['max_group'] ?? 10);
+                    for ($g = $min_g; $g <= $max_g; $g++) {
+                        echo '<option value="' . esc_attr($g) . '"' . ($g === $min_g ? ' selected' : '') . '>' . esc_html($g) . '</option>';
+                    }
+                    ?>
                 </select>
             </div>
             <div class="nl-booking-field">
                 <label><?php echo nl_t('ws_remarks'); ?></label>
-                <textarea name="remarks" rows="3" placeholder="Any special requests..."></textarea>
+                <textarea name="remarks" rows="3" placeholder="<?php echo esc_attr(nl_t('ws_remarks_ph')); ?>"></textarea>
             </div>
             <div class="nl-booking-actions">
                 <button type="button" class="nl-btn-secondary" id="btnStep3Back">← <?php echo nl_t('ws_back'); ?></button>
