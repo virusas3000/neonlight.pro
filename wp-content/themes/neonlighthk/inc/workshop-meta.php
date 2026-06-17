@@ -26,7 +26,6 @@ function nl_workshop_meta_box_callback( $post ) {
 	wp_nonce_field( 'nl_workshop_meta_save', 'nl_workshop_meta_nonce' );
 
     $fields = [
-        '_nl_workshop_price'           => get_post_meta( $post->ID, '_nl_workshop_price', true ),
         '_nl_workshop_duration'         => get_post_meta( $post->ID, '_nl_workshop_duration', true ),
         '_nl_workshop_size'             => get_post_meta( $post->ID, '_nl_workshop_size', true ),
         '_nl_workshop_size_en'          => get_post_meta( $post->ID, '_nl_workshop_size_en', true ),
@@ -64,10 +63,6 @@ function nl_workshop_meta_box_callback( $post ) {
 	</style>
 
 	<div class="nl-meta-grid">
-		<div class="nl-meta-field">
-			<label><?php _e( 'Price (HK$)', 'neonlighthk' ); ?></label>
-			<input type="number" name="_nl_workshop_price" value="<?php echo esc_attr( $fields['_nl_workshop_price'] ); ?>" />
-		</div>
 		<div class="nl-meta-field">
 			<label><?php _e( 'Duration', 'neonlighthk' ); ?></label>
 			<input type="text" name="_nl_workshop_duration" value="<?php echo esc_attr( $fields['_nl_workshop_duration'] ); ?>" placeholder="e.g. 2 hours" />
@@ -297,7 +292,7 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 		}
 	}
 
-    $num_fields = [ '_nl_workshop_price', '_nl_workshop_max_group', '_nl_workshop_min_group', '_nl_workshop_min_age' ];
+    $num_fields = [ '_nl_workshop_max_group', '_nl_workshop_min_group', '_nl_workshop_min_age' ];
 	foreach ( $num_fields as $key ) {
 		if ( isset( $_POST[ $key ] ) ) {
 			update_post_meta( $post_id, $key, floatval( $_POST[ $key ] ) );

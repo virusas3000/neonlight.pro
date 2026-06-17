@@ -42,8 +42,8 @@ if ($workshop_post) {
         'title_zh'      => $title_zh,
         'subtitle'      => get_post_meta($pid, '_nl_workshop_duration', true),
         'duration'      => get_post_meta($pid, '_nl_workshop_duration', true),
-        'price'         => floatval(get_post_meta($pid, '_nl_workshop_price', true)),
-        'price_display' => floatval(get_post_meta($pid, '_nl_workshop_price', true)) > 0 ? 'HK$'.number_format(get_post_meta($pid, '_nl_workshop_price', true)) : 'Contact us',
+        'price'         => 0,
+        'price_display' => '',
         'gallery'       => array_values($gallery_urls),
         'desc_en'       => get_post_meta($pid, '_nl_workshop_desc_en', true),
         'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
@@ -253,8 +253,17 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     <?php endif; ?>
 
     <div class="nl-detail-card">
+        <?php if ($has_items): ?>
+        <div class="nl-detail-price" id="displayPrice"><?php echo esc_html($items[0]['price_display'] ?? ''); ?></div>
+        <?php else: ?>
         <div class="nl-detail-price" id="displayPrice"><?php echo esc_html($ws['price_display']); ?></div>
-        <p style="color:#666;margin-bottom:24px"><?php echo esc_html($ws['subtitle']); ?></p>
+        <?php endif; ?>
+
+        <?php if (!empty($ws['min_group'])): ?>
+        <p style="color:#666;margin-bottom:24px">
+            <?php echo $lang==='en' ? 'Minimum ' . esc_html($ws['min_group']) . ' person' : '最小 ' . esc_html($ws['min_group']) . ' 人'; ?>
+        </p>
+        <?php endif; ?>
 
         <?php if (!empty($ws['booking_url'])): ?>
         <a href="<?php echo esc_url($ws['booking_url']); ?>" class="nl-detail-book" target="_blank">
@@ -264,8 +273,8 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
         <button class="nl-detail-book js-open-booking"
                 data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
                 data-title="<?php echo esc_attr($title); ?>"
-                data-price="<?php echo esc_attr($ws['price']); ?>"
-                data-price-display="<?php echo esc_attr($ws['price_display']); ?>">
+                data-price="<?php echo esc_attr($items[0]['price'] ?? $ws['price']); ?>"
+                data-price-display="<?php echo esc_attr($items[0]['price_display'] ?? $ws['price_display']); ?>">
             <?php echo nl_t('ws_book'); ?>
         </button>
         <?php endif; ?>
