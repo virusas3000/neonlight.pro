@@ -85,7 +85,7 @@ add_action('wp_head', function() {
     if (empty($ws)) return;
 
     $title   = $ws['title'] ?? '';
-    $cover   = str_replace('http://', 'https://', wp_get_attachment_url($ws['gallery_ids'][0] ?? 0) ?: ($ws['gallery'][0] ?? ''));
+    $cover   = 'https://neonlight.pro/wp-content/uploads/ws-cover.jpg';
     $cover_id = $ws['gallery_ids'][0] ?? 0;
     $cover_meta = $cover_id ? wp_get_attachment_metadata($cover_id) : null;
     $cover_w = $cover_meta['width'] ?? '';
