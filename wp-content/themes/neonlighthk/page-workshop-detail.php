@@ -126,6 +126,7 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 <style>
 /* ---------- Hero & Gallery ---------- */
 .nl-detail-hero{position:relative;width:100%;height:340px;overflow:hidden}
+.nl-detail-gallery-wrap{max-width:800px;margin:0 auto}
 .nl-detail-hero img,.nl-detail-hero__bg{width:100%;height:100%;object-fit:cover;display:block}
 .nl-detail-hero__overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.65) 100%);pointer-events:none}
 .nl-detail-hero__info{position:absolute;bottom:0;left:0;right:0;padding:28px 20px 20px;color:#fff}
@@ -228,6 +229,7 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 </style>
 
 <!-- Hero + Gallery -->
+<div class="nl-detail-gallery-wrap">
 <section class="nl-detail-hero">
     <img src="<?php echo esc_url($hero_img); ?>" alt="<?php echo esc_attr($title); ?>" class="nl-detail-hero__bg" />
     <div class="nl-detail-hero__overlay"></div>
@@ -249,6 +251,7 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     <?php endforeach; ?>
 </div>
 <?php endif; ?>
+</div>
 
 <!-- Lightbox -->
 <div class="nl-lightbox" id="nlLightbox">
