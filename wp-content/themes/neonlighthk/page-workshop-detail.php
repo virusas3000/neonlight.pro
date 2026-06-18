@@ -48,6 +48,7 @@ if ($workshop_post) {
         'price'         => 0,
         'price_display' => '',
         'gallery'       => array_values($gallery_urls),
+        'gallery_ids'   => $gallery_ids,
         'desc_en'       => get_post_meta($pid, '_nl_workshop_desc_en', true),
         'desc_zh'       => get_post_meta($pid, '_nl_workshop_desc_zh', true),
         'desc_cn'       => get_post_meta($pid, '_nl_workshop_desc_cn', true),
@@ -84,8 +85,8 @@ add_action('wp_head', function() {
     if (empty($ws)) return;
 
     $title   = $ws['title'] ?? '';
-    $cover   = str_replace('http://', 'https://', wp_get_attachment_url($gallery_ids[0] ?? 0) ?: ($ws['gallery'][0] ?? ''));
-    $cover_id = $gallery_ids[0] ?? 0;
+    $cover   = str_replace('http://', 'https://', wp_get_attachment_url($ws['gallery_ids'][0] ?? 0) ?: ($ws['gallery'][0] ?? ''));
+    $cover_id = $ws['gallery_ids'][0] ?? 0;
     $cover_meta = $cover_id ? wp_get_attachment_metadata($cover_id) : null;
     $cover_w = $cover_meta['width'] ?? '';
     $cover_h = $cover_meta['height'] ?? '';
