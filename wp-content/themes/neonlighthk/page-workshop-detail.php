@@ -62,6 +62,46 @@ if (!$ws) {
     exit;
 }
 
+/* ---------- Sharing meta (document title + Open Graph) ---------- */
+$GLOBALS['nl_workshop_detail'] = $ws;
+$GLOBALS['nl_workshop_detail_title'] = $ws['title'];
+
+add_filter('document_title_parts', function($parts) {
+    if (!empty($GLOBALS['nl_workshop_detail_title'])) {
+        $parts['title'] = $GLOBALS['nl_workshop_detail_title'] . ' - ' . get_bloginfo('name');
+    }
+    return $parts;
+});
+
+add_action('wp_head', function() {
+    $ws  = $GLOBALS['nl_workshop_detail'] ?? [];
+    $lang = nl_lang();
+    if (empty($ws)) return;
+
+    $title   = $ws['title'] ?? '';
+    $cover   = $ws['gallery'][0] ?? '';
+    $desc    = '';
+    if ($lang === 'en') {
+        $desc = $ws['desc_en'] ?: 'Join us for a hands-on neon light art workshop.';
+    } elseif ($lang === 'zh') {
+        $desc = $ws['desc_zh'] ?: '參加我們的霓虹燈藝術工作坊，親手製作屬於你的霓虹燈作品。';
+    } else {
+        $desc = $ws['desc_cn'] ?: '参加我们的霓虹灯艺术工作坊，亲手制作属于你的霓虹灯作品。';
+    }
+    $url = home_url(add_query_arg([]));
+
+    echo '\n';
+    echo '<meta property="og:title" content="' . esc_attr($title . ' - ' . get_bloginfo('name')) . '">' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta property="og:image" content="' . esc_url($cover) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
+    echo '<meta property="og:type" content="website">' . "\n";
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr($title . ' - ' . get_bloginfo('name')) . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta name="twitter:image" content="' . esc_url($cover) . '">' . "\n";
+}, 1);
+
 get_header();
 
 $title = $ws['title'];
