@@ -3,7 +3,9 @@
  * Template Name: Workshop Detail
  * @package NeonLightHK
  */
-$workshop_id = sanitize_title(sanitize_text_field($_GET['id'] ?? ''));
+$raw_id      = sanitize_text_field($_GET['id'] ?? '');
+// WhatsApp sends decoded UTF-8; WordPress DB stores post_name as lowercase %-encoded slug
+$workshop_id = str_replace('%2D', '-', strtolower(rawurlencode($raw_id)));
 $lang = nl_lang();
 
 /* ---------- Try to load from nl_workshop CPT first ---------- */
