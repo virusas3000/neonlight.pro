@@ -84,7 +84,7 @@ add_action('wp_head', function() {
     if (empty($ws)) return;
 
     $title   = $ws['title'] ?? '';
-    $cover   = $ws['gallery'][0] ?? '';
+    $cover   = str_replace('http://', 'https://', $ws['gallery'][0] ?? '');
     $desc    = '';
     if ($lang === 'en') {
         $desc = $ws['desc_en'] ?: 'Join us for a hands-on neon light art workshop.';
@@ -97,13 +97,13 @@ add_action('wp_head', function() {
     $url = home_url(add_query_arg([]));
 
     echo "\n";
-    echo '<meta property="og:title" content="' . esc_attr($title . ' - ' . get_bloginfo('name')) . '">' . "\n";
+    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($cover) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:type" content="website">' . "\n";
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
-    echo '<meta name="twitter:title" content="' . esc_attr($title . ' - ' . get_bloginfo('name')) . '">' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta name="twitter:image" content="' . esc_url($cover) . '">' . "\n";
 }, 1);
