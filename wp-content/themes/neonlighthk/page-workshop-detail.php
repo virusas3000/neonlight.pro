@@ -4,21 +4,23 @@
  * @package NeonLightHK
  */
 $raw_id      = sanitize_text_field($_GET['id'] ?? '');
-// WhatsApp sends decoded UTF-8; WordPress DB stores post_name as lowercase %-encoded slug
-$workshop_id = str_replace('%2D', '-', strtolower(rawurlencode($raw_id)));
+// WhatsApp sends decoded UTF-8; WP DB post_name encoding case is unpredictable.
+// Use case-insensitive SQL matching to avoid encoding-case mismatches.
+$workshop_id = sanitize_title($raw_id);
 $lang = nl_lang();
 
 /* ---------- Try to load from nl_workshop CPT first ---------- */
 $workshop_post = null;
 if ($workshop_id) {
-    $posts = get_posts([
-        'post_type'      => 'nl_workshop',
-        'post_status'    => 'publish',
-        'posts_per_page' => 1,
-        'name'           => $workshop_id,
-    ]);
-    if (!empty($posts)) {
-        $workshop_post = $posts[0];
+    global $wpdb;
+    $pid = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'nl_workshop' AND post_status = 'publish' AND LOWER(post_name) = LOWER(%s) LIMIT 1",
+            $workshop_id
+        )
+    );
+    if ($pid) {
+        $workshop_post = get_post($pid);
     }
 }
 
