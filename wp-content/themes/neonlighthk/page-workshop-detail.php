@@ -105,11 +105,9 @@ add_action('wp_head', function() {
     echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($cover) . '">' . "\n";
-    if ($cover_w) echo '<meta property="og:image:width" content="' . esc_attr($cover_w) . '">' . "\n";
-    if ($cover_h) echo '<meta property="og:image:height" content="' . esc_attr($cover_h) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:type" content="website">' . "\n";
-    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:card" content="summary">' . "\n";
     echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta name="twitter:image" content="' . esc_url($cover) . '">' . "\n";
