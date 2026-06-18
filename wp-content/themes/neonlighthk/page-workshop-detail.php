@@ -84,7 +84,7 @@ add_action('wp_head', function() {
     $lang = nl_lang();
     if (empty($ws)) return;
 
-    $title   = $ws['title'] ?? '';
+    $title   = ($lang === 'en' ? 'Workshop | ' : '工作坊 | ') . ($ws['title'] ?? '');
     $cover   = 'https://neonlight.pro/wp-content/uploads/ws-cover.jpg';
     $cover_id = $ws['gallery_ids'][0] ?? 0;
     $cover_meta = $cover_id ? wp_get_attachment_metadata($cover_id) : null;
@@ -161,6 +161,11 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 .nl-lightbox__dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4)}
 .nl-lightbox__dots span.active{background:#fff}
 
+/* Breadcrumb */
+.nl-breadcrumb{font-size:.85rem;color:#777;margin-bottom:0;padding:10px 20px;background:#f8f8f8;border-bottom:1px solid #eee}
+.nl-breadcrumb a{color:#777;text-decoration:none}
+.nl-breadcrumb a:hover{color:#00d4b0}
+
 /* Body */
 .nl-detail-body{max-width:800px;margin:0 auto;padding:24px 16px 40px}
 .nl-detail-meta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
@@ -232,6 +237,13 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     .nl-booking-actions button{padding:16px 36px;font-size:17px;border-radius:30px}
 }
 </style>
+
+<!-- Breadcrumb -->
+<nav class="nl-breadcrumb">
+    <a href="<?php echo esc_url(home_url('/')); ?>"><?php echo nl_t('shop_breadcrumb_home'); ?></a> /
+    <a href="<?php echo esc_url(home_url('/workshop/')); ?>"><?php echo nl_t('nav_workshop'); ?></a> /
+    <span><?php echo esc_html($title); ?></span>
+</nav>
 
 <!-- Hero + Gallery -->
 <div class="nl-detail-gallery-wrap">
