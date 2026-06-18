@@ -13,10 +13,12 @@ $lang = nl_lang();
 $workshop_post = null;
 if ($workshop_id) {
     global $wpdb;
-    // $wpdb->prepare() breaks %-encoded slugs because %e9 is treated as a printf specifier.
-    // Use esc_sql() with direct string concat instead.
+    // $wpdb->prepare() AND esc_sql() both treat % as printf placeholders —
+    // they destroy %-encoded slugs (e.g. %e9 → hash). sanitize_title() never
+    // outputs quotes, so direct string concat is safe here.
+    $safe_id = str_replace("'", "''", $workshop_id);
     $pid = $wpdb->get_var(
-        "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'nl_workshop' AND post_status = 'publish' AND LOWER(post_name) = LOWER('" . $wpdb->esc_sql($workshop_id) . "') LIMIT 1"
+        "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'nl_workshop' AND post_status = 'publish' AND LOWER(post_name) = LOWER('" . $safe_id . "') LIMIT 1"
     );
     if ($pid) {
         $workshop_post = get_post($pid);
