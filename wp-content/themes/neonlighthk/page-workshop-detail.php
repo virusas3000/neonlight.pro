@@ -95,7 +95,7 @@ add_action('wp_head', function() {
     }
     $url = home_url(add_query_arg([]));
 
-    echo '\n';
+    echo "\n";
     echo '<meta property="og:title" content="' . esc_attr($title . ' - ' . get_bloginfo('name')) . '">' . "\n";
     echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($cover) . '">' . "\n";
