@@ -84,7 +84,7 @@ add_action('wp_head', function() {
     $lang = nl_lang();
     if (empty($ws)) return;
 
-    $title   = ($lang === 'en' ? 'Workshop | ' : '工作坊 | ') . ($ws['title'] ?? '');
+    $title   = $ws['title'] ?? '';
     $cover   = 'https://neonlight.pro/wp-content/uploads/ws-cover.jpg';
     $cover_id = $ws['gallery_ids'][0] ?? 0;
     $cover_meta = $cover_id ? wp_get_attachment_metadata($cover_id) : null;
@@ -161,10 +161,6 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 .nl-lightbox__dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4)}
 .nl-lightbox__dots span.active{background:#fff}
 
-/* Section Title */
-.nl-detail-section-title{background:#00d4b0;color:#fff;text-align:center;padding:16px 20px;margin-bottom:0}
-.nl-detail-section-title h1{font-size:1.5rem;font-weight:700;letter-spacing:2px;margin:0}
-
 /* Body */
 .nl-detail-body{max-width:800px;margin:0 auto;padding:24px 16px 40px}
 .nl-detail-meta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
@@ -236,11 +232,6 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     .nl-booking-actions button{padding:16px 36px;font-size:17px;border-radius:30px}
 }
 </style>
-
-<!-- Section Title -->
-<div class="nl-detail-section-title">
-    <h1><?php echo $lang === 'en' ? 'Workshop' : '工作坊'; ?></h1>
-</div>
 
 <!-- Hero + Gallery -->
 <div class="nl-detail-gallery-wrap">
