@@ -37,6 +37,19 @@ add_action('template_redirect', function() {
     }
 }, 1);
 
+// Fix workshop-detail routing when query vars cause WordPress to 404
+add_action('template_redirect', function() {
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    $path = rtrim($path, '/');
+    if ($path === '/workshop-detail') {
+        // Force 200 OK — virtual route handled by template_include
+        status_header(200);
+        global $wp_query;
+        $wp_query->is_404 = false;
+        $wp_query->is_page = true;
+    }
+}, 1);
+
 // Force custom templates with high priority to override WooCommerce
 add_filter('template_include', function($template) {
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
