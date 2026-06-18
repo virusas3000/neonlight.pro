@@ -166,6 +166,10 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 .nl-breadcrumb a{color:#777;text-decoration:none}
 .nl-breadcrumb a:hover{color:#00d4b0}
 
+/* Contact Bar */
+.nl-detail-contact-bar{background:#00d4b0;color:#fff;padding:20px;text-align:center;margin-bottom:24px}
+.nl-detail-contact-bar a{color:#fff;text-decoration:underline;margin:0 6px}
+
 /* Body */
 .nl-detail-body{max-width:800px;margin:0 auto;padding:24px 16px 40px}
 .nl-detail-meta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
@@ -244,6 +248,16 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
     <a href="<?php echo esc_url(home_url('/workshop/')); ?>"><?php echo nl_t('nav_workshop'); ?></a> /
     <span><?php echo esc_html($title); ?></span>
 </nav>
+
+<!-- Contact Bar -->
+<div class="nl-detail-contact-bar">
+    <strong><?php echo nl_t('ws_contact'); ?></strong><br>
+    <a href="https://wa.me/85261319328" target="_blank">WhatsApp 6131 9328</a> |
+    <a href="mailto:www.neonlight.pro@gmail.com"><?php echo nl_t('ws_email'); ?></a> |
+    IG: <a href="https://instagram.com/irregularthk" target="_blank">@irregularthk</a>
+    <a href="https://instagram.com/justbe.mawan" target="_blank">@justbe.mawan</a>
+    <a href="https://instagram.com/neonlight.pro" target="_blank">@neonlight.pro</a>
+</div>
 
 <!-- Hero + Gallery -->
 <div class="nl-detail-gallery-wrap">
