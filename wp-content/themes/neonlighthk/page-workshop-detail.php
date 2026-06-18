@@ -3,10 +3,10 @@
  * Template Name: Workshop Detail
  * @package NeonLightHK
  */
-$raw_id      = sanitize_text_field($_GET['id'] ?? '');
-// WhatsApp sends decoded UTF-8; WP DB post_name encoding case is unpredictable.
-// Use case-insensitive SQL matching to avoid encoding-case mismatches.
-$workshop_id = sanitize_title($raw_id);
+$raw_id = wp_unslash($_GET['id'] ?? '');
+// WhatsApp sends decoded UTF-8; WP DB stores post_name as lowercase %-encoded slug.
+// sanitize_text_field() strips %XX sequences — use sanitize_title() + strtolower instead.
+$workshop_id = strtolower(sanitize_title($raw_id));
 $lang = nl_lang();
 
 /* ---------- Try to load from nl_workshop CPT first ---------- */
