@@ -93,6 +93,7 @@ add_action('wp_head', function() {
     } else {
         $desc = $ws['desc_cn'] ?: '参加我们的霓虹灯艺术工作坊，亲手制作属于你的霓虹灯作品。';
     }
+    $desc = str_replace(["\r\n", "\r", "\n"], ' ', $desc);
     $url = home_url(add_query_arg([]));
 
     echo "\n";
