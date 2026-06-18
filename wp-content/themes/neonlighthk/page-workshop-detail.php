@@ -3,7 +3,7 @@
  * Template Name: Workshop Detail
  * @package NeonLightHK
  */
-$workshop_id = sanitize_text_field($_GET['id'] ?? '');
+$workshop_id = sanitize_title(sanitize_text_field($_GET['id'] ?? ''));
 $lang = nl_lang();
 
 /* ---------- Try to load from nl_workshop CPT first ---------- */
