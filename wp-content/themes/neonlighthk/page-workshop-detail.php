@@ -161,10 +161,9 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 .nl-lightbox__dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4)}
 .nl-lightbox__dots span.active{background:#fff}
 
-/* Breadcrumb */
-.nl-breadcrumb{font-size:.85rem;color:#777;margin-bottom:0;padding:10px 20px;background:#f8f8f8;border-bottom:1px solid #eee}
-.nl-breadcrumb a{color:#777;text-decoration:none}
-.nl-breadcrumb a:hover{color:#00d4b0}
+/* Section Title */
+.nl-detail-section-title{background:#00d4b0;color:#fff;text-align:center;padding:16px 20px;margin-bottom:0}
+.nl-detail-section-title h1{font-size:1.5rem;font-weight:700;letter-spacing:2px;margin:0}
 
 /* Body */
 .nl-detail-body{max-width:800px;margin:0 auto;padding:24px 16px 40px}
@@ -238,12 +237,10 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 }
 </style>
 
-<!-- Breadcrumb -->
-<nav class="nl-breadcrumb">
-    <a href="<?php echo esc_url(home_url('/')); ?>"><?php echo nl_t('shop_breadcrumb_home'); ?></a> /
-    <a href="<?php echo esc_url(home_url('/workshop/')); ?>"><?php echo nl_t('nav_workshop'); ?></a> /
-    <span><?php echo esc_html($title); ?></span>
-</nav>
+<!-- Section Title -->
+<div class="nl-detail-section-title">
+    <h1><?php echo $lang === 'en' ? 'Workshop' : '工作坊'; ?></h1>
+</div>
 
 <!-- Hero + Gallery -->
 <div class="nl-detail-gallery-wrap">
