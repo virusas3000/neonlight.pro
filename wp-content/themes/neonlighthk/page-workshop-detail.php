@@ -84,7 +84,11 @@ add_action('wp_head', function() {
     if (empty($ws)) return;
 
     $title   = $ws['title'] ?? '';
-    $cover   = str_replace('http://', 'https://', $ws['gallery'][0] ?? '');
+    $cover   = str_replace('http://', 'https://', wp_get_attachment_url($gallery_ids[0] ?? 0) ?: ($ws['gallery'][0] ?? ''));
+    $cover_id = $gallery_ids[0] ?? 0;
+    $cover_meta = $cover_id ? wp_get_attachment_metadata($cover_id) : null;
+    $cover_w = $cover_meta['width'] ?? '';
+    $cover_h = $cover_meta['height'] ?? '';
     $desc    = '';
     if ($lang === 'en') {
         $desc = $ws['desc_en'] ?: 'Join us for a hands-on neon light art workshop.';
@@ -100,6 +104,8 @@ add_action('wp_head', function() {
     echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($cover) . '">' . "\n";
+    if ($cover_w) echo '<meta property="og:image:width" content="' . esc_attr($cover_w) . '">' . "\n";
+    if ($cover_h) echo '<meta property="og:image:height" content="' . esc_attr($cover_h) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url($url) . '">' . "\n";
     echo '<meta property="og:type" content="website">' . "\n";
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
