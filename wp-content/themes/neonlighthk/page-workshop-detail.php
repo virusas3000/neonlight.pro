@@ -161,11 +161,7 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 .nl-lightbox__dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4)}
 .nl-lightbox__dots span.active{background:#fff}
 
-/* Section Title */
-.nl-detail-section-title{background:#00d4b0;color:#fff;text-align:center;padding:16px 20px;margin-bottom:0}
-.nl-detail-section-title h1{font-size:1.5rem;font-weight:700;letter-spacing:2px;margin:0}
 
-/* Body */
 .nl-detail-body{max-width:800px;margin:0 auto;padding:24px 16px 40px}
 .nl-detail-meta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
 .nl-detail-meta span{background:#f5f5f5;padding:10px 20px;border-radius:999px;font-size:.9rem}
@@ -237,51 +233,9 @@ $hero_img = $has_gallery ? $gallery[0] : (get_template_directory_uri().'/assets/
 }
 </style>
 
-<!-- Section Title -->
-<div class="nl-detail-section-title">
-    <h1><?php echo $lang === 'en' ? 'Workshop' : '工作坊'; ?></h1>
-</div>
 
-<!-- Hero + Gallery -->
-<div class="nl-detail-gallery-wrap">
-<section class="nl-detail-hero">
-    <img src="<?php echo esc_url($hero_img); ?>" alt="<?php echo esc_attr($title); ?>" class="nl-detail-hero__bg" />
-    <div class="nl-detail-hero__overlay"></div>
-    <div class="nl-detail-hero__info">
-        <h1><?php echo esc_html($title); ?></h1>
-    </div>
-    <?php if ($has_gallery && count($gallery) > 1): ?>
-    <button class="nl-detail-hero__view" onclick="openLightbox(0)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-        <?php echo $lang==='en' ? 'View images' : '查看圖片'; ?>
-    </button>
-    <?php endif; ?>
-</section>
 
-<?php if ($has_gallery && count($gallery) > 1): ?>
-<div class="nl-detail-thumbs">
-    <?php foreach ($gallery as $i => $url): ?>
-    <img src="<?php echo esc_url($url); ?>" alt="" class="<?php echo $i===0 ? 'active' : ''; ?>" onclick="openLightbox(<?php echo $i; ?>)" />
-    <?php endforeach; ?>
-</div>
-<?php endif; ?>
-</div>
 
-<!-- Lightbox -->
-<div class="nl-lightbox" id="nlLightbox">
-    <div class="nl-lightbox__top">
-        <span class="nl-lightbox__counter" id="lbCounter">1 / 1</span>
-        <button class="nl-lightbox__close" onclick="closeLightbox()">&times;</button>
-    </div>
-    <div class="nl-lightbox__stage">
-        <button class="nl-lightbox__arrow prev" onclick="lbPrev()">&#10094;</button>
-        <img src="" alt="" id="lbImage" />
-        <button class="nl-lightbox__arrow next" onclick="lbNext()">&#10095;</button>
-    </div>
-    <div class="nl-lightbox__dots" id="lbDots"></div>
-</div>
-
-<div class="nl-detail-body">
 
     <?php
     $items = $ws['items'] ?? [];
