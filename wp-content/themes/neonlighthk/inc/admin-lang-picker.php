@@ -150,7 +150,7 @@ add_action('save_post', function ($post_id) {
 /* ===== INLINE SCRIPT FOR QUICK EDIT ===== */
 add_action('admin_footer', function () {
     $screen = get_current_screen();
-    if (!$screen || !in_array($screen->id, ['edit-post', 'edit-page', 'edit-nl_workshop', 'edit-nl_balloon', 'edit-nl_hanfu', 'edit-nl_rental', 'edit-nl_custom_order', 'edit-nl_lookbook', 'edit-nl_project'])) return;
+    if (!$screen || !in_array($screen->id, ['edit-post', 'edit-page', 'edit-nl_balloon', 'edit-nl_hanfu', 'edit-nl_rental', 'edit-nl_custom_order', 'edit-nl_lookbook', 'edit-nl_project'])) return;
     ?>
     <script>
     jQuery(function($){
