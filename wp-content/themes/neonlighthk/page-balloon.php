@@ -23,13 +23,6 @@ $base_args = [
 			'terms'    => 'ballon-magic',
 		],
 	],
-	'meta_query'     => [
-		[
-			'key'     => '_nl_post_lang',
-			'value'   => $lang,
-			'compare' => '=',
-		],
-	],
 ];
 $products = new WP_Query($base_args);
 $total = $products->found_posts;
@@ -64,7 +57,7 @@ $showing = min(12, $total);
 								<span><?php echo nl_t('shop_no_image'); ?></span>
 							</div>
 						<?php endif; ?>
-						<h3 class="nl-product-card__title"><?php the_title(); ?></h3>
+						<h3 class="nl-product-card__title"><?php echo nl_get_product_trilingual_title(); ?></h3>
 						<div class="nl-product-card__price">
 							<?php if ($product->is_on_sale() && $product->get_sale_price()) : ?>
 								<span class="nl-product-card__price-regular">$<?php echo number_format(floatval($product->get_regular_price()),2); ?></span>
