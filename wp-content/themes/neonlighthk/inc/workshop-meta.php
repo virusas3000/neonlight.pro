@@ -67,15 +67,15 @@ function nl_workshop_meta_box_callback( $post ) {
 	</style>
 
 	<div class="nl-meta-grid">
-        <div class="nl-meta-field">
+        <div class="nl-meta-field full">
             <label><?php _e( 'Title (English)', 'neonlighthk' ); ?></label>
             <input type="text" name="_nl_workshop_title_en" value="<?php echo esc_attr( $fields['_nl_workshop_title_en'] ); ?>" placeholder="Workshop Title" />
         </div>
-        <div class="nl-meta-field">
+        <div class="nl-meta-field full">
             <label><?php _e( 'Title (繁體中文)', 'neonlighthk' ); ?></label>
             <input type="text" name="_nl_workshop_title_zh" value="<?php echo esc_attr( $fields['_nl_workshop_title_zh'] ); ?>" placeholder="工作坊名稱" />
         </div>
-        <div class="nl-meta-field">
+        <div class="nl-meta-field full">
             <label><?php _e( 'Title (简体中文)', 'neonlighthk' ); ?></label>
             <input type="text" name="_nl_workshop_title_cn" value="<?php echo esc_attr( $fields['_nl_workshop_title_cn'] ); ?>" placeholder="工作坊名称" />
         </div>
