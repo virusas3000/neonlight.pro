@@ -21,9 +21,11 @@ add_action( 'add_meta_boxes', function () {
 	);
 } );
 
-/* ---------- Hide default title input ---------- */
-add_action( 'admin_init', function () {
-	remove_post_type_support( 'nl_workshop', 'title' );
+/* ---------- Hide default title input (CSS fallback so Gutenberg save button stays enabled) ---------- */
+add_action( 'admin_head', function () {
+	global $post_type;
+	if ( $post_type !== 'nl_workshop' ) return;
+	echo '<style>.editor-post-title { display:none !important; }</style>';
 } );
 
 /* ---------- Render meta box ---------- */
