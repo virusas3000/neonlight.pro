@@ -110,14 +110,10 @@ foreach (['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 
     add_action("manage_{$type}_posts_custom_column", 'nl_render_lang_column', 10, 2);
 }
 
-// Products (WooCommerce) — different hook
-add_filter('manage_edit-product_columns', 'nl_add_lang_column');
-add_action('manage_product_posts_custom_column', 'nl_render_lang_column', 10, 2);
-
 /* ===== QUICK EDIT ===== */
 add_action('quick_edit_custom_box', function ($column_name, $post_type) {
     if ($column_name !== 'nl_lang') return;
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project', 'product'];
+    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post_type, $types)) return;
     ?>
     <fieldset class="inline-edit-col-right">
@@ -154,7 +150,7 @@ add_action('save_post', function ($post_id) {
 /* ===== INLINE SCRIPT FOR QUICK EDIT ===== */
 add_action('admin_footer', function () {
     $screen = get_current_screen();
-    if (!$screen || !in_array($screen->id, ['edit-post', 'edit-page', 'edit-nl_workshop', 'edit-nl_balloon', 'edit-nl_hanfu', 'edit-nl_rental', 'edit-nl_custom_order', 'edit-nl_lookbook', 'edit-nl_project', 'edit-product'])) return;
+    if (!$screen || !in_array($screen->id, ['edit-post', 'edit-page', 'edit-nl_workshop', 'edit-nl_balloon', 'edit-nl_hanfu', 'edit-nl_rental', 'edit-nl_custom_order', 'edit-nl_lookbook', 'edit-nl_project'])) return;
     ?>
     <script>
     jQuery(function($){
@@ -176,7 +172,7 @@ add_action('admin_footer', function () {
 /* ===== BULK EDIT ===== */
 add_action('bulk_edit_custom_box', function ($column_name, $post_type) {
     if ($column_name !== 'nl_lang') return;
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project', 'product'];
+    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post_type, $types)) return;
     ?>
     <fieldset class="inline-edit-col-right">
