@@ -74,7 +74,7 @@
 			<div class="nl-lang-switcher">
 				<?php $curlang = nl_lang(); ?>
 				<?php $current_uri = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>
-				<?php foreach (['en'=>'EN', 'zh'=>'繁', 'cn'=>'简'] as $code=$>$label) : ?>
+				<?php foreach (['en'=>'EN', 'zh'=>'繁', 'cn'=>'简'] as $code => $label) : ?>
 					<a href="<?php echo esc_url(add_query_arg('lang', $code, $current_uri)); ?>" class="<?php echo $curlang===$code ? 'active' : ''; ?>">
 					<?php echo $label; ?>
 					</a>
