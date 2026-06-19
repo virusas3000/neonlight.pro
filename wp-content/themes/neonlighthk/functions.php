@@ -16,6 +16,9 @@ require_once get_template_directory() . '/inc/admin-lang-picker.php';
 // Workshop admin meta boxes (price, duration, description, gallery, etc.)
 require_once get_template_directory() . '/inc/workshop-meta.php';
 
+// Trilingual product descriptions (EN/TC/SC) for WooCommerce products
+require_once get_template_directory() . '/inc/product-trilingual-desc.php';
+
 // Register ?lang= query var so WordPress doesn't 404 on ?lang=zh / ?lang=en / ?lang=cn
 add_filter('query_vars', function($vars) {
     $vars[] = 'lang';

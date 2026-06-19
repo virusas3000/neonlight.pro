@@ -23,13 +23,6 @@ $args = [
 			'terms'    => 'products',
 		],
 	],
-	'meta_query'     => [
-		[
-			'key'     => '_nl_post_lang',
-			'value'   => $lang,
-			'compare' => '=',
-		],
-	],
 ];
 $products = new WP_Query($args);
 $total = $products->found_posts;

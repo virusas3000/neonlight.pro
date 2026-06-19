@@ -70,7 +70,7 @@ get_header('shop'); ?>
 		<!-- Product Details -->
 		<div class="nl-product-details">
 			<?php
-			$long_desc = get_the_content();
+			$long_desc = nl_get_product_trilingual_desc();
 			if (!empty($long_desc)) : ?>
 				<div class="nl-product-details__section">
 					<h2><?php echo nl_t('product_details_desc'); ?></h2>
