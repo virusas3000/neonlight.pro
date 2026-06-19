@@ -166,7 +166,7 @@ foreach ($ws_posts as $p) {
     }
     $workshops[] = [
         'id'            => $p->post_name,
-        'title'         => $p->post_title,
+        'title'         => nl_get_workshop_trilingual_title($p->ID),
         'title_en'      => get_post_meta($p->ID, '_nl_workshop_title_en', true) ?: $p->post_title,
         'price'         => $price,
         'price_display' => $price > 0 ? 'HK$' . number_format($price) : 'Contact us',
@@ -380,7 +380,7 @@ input[type="date"]{min-width:0;width:100%}
             <div class="nl-workshop-card__info">
                 <h3 class="nl-workshop-card__title">
                     <a href="<?php echo home_url('/workshop-detail/?id=' . esc_attr($ws['id'])); ?>" style="color:inherit;text-decoration:none;">
-                        <?php echo nl_lang()==='en' ? esc_html($ws['title_en']) : esc_html($ws['title']); ?>
+                        <?php echo esc_html($ws['title']); ?>
                     </a>
                 </h3>
                 <div class="nl-workshop-card__meta">
@@ -388,7 +388,7 @@ input[type="date"]{min-width:0;width:100%}
                 </div>
                 <button class="nl-workshop-card__btn js-open-booking"
                         data-workshop-id="<?php echo esc_attr($ws['id']); ?>"
-                        data-title="<?php echo nl_lang()==='en' ? esc_attr($ws['title_en']) : esc_attr($ws['title']); ?>"
+                        data-title="<?php echo esc_attr($ws['title']); ?>"
                         data-price="<?php echo esc_attr($ws['price']); ?>"
                         data-price-display="<?php echo esc_attr($ws['price_display']); ?>"
                         data-min-group="<?php echo esc_attr(intval($ws['min_group'] ?? 1)); ?>"

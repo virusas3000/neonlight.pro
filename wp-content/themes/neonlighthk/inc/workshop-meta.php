@@ -21,11 +21,19 @@ add_action( 'add_meta_boxes', function () {
 	);
 } );
 
+/* ---------- Hide default title input ---------- */
+add_action( 'admin_init', function () {
+	remove_post_type_support( 'nl_workshop', 'title' );
+} );
+
 /* ---------- Render meta box ---------- */
 function nl_workshop_meta_box_callback( $post ) {
 	wp_nonce_field( 'nl_workshop_meta_save', 'nl_workshop_meta_nonce' );
 
     $fields = [
+        '_nl_workshop_title_en'         => get_post_meta( $post->ID, '_nl_workshop_title_en', true ),
+        '_nl_workshop_title_zh'         => get_post_meta( $post->ID, '_nl_workshop_title_zh', true ),
+        '_nl_workshop_title_cn'         => get_post_meta( $post->ID, '_nl_workshop_title_cn', true ),
         '_nl_workshop_desc_en'          => get_post_meta( $post->ID, '_nl_workshop_desc_en', true ),
         '_nl_workshop_desc_zh'          => get_post_meta( $post->ID, '_nl_workshop_desc_zh', true ),
         '_nl_workshop_desc_cn'          => get_post_meta( $post->ID, '_nl_workshop_desc_cn', true ),
@@ -59,6 +67,18 @@ function nl_workshop_meta_box_callback( $post ) {
 	</style>
 
 	<div class="nl-meta-grid">
+        <div class="nl-meta-field">
+            <label><?php _e( 'Title (English)', 'neonlighthk' ); ?></label>
+            <input type="text" name="_nl_workshop_title_en" value="<?php echo esc_attr( $fields['_nl_workshop_title_en'] ); ?>" placeholder="Workshop Title" />
+        </div>
+        <div class="nl-meta-field">
+            <label><?php _e( 'Title (繁體中文)', 'neonlighthk' ); ?></label>
+            <input type="text" name="_nl_workshop_title_zh" value="<?php echo esc_attr( $fields['_nl_workshop_title_zh'] ); ?>" placeholder="工作坊名稱" />
+        </div>
+        <div class="nl-meta-field">
+            <label><?php _e( 'Title (简体中文)', 'neonlighthk' ); ?></label>
+            <input type="text" name="_nl_workshop_title_cn" value="<?php echo esc_attr( $fields['_nl_workshop_title_cn'] ); ?>" placeholder="工作坊名称" />
+        </div>
         <div class="nl-meta-field">
             <label><?php _e( 'Min Group Size', 'neonlighthk' ); ?></label>
             <input type="number" name="_nl_workshop_min_group" value="<?php echo esc_attr( $fields['_nl_workshop_min_group'] ); ?>" />
@@ -258,6 +278,9 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 	}
 
     $text_fields = [
+        '_nl_workshop_title_en',
+        '_nl_workshop_title_zh',
+        '_nl_workshop_title_cn',
         '_nl_workshop_desc_en',
         '_nl_workshop_desc_zh',
         '_nl_workshop_desc_cn',
@@ -268,6 +291,22 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 			update_post_meta( $post_id, $key, wp_kses_post( $_POST[ $key ] ) );
 		}
 	}
+
+    // Sync post_title from trilingual title fields (fallback chain)
+    $new_title = '';
+    if ( ! empty( $_POST['_nl_workshop_title_zh'] ) ) {
+        $new_title = sanitize_text_field( $_POST['_nl_workshop_title_zh'] );
+    } elseif ( ! empty( $_POST['_nl_workshop_title_en'] ) ) {
+        $new_title = sanitize_text_field( $_POST['_nl_workshop_title_en'] );
+    } elseif ( ! empty( $_POST['_nl_workshop_title_cn'] ) ) {
+        $new_title = sanitize_text_field( $_POST['_nl_workshop_title_cn'] );
+    }
+    if ( $new_title ) {
+        wp_update_post( [
+            'ID'         => $post_id,
+            'post_title' => $new_title,
+        ] );
+    }
 
     $num_fields = [ '_nl_workshop_min_group', '_nl_workshop_max_group' ];
 	foreach ( $num_fields as $key ) {
@@ -320,3 +359,27 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 add_filter( 'manage_nl_workshop_posts_columns', function ( $columns ) {
 	return $columns;
 } );
+
+/* ---------- Frontend trilingual title helper ---------- */
+if ( ! function_exists( 'nl_get_workshop_trilingual_title' ) ) {
+	function nl_get_workshop_trilingual_title( $post_id = 0 ) {
+		$post_id = $post_id ? $post_id : get_the_ID();
+		$lang    = nl_lang();
+		$meta_keys = [
+			'en' => '_nl_workshop_title_en',
+			'zh' => '_nl_workshop_title_zh',
+			'cn' => '_nl_workshop_title_cn',
+		];
+		$key = $meta_keys[ $lang ] ?? '_nl_workshop_title_zh';
+		$val = get_post_meta( $post_id, $key, true );
+		if ( $val ) {
+			return $val;
+		}
+		// Fallback chain: zh -> en -> cn -> post_title
+		foreach ( [ '_nl_workshop_title_zh', '_nl_workshop_title_en', '_nl_workshop_title_cn' ] as $fallback ) {
+			$val = get_post_meta( $post_id, $fallback, true );
+			if ( $val ) return $val;
+		}
+		return get_the_title( $post_id );
+	}
+}

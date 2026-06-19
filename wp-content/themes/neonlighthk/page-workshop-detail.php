@@ -28,9 +28,10 @@ if ($workshop_id) {
 /* ---------- Build $ws array from CPT or hardcoded fallback ---------- */
 if ($workshop_post) {
     $pid = $workshop_post->ID;
-    $title     = $lang==='en' ? get_the_title($pid) : get_the_title($pid);
+    $title     = nl_get_workshop_trilingual_title($pid);
     $title_en  = get_post_meta($pid, '_nl_workshop_title_en', true) ?: get_the_title($pid);
-    $title_zh  = get_the_title($pid);
+    $title_zh  = get_post_meta($pid, '_nl_workshop_title_zh', true) ?: get_the_title($pid);
+    $title_cn  = get_post_meta($pid, '_nl_workshop_title_cn', true) ?: get_the_title($pid);
 
     $gallery_ids = get_post_meta($pid, '_nl_workshop_gallery', true);
     $gallery_ids = is_array($gallery_ids) ? $gallery_ids : [];

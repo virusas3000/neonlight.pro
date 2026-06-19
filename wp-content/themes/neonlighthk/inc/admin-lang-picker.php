@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
 /* ===== LANGUAGE META BOX ===== */
 add_action('add_meta_boxes', 'nl_register_lang_meta_boxes', 10, 2);
 function nl_register_lang_meta_boxes($post_type, $post) {
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
+    $types = ['post', 'page', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post_type, $types)) return;
     add_meta_box(
         'nl_lang_meta',
@@ -105,7 +105,7 @@ function nl_render_lang_column($column, $post_id) {
 }
 
 // Apply to all relevant post types
-foreach (['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'] as $type) {
+foreach (['post', 'page', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'] as $type) {
     add_filter("manage_{$type}_posts_columns", 'nl_add_lang_column');
     add_action("manage_{$type}_posts_custom_column", 'nl_render_lang_column', 10, 2);
 }
@@ -113,7 +113,7 @@ foreach (['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 
 /* ===== QUICK EDIT ===== */
 add_action('quick_edit_custom_box', function ($column_name, $post_type) {
     if ($column_name !== 'nl_lang') return;
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
+    $types = ['post', 'page', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post_type, $types)) return;
     ?>
     <fieldset class="inline-edit-col-right">
@@ -172,7 +172,7 @@ add_action('admin_footer', function () {
 /* ===== BULK EDIT ===== */
 add_action('bulk_edit_custom_box', function ($column_name, $post_type) {
     if ($column_name !== 'nl_lang') return;
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
+    $types = ['post', 'page', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post_type, $types)) return;
     ?>
     <fieldset class="inline-edit-col-right">
@@ -204,7 +204,7 @@ add_action('save_post', function ($post_id) {
 /* ===== DUPLICATE POST / PROJECT ===== */
 add_filter('post_row_actions', 'nl_add_duplicate_link', 10, 2);
 function nl_add_duplicate_link($actions, $post) {
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
+    $types = ['post', 'page', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post->post_type, $types)) return $actions;
     $url = wp_nonce_url(
         add_query_arg([
