@@ -64,15 +64,23 @@
 				<?php echo nl_t('visit_addr1'); ?>
 			</span>
 			<!-- Language Switcher -->
+			<?php
+			$template_file = basename( get_page_template() );
+			$request_path  = trim( parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ), '/' );
+			$hide_lang = in_array( $template_file, [ 'page-workshop.php', 'page-workshop-detail.php' ], true )
+				|| in_array( $request_path, [ 'workshop', 'workshop-detail' ], true );
+			if ( ! $hide_lang ) :
+			?>
 			<div class="nl-lang-switcher">
 				<?php $curlang = nl_lang(); ?>
 				<?php $current_uri = (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>
-				<?php foreach (['en'=>'EN', 'zh'=>'繁', 'cn'=>'简'] as $code=>$label) : ?>
+				<?php foreach (['en'=>'EN', 'zh'=>'繁', 'cn'=>'简'] as $code=$>$label) : ?>
 					<a href="<?php echo esc_url(add_query_arg('lang', $code, $current_uri)); ?>" class="<?php echo $curlang===$code ? 'active' : ''; ?>">
 					<?php echo $label; ?>
 					</a>
 				<?php endforeach; ?>
 			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 
