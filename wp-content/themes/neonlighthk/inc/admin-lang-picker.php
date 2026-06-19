@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
 /* ===== LANGUAGE META BOX ===== */
 add_action('add_meta_boxes', 'nl_register_lang_meta_boxes', 10, 2);
 function nl_register_lang_meta_boxes($post_type, $post) {
-    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project', 'product'];
+    $types = ['post', 'page', 'nl_workshop', 'nl_balloon', 'nl_hanfu', 'nl_rental', 'nl_custom_order', 'nl_lookbook', 'nl_project'];
     if (!in_array($post_type, $types)) return;
     add_meta_box(
         'nl_lang_meta',

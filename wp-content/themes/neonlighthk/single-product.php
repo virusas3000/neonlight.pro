@@ -32,7 +32,7 @@ get_header('shop'); ?>
 
 			<!-- Product Summary -->
 			<div class="nl-product-summary">
-				<h1 class="nl-product-summary__title"><?php the_title(); ?></h1>
+				<h1 class="nl-product-summary__title"><?php echo nl_get_product_trilingual_title(); ?></h1>
 
 				<div class="nl-product-summary__price">
 					<?php if ($product->is_on_sale() && $product->get_sale_price()) : ?>
