@@ -33,22 +33,6 @@ get_header('shop'); ?>
 			<!-- Product Summary -->
 			<div class="nl-product-summary">
 				<h1 class="nl-product-summary__title"><?php echo nl_get_product_trilingual_title(); ?></h1>
-
-				<div class="nl-product-summary__price">
-					<?php if ($product->is_on_sale() && $product->get_sale_price()) : ?>
-						<span class="nl-product-summary__price-regular">HK$<?php echo number_format($product->get_regular_price()); ?></span>
-						<span class="nl-product-summary__price-sale">HK$<?php echo number_format($product->get_sale_price()); ?></span>
-					<?php else : ?>
-						<span class="nl-product-summary__price-current">HK$<?php echo number_format($product->get_regular_price()); ?></span>
-					<?php endif; ?>
-				</div>
-
-				<?php if ($product->get_short_description()) : ?>
-					<div class="nl-product-summary__desc">
-						<?php echo wp_kses_post($product->get_short_description()); ?>
-					</div>
-				<?php endif; ?>
-
 				<form class="cart nl-product-cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype="multipart/form-data">
 					<?php do_action('woocommerce_before_add_to_cart_button'); ?>
 					<div class="nl-product-cart__qty">
@@ -58,12 +42,6 @@ get_header('shop'); ?>
 					<button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="nl-btn-primary single_add_to_cart_button"><?php echo nl_t('wc_add_to_cart'); ?></button>
 					<?php do_action('woocommerce_after_add_to_cart_button'); ?>
 				</form>
-
-				<?php if (wc_get_stock_html($product)) : ?>
-					<div class="nl-product-stock">
-						<?php echo wc_get_stock_html($product); ?>
-					</div>
-				<?php endif; ?>
 			</div>
 		</div>
 
@@ -77,57 +55,6 @@ get_header('shop'); ?>
 					<div class="nl-product-details__content">
 						<?php echo apply_filters('the_content', $long_desc); ?>
 					</div>
-				</div>
-			<?php endif; ?>
-
-			<?php
-			$attributes = $product->get_attributes();
-			if (!empty($attributes)) : ?>
-				<div class="nl-product-details__section">
-					<h2><?php echo nl_t('product_details_specs'); ?></h2>
-					<table class="nl-product-details__table">
-						<tbody>
-						<?php foreach ($attributes as $attribute) :
-							$label = wc_attribute_label($attribute->get_name());
-							$value = '';
-							if ($attribute->is_taxonomy()) {
-								$terms = wp_get_post_terms($product->get_id(), $attribute->get_name(), ['fields' => 'names']);
-								$value = implode(', ', $terms);
-							} else {
-								$value = implode(', ', $attribute->get_options());
-							}
-							if ($value) : ?>
-							<tr>
-								<th><?php echo esc_html($label); ?></th>
-								<td><?php echo esc_html($value); ?></td>
-							</tr>
-							<?php endif;
-						endforeach; ?>
-						</tbody>
-					</table>
-				</div>
-			<?php endif; ?>
-
-			<?php
-			$sku = $product->get_sku();
-			$dimensions = $product->get_dimensions(false);
-			$weight = $product->get_weight();
-			if ($sku || $dimensions || $weight) : ?>
-				<div class="nl-product-details__section">
-					<h2><?php echo nl_t('product_details_info'); ?></h2>
-					<table class="nl-product-details__table">
-						<tbody>
-						<?php if ($sku) : ?>
-							<tr><th><?php echo nl_t('product_sku'); ?></th><td><?php echo esc_html($sku); ?></td></tr>
-						<?php endif; ?>
-						<?php if ($dimensions) : ?>
-							<tr><th><?php echo nl_t('product_dimensions'); ?></th><td><?php echo esc_html($dimensions); ?></td></tr>
-						<?php endif; ?>
-						<?php if ($weight) : ?>
-							<tr><th><?php echo nl_t('product_weight'); ?></th><td><?php echo esc_html($weight); ?> kg</td></tr>
-						<?php endif; ?>
-						</tbody>
-					</table>
 				</div>
 			<?php endif; ?>
 		</div>
