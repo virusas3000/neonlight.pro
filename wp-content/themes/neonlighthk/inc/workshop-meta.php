@@ -269,13 +269,22 @@ function nl_workshop_meta_box_callback( $post ) {
 
 /* ---------- Save meta box ---------- */
 add_action( 'save_post_nl_workshop', function ( $post_id ) {
+	static $saving = false;
+	if ( $saving ) {
+		return;
+	}
+	$saving = true;
+
 	if ( ! isset( $_POST['nl_workshop_meta_nonce'] ) || ! wp_verify_nonce( $_POST['nl_workshop_meta_nonce'], 'nl_workshop_meta_save' ) ) {
+		$saving = false;
 		return;
 	}
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		$saving = false;
 		return;
 	}
 	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		$saving = false;
 		return;
 	}
 
@@ -322,8 +331,6 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
         $raw = sanitize_text_field( $_POST['_nl_workshop_gallery'] );
         $ids = array_filter( array_map( 'intval', explode( ',', $raw ) ) );
         update_post_meta( $post_id, '_nl_workshop_gallery', $ids );
-    } else {
-        update_post_meta( $post_id, '_nl_workshop_gallery', [] );
     }
 
     // Items / Packages repeater
@@ -355,6 +362,8 @@ add_action( 'save_post_nl_workshop', function ( $post_id ) {
 			delete_post_meta( $post_id, '_nl_workshop_cover' );
 		}
 	}
+
+	$saving = false;
 } );
 
 /* ---------- Admin list columns ---------- */
