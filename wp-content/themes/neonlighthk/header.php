@@ -67,8 +67,7 @@
 			<?php
 			$template_file = basename( get_page_template() );
 			$request_path  = trim( parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ), '/' );
-			$hide_lang = in_array( $template_file, [ 'page-workshop.php', 'page-workshop-detail.php' ], true )
-				|| in_array( $request_path, [ 'workshop', 'workshop-detail' ], true );
+			$hide_lang = false;
 			if ( ! $hide_lang ) :
 			?>
 			<div class="nl-lang-switcher">
