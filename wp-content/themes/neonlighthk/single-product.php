@@ -33,6 +33,14 @@ get_header('shop'); ?>
 			<!-- Product Summary -->
 			<div class="nl-product-summary">
 				<h1 class="nl-product-summary__title"><?php echo nl_get_product_trilingual_title(); ?></h1>
+				<div class="nl-product-summary__price">
+					<?php if ($product->is_on_sale() && $product->get_sale_price()) : ?>
+						<span class="nl-product-summary__price-regular">HK$<?php echo number_format($product->get_regular_price()); ?></span>
+						<span class="nl-product-summary__price-sale">HK$<?php echo number_format($product->get_sale_price()); ?></span>
+					<?php else : ?>
+						<span class="nl-product-summary__price-current">HK$<?php echo number_format($product->get_regular_price()); ?></span>
+					<?php endif; ?>
+				</div>
 				<form class="cart nl-product-cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype="multipart/form-data">
 					<?php do_action('woocommerce_before_add_to_cart_button'); ?>
 					<div class="nl-product-cart__qty">
