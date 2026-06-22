@@ -60,50 +60,6 @@ get_header();
 		</div>
 	</section>
 
-	<!-- Custom Design Section -->
-	<section class="nl-neon-section">
-		<div class="nl-neon-section__text">
-			<h4 class="nl-neon-section__zh"><?php echo nl_t('neon_custom_design'); ?></h4>
-			<h4 class="nl-neon-section__en"><?php echo nl_t('neon_custom_design_en'); ?></h4>
-			<div class="nl-neon-section__desc">
-				<p><?php echo nl_t('neon_custom_desc_zh'); ?></p>
-				<p><?php echo nl_t('neon_custom_desc_en'); ?></p>
-			</div>
-			<div class="nl-neon-section__contact">
-<p><a href="https://wa.me/85261319328">61319328</a></p>
-				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
-			</div>
-		</div>
-		<div class="nl-neon-section__image">
-			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-custom-design.jpg" alt="Custom Neon Design">
-		</div>
-		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Quote%20Request" class="nl-neon-quote-btn">
-			<?php echo nl_t('neon_quote_btn'); ?>
-		</a>
-	</section>
-
-	<!-- Design Service Section -->
-	<section class="nl-neon-section nl-neon-section--reverse">
-		<div class="nl-neon-section__text">
-			<h4 class="nl-neon-section__zh"><?php echo nl_t('neon_design_service'); ?></h4>
-			<h4 class="nl-neon-section__en"><?php echo nl_t('neon_design_service_en'); ?></h4>
-			<div class="nl-neon-section__desc">
-				<p><?php echo nl_t('neon_design_desc_zh'); ?></p>
-				<p><?php echo nl_t('neon_design_desc_en'); ?></p>
-			</div>
-			<div class="nl-neon-section__contact">
-<p><a href="https://wa.me/85261319328">61319328</a></p>
-				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
-			</div>
-		</div>
-		<div class="nl-neon-section__image">
-			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-design-service.jpg" alt="Neon Design Service" style="transform:scaleX(-1);">
-		</div>
-		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Design%20Service%20Quote" class="nl-neon-quote-btn">
-			<?php echo nl_t('neon_quote_btn'); ?>
-		</a>
-	</section>
-
     <!-- Notices -->
     <?php if ($interest_message === 'saved') : ?>
         <div class="nl-notice nl-notice--success">
@@ -148,6 +104,50 @@ get_header();
             <button type="submit" class="nl-interest-form__submit"><?php echo nl_t('ws_submit'); ?></button>
         </form>
     </div>
+
+	<section class="nl-neon-section">
+		<div class="nl-neon-section__text">
+			<h4 class="nl-neon-section__zh"><?php echo nl_t('neon_custom_design'); ?></h4>
+			<h4 class="nl-neon-section__en"><?php echo nl_t('neon_custom_design_en'); ?></h4>
+			<div class="nl-neon-section__desc">
+				<p><?php echo nl_t('neon_custom_desc_zh'); ?></p>
+				<p><?php echo nl_t('neon_custom_desc_en'); ?></p>
+			</div>
+			<div class="nl-neon-section__contact">
+<p><a href="https://wa.me/85261319328">61319328</a></p>
+				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
+			</div>
+		</div>
+		<div class="nl-neon-section__image">
+			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-custom-design.jpg" alt="Custom Neon Design">
+		</div>
+		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Quote%20Request" class="nl-neon-quote-btn">
+			<?php echo nl_t('neon_quote_btn'); ?>
+		</a>
+	</section>
+
+	<!-- Design Service Section -->
+	<section class="nl-neon-section nl-neon-section--reverse">
+		<div class="nl-neon-section__text">
+			<h4 class="nl-neon-section__zh"><?php echo nl_t('neon_design_service'); ?></h4>
+			<h4 class="nl-neon-section__en"><?php echo nl_t('neon_design_service_en'); ?></h4>
+			<div class="nl-neon-section__desc">
+				<p><?php echo nl_t('neon_design_desc_zh'); ?></p>
+				<p><?php echo nl_t('neon_design_desc_en'); ?></p>
+			</div>
+			<div class="nl-neon-section__contact">
+<p><a href="https://wa.me/85261319328">61319328</a></p>
+				<p><a href="mailto:www.neonlight.pro@gmail.com">www.neonlight.pro@gmail.com</a></p>
+			</div>
+		</div>
+		<div class="nl-neon-section__image">
+			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-design-service.jpg" alt="Neon Design Service" style="transform:scaleX(-1);">
+		</div>
+		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Design%20Service%20Quote" class="nl-neon-quote-btn">
+			<?php echo nl_t('neon_quote_btn'); ?>
+		</a>
+	</section>
+
 
 	<!-- Neon Signs Gallery -->
 	<section class="nl-neon-gallery">
