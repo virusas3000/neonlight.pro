@@ -266,6 +266,7 @@ add_filter( 'manage_nl_enquiry_posts_columns', function ( $columns ) {
 	$columns = array(
 		'cb'        => '<input type="checkbox" />',
 		'name'      => __( 'Name', 'neonlighthk' ),
+		'type'      => __( 'Type', 'neonlighthk' ),
 		'email'     => __( 'Email', 'neonlighthk' ),
 		'phone'     => __( 'Tel', 'neonlighthk' ),
 		'age'       => __( 'Age', 'neonlighthk' ),
@@ -281,6 +282,9 @@ add_action( 'manage_nl_enquiry_posts_custom_column', function ( $column, $post_i
 			$fn = esc_html( get_post_meta( $post_id, '_nl_enquiry_first_name', true ) );
 			$ln = esc_html( get_post_meta( $post_id, '_nl_enquiry_last_name', true ) );
 			echo $fn . ' ' . $ln;
+			break;
+		case 'type':
+			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_type', true ) );
 			break;
 		case 'email':
 			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_email', true ) );

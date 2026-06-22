@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_interest_nonce']))
         ]);
 
         if ($interest_id && !is_wp_error($interest_id)) {
+            update_post_meta($interest_id, '_nl_enquiry_type',       'Neonlight');
             update_post_meta($interest_id, '_nl_enquiry_first_name', $first_name);
             update_post_meta($interest_id, '_nl_enquiry_last_name',  $last_name);
             update_post_meta($interest_id, '_nl_enquiry_email',      $email);
