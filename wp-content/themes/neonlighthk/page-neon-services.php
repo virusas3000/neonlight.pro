@@ -118,12 +118,13 @@ get_header();
 		</div>
 	</section>
 
+    <!-- Notices -->
     <?php if ($interest_message === 'saved') : ?>
-        <div class="nl-notice nl-notice--success" style="max-width:800px;margin:0 auto 30px;">
+        <div class="nl-notice nl-notice--success">
             <strong><?php echo nl_t('ws_booking_saved'); ?></strong>
         </div>
     <?php elseif ($interest_message === 'error') : ?>
-        <div class="nl-notice nl-notice--error" style="max-width:800px;margin:0 auto 30px;">
+        <div class="nl-notice nl-notice--error">
             <strong><?php echo nl_t('ws_booking_error'); ?></strong>
         </div>
     <?php endif; ?>
@@ -139,7 +140,7 @@ get_header();
     </div>
 
     <!-- Enquiry Form -->
-    <div class="nl-interest-form" style="max-width:800px;margin:40px auto;padding:0 20px;">
+    <div class="nl-interest-form" id="enquiry">
         <h2 class="nl-interest-form__title"><?php echo nl_t('ws_apply_title'); ?></h2>
         <form method="post" action="">
             <?php wp_nonce_field('nl_interest_form','nl_interest_nonce'); ?>
@@ -337,6 +338,24 @@ get_header();
 		display: inline-block;
 		margin-top: 20px;
 	}
+}
+
+/* ── Enquiry Form Styles ── */
+.nl-notice{padding:14px 18px;border-radius:6px;margin:0 auto 20px;max-width:900px;text-align:center;font-size:.95rem}
+.nl-notice--success{background:#e6f9f3;color:#0a7b5c}
+.nl-notice--error{background:#ffe6e6;color:#b00020}
+.nl-contact-bar{background:#00d4b0;color:#fff;padding:20px;text-align:center;margin-bottom:0;border-radius:8px;max-width:900px;margin-left:auto;margin-right:auto}
+.nl-contact-bar a{color:#fff;text-decoration:underline;margin:0 8px}
+.nl-interest-form{background:#f8f8f8;padding:40px 20px;margin:40px auto 60px;border-radius:8px;max-width:900px}
+.nl-interest-form__title{text-align:center;margin-bottom:8px;font-size:1.8rem;color:#222}
+.nl-interest-form__grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.nl-interest-form__grid input,.nl-interest-form__grid select,.nl-interest-form__grid textarea{width:100%;padding:14px;border:1px solid #ddd;border-radius:4px;font-size:15px;box-sizing:border-box}
+.nl-interest-form__grid textarea{grid-column:span 2;height:80px}
+.nl-interest-form__grid .nl-field--full{grid-column:span 2}
+.nl-interest-form__submit{display:block;width:200px;margin:24px auto 0;padding:12px;background:#00d4b0;color:#fff;border:none;border-radius:30px;cursor:pointer;font-size:14px}
+@media (max-width: 768px) {
+	.nl-interest-form__grid{grid-template-columns:1fr}
+	.nl-interest-form__grid textarea,.nl-interest-form__grid .nl-field--full{grid-column:span 1}
 }
 </style>
 
