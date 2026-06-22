@@ -15,9 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_interest_nonce']))
         $email       = sanitize_email($_POST['email'] ?? '');
         $phone       = sanitize_text_field($_POST['phone'] ?? '');
         $age_range   = sanitize_text_field($_POST['age_range'] ?? '');
-        $themes      = array_map('sanitize_text_field', $_POST['theme'] ?? []);
-        $best_time   = sanitize_text_field($_POST['best_time'] ?? '');
-        $group_prefs = array_map('sanitize_text_field', $_POST['group'] ?? []);
 
         $interest_id = wp_insert_post([
             'post_type'   => 'nl_booking',
@@ -32,19 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_interest_nonce']))
             update_post_meta($interest_id, '_nl_email',       $email);
             update_post_meta($interest_id, '_nl_phone',       $phone);
             update_post_meta($interest_id, '_nl_age_range',   $age_range);
-            update_post_meta($interest_id, '_nl_themes',      implode(', ', $themes));
-            update_post_meta($interest_id, '_nl_best_time',   $best_time);
-            update_post_meta($interest_id, '_nl_group_prefs', implode(', ', $group_prefs));
 
             wp_mail('www.neonlight.pro@gmail.com',
                 'New Workshop Interest - ' . $first_name . ' ' . $last_name,
-                "Name: $first_name $last_name
-Email: $email
-Phone: $phone
-Age: $age_range
-Interested themes: " . implode(', ', $themes) . "
-Best time: $best_time
-Group preference: " . implode(', ', $group_prefs));
+                "Name: $first_name $last_name\nEmail: $email\nPhone: $phone\nAge: $age_range");
 
             $interest_message = 'saved';
         } else {
@@ -305,8 +293,6 @@ input[type="date"]{min-width:0;width:100%}
     <!-- Interest Form -->
     <div class="nl-interest-form">
         <h2 class="nl-interest-form__title"><?php echo nl_t('ws_apply_title'); ?></h2>
-        <p class="nl-interest-form__subtitle"><?php echo nl_t('ws_apply_title'); ?></p>
-        <p style="text-align:center;font-size:.9rem;color:#666;margin-bottom:24px"><?php echo nl_t('ws_apply_desc'); ?></p>
         <form method="post" action="">
             <?php wp_nonce_field('nl_interest_form','nl_interest_nonce'); ?>
             <div class="nl-interest-form__grid">
@@ -322,28 +308,6 @@ input[type="date"]{min-width:0;width:100%}
                     <option value="36-50"><?php echo nl_t('ws_age_36_50'); ?></option>
                     <option value="50+"><?php echo nl_t('ws_age_50'); ?></option>
                 </select>
-                <div class="nl-interest-form__checkboxes">
-                    <p><strong><?php echo nl_t('ws_theme'); ?></strong></p>
-                    <label><input type="checkbox" name="theme[]" value="traditional"> <?php echo nl_t('ws_theme_trad'); ?></label>
-                    <label><input type="checkbox" name="theme[]" value="couple"> <?php echo nl_t('ws_theme_love'); ?></label>
-                    <label><input type="checkbox" name="theme[]" value="festive"> <?php echo nl_t('ws_theme_fest'); ?></label>
-                    <label><input type="checkbox" name="theme[]" value="name"> <?php echo nl_t('ws_theme_name'); ?></label>
-                    <label><input type="checkbox" name="theme[]" value="pets"> <?php echo nl_t('ws_theme_pets'); ?></label>
-                    <label><input type="checkbox" name="theme[]" value="kids"> <?php echo nl_t('ws_theme_kids'); ?></label>
-                    <label><input type="checkbox" name="theme[]" value="other"> <?php echo nl_t('ws_theme_other'); ?></label>
-                </div>
-                <select name="best_time" class="nl-field--full">
-                    <option value=""><?php echo nl_t('ws_time'); ?></option>
-                    <option value="weekday"><?php echo nl_t('ws_time_weekday'); ?></option>
-                    <option value="weekend"><?php echo nl_t('ws_time_weekend'); ?></option>
-                </select>
-                <div class="nl-interest-form__checkboxes">
-                    <p><strong><?php echo nl_t('ws_group'); ?></strong></p>
-                    <label><input type="checkbox" name="group[]" value="solo"> <?php echo nl_t('ws_group_solo'); ?></label>
-                    <label><input type="checkbox" name="group[]" value="friend"> <?php echo nl_t('ws_group_friend'); ?></label>
-                    <label><input type="checkbox" name="group[]" value="join"> <?php echo nl_t('ws_group_join'); ?></label>
-                    <label><input type="checkbox" name="group[]" value="any"> <?php echo nl_t('ws_group_any'); ?></label>
-                </div>
             </div>
             <button type="submit" class="nl-interest-form__submit"><?php echo nl_t('ws_submit'); ?></button>
         </form>

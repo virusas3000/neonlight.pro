@@ -73,7 +73,6 @@ add_filter('template_include', function($template) {
         '/projects'       => 'page-projects.php',
         '/neon-products'  => 'page-neon-products.php',
         '/balloon'        => 'page-balloon.php',
-        '/hanfu'          => 'page-hanfu.php',
     ];
     foreach ($map as $route => $tpl) {
         if ($path === $route) {
@@ -105,10 +104,6 @@ add_filter('template_include', function($template) {
     }
     if (is_page(12) || is_page('balloon')) {
         $t = get_template_directory() . '/page-balloon.php';
-        if (file_exists($t)) return $t;
-    }
-    if (is_page(138) || is_page('hanfu')) {
-        $t = get_template_directory() . '/page-hanfu.php';
         if (file_exists($t)) return $t;
     }
     return $template;

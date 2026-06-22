@@ -138,7 +138,7 @@ function nl_dictionary() {
         'ws_contact'    => ['en'=>'Contact Us',  'zh'=>'聯絡我們',   'cn'=>'联络我们'],
         'ws_whatsapp'   => ['en'=>'WhatsApp',    'zh'=>'WhatsApp',   'cn'=>'WhatsApp'],
         'ws_email'      => ['en'=>'Email',       'zh'=>'電郵',       'cn'=>'电邮'],
-        'ws_apply_title'=> ['en'=>'Mini Neon Workshop Application', 'zh'=>'小型霓虹燈 · 工作坊報名', 'cn'=>'小型霓虹灯 · 工作坊报名'],
+        'ws_apply_title'=> ['en'=>'Workshop Inquiry', 'zh'=>'工作坊查詢', 'cn'=>'工作坊查询'],
         'ws_apply_desc' => ['en'=>'If you are interested in joining our future neon workshops and events, please fill in the following information!', 'zh'=>'如欲參與我們未來舉辦的霓虹工作坊及趣味活動，歡迎填寫以下資料。', 'cn'=>'如欲参与我们未来举办的霓虹工作坊及趣味活动，欢迎填写以下资料。'],
         'ws_first_name' => ['en'=>'First name',  'zh'=>'姓氏',       'cn'=>'姓氏'],
         'ws_last_name'  => ['en'=>'Last name',   'zh'=>'名字',       'cn'=>'名字'],
