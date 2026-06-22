@@ -187,7 +187,7 @@ function nl_register_custom_post_types() {
 			'show_in_rest'      => true,
 			'supports'          => array( 'title', 'editor', 'thumbnail', 'custom-fields' ),
 			'menu_icon'         => 'dashicons-translation',
-			'rewrite'           => array( 'slug' => 'hanfu' ),
+			'rewrite'           => array( 'slug' => 'hanfu-item' ),
 			'capability_type'   => 'post',
 			'show_in_menu'      => false,
 			'show_in_nav_menus' => true,
