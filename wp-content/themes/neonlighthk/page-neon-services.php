@@ -104,20 +104,6 @@ get_header();
 		</a>
 	</section>
 
-	<!-- Neon Signs Gallery -->
-	<section class="nl-neon-gallery">
-		<h4 class="nl-neon-gallery__zh">霓虹燈作品展示</h4>
-		<h4 class="nl-neon-gallery__en">Neon Signs Gallery</h4>
-		<div class="nl-neon-gallery__grid">
-			<div class="nl-neon-gallery__item">
-				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-gallery.jpg" alt="Neon Signs Collection" loading="lazy">
-			</div>
-			<div class="nl-neon-gallery__item">
-				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-workshop.jpg" alt="Neon Workshop" loading="lazy">
-			</div>
-		</div>
-	</section>
-
     <!-- Notices -->
     <?php if ($interest_message === 'saved') : ?>
         <div class="nl-notice nl-notice--success">
@@ -162,6 +148,20 @@ get_header();
             <button type="submit" class="nl-interest-form__submit"><?php echo nl_t('ws_submit'); ?></button>
         </form>
     </div>
+
+	<!-- Neon Signs Gallery -->
+	<section class="nl-neon-gallery">
+		<h4 class="nl-neon-gallery__zh">霓虹燈作品展示</h4>
+		<h4 class="nl-neon-gallery__en">Neon Signs Gallery</h4>
+		<div class="nl-neon-gallery__grid">
+			<div class="nl-neon-gallery__item">
+				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-gallery.jpg" alt="Neon Signs Collection" loading="lazy">
+			</div>
+			<div class="nl-neon-gallery__item">
+				<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-services-workshop.jpg" alt="Neon Workshop" loading="lazy">
+			</div>
+		</div>
+	</section>
 
 </div>
 
