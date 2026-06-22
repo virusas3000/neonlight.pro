@@ -167,6 +167,7 @@ function nl_dictionary() {
         'ws_group_join' => ['en'=>'I\'d love to meet new people!', 'zh'=>'加入別組', 'cn'=>'加入别组'],
         'ws_group_any'  => ['en'=>'I\'m good with any group size', 'zh'=>'任何', 'cn'=>'任何'],
         'ws_submit'     => ['en'=>'Submit',      'zh'=>'提交',       'cn'=>'提交'],
+        'ws_interested_theme' => ['en'=>'Interested Workshop Theme', 'zh'=>'有興趣的工作坊主題', 'cn'=>'有兴趣的工作坊主题'],
         'ws_diy_title'  => ['en'=>'DIY Neon',    'zh'=>'中環PMQ霓虹燈工作坊', 'cn'=>'中环PMQ霓虹灯工作坊'],
         'ws_diy_sub'    => ['en'=>'PMQ Workshop (1 person+)', 'zh'=>'PMQ工作坊（1人起）', 'cn'=>'PMQ工作坊（1人起）'],
         'ws_onsite_title'=>['en'=>'On-site Workshop', 'zh'=>'霓虹燈工作坊 到會', 'cn'=>'霓虹灯工作坊 到会'],
