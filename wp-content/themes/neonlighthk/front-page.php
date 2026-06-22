@@ -16,13 +16,17 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' && ! empty( $_POST['nl_contact_submit
 		if ( $name && $email && $message ) {
 			$enquiry_id = wp_insert_post( array(
 				'post_type'    => 'nl_enquiry',
-				'post_title'   => $name . ' — ' . $subject,
+				'post_title'   => 'Contact — ' . $name,
 				'post_content' => $message,
 				'post_status'  => 'publish',
 				'meta_input'   => array(
-					'_nl_enquiry_email'   => $email,
-					'_nl_enquiry_phone'   => $phone,
-					'_nl_enquiry_subject' => $subject,
+					'_nl_enquiry_type'       => 'Contact',
+					'_nl_enquiry_first_name' => $name,
+					'_nl_enquiry_last_name'  => '',
+					'_nl_enquiry_email'      => $email,
+					'_nl_enquiry_phone'      => $phone,
+					'_nl_enquiry_message'    => $message,
+					'_nl_enquiry_subject'    => $subject,
 				),
 			) );
 			if ( $enquiry_id && ! is_wp_error( $enquiry_id ) ) {
