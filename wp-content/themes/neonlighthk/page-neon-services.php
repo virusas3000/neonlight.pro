@@ -14,26 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_interest_nonce']))
         $email       = sanitize_email($_POST['email'] ?? '');
         $phone       = sanitize_text_field($_POST['phone'] ?? '');
         $age_range   = sanitize_text_field($_POST['age_range'] ?? '');
-        $interested_theme = sanitize_textarea_field($_POST['interested_theme'] ?? '');
+        $message     = sanitize_textarea_field($_POST['interested_theme'] ?? '');
 
         $interest_id = wp_insert_post([
-            'post_type'   => 'nl_booking',
-            'post_title'  => 'Neon Service Enquiry — ' . $first_name . ' ' . $last_name . ' — ' . $email,
+            'post_type'   => 'nl_enquiry',
+            'post_title'  => 'Neonlight Enquiry — ' . $first_name . ' ' . $last_name . ' — ' . $email,
             'post_status' => 'pending',
             'post_author' => 1,
         ]);
 
         if ($interest_id && !is_wp_error($interest_id)) {
-            update_post_meta($interest_id, '_nl_first_name',  $first_name);
-            update_post_meta($interest_id, '_nl_last_name',   $last_name);
-            update_post_meta($interest_id, '_nl_email',       $email);
-            update_post_meta($interest_id, '_nl_phone',       $phone);
-            update_post_meta($interest_id, '_nl_age_range',   $age_range);
-            update_post_meta($interest_id, '_nl_interested_theme', $interested_theme);
+            update_post_meta($interest_id, '_nl_enquiry_first_name', $first_name);
+            update_post_meta($interest_id, '_nl_enquiry_last_name',  $last_name);
+            update_post_meta($interest_id, '_nl_enquiry_email',      $email);
+            update_post_meta($interest_id, '_nl_enquiry_phone',      $phone);
+            update_post_meta($interest_id, '_nl_enquiry_age_range',  $age_range);
+            update_post_meta($interest_id, '_nl_enquiry_message',    $message);
 
             wp_mail('www.neonlight.pro@gmail.com',
-                'New Neon Service Enquiry - ' . $first_name . ' ' . $last_name,
-                "Name: $first_name $last_name\nEmail: $email\nPhone: $phone\nAge: $age_range\nInterested theme: $interested_theme");
+                'New Neonlight Enquiry - ' . $first_name . ' ' . $last_name,
+                "Name: $first_name $last_name\nEmail: $email\nPhone: $phone\nAge: $age_range\nMessage: $message");
 
             $interest_message = 'saved';
         } else {
@@ -83,7 +83,7 @@ get_header();
 
     <!-- Enquiry Form -->
     <div class="nl-interest-form" id="enquiry">
-        <h2 class="nl-interest-form__title"><?php echo nl_t('ws_apply_title'); ?></h2>
+        <h2 class="nl-interest-form__title"><?php echo nl_t('neon_apply_title'); ?></h2>
         <form method="post" action="">
             <?php wp_nonce_field('nl_interest_form','nl_interest_nonce'); ?>
             <div class="nl-interest-form__grid">
@@ -99,7 +99,7 @@ get_header();
                     <option value="36-50"><?php echo nl_t('ws_age_36_50'); ?></option>
                     <option value="50+"><?php echo nl_t('ws_age_50'); ?></option>
                 </select>
-                <textarea name="interested_theme" class="nl-field--full" placeholder="<?php echo nl_t('ws_interested_theme'); ?>"></textarea>
+                <textarea name="interested_theme" class="nl-field--full" placeholder="<?php echo nl_t('neon_message'); ?>"></textarea>
             </div>
             <button type="submit" class="nl-interest-form__submit"><?php echo nl_t('ws_submit'); ?></button>
         </form>

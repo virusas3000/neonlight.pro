@@ -265,10 +265,10 @@ add_action( 'init', 'nl_register_enquiry_post_type' );
 add_filter( 'manage_nl_enquiry_posts_columns', function ( $columns ) {
 	$columns = array(
 		'cb'        => '<input type="checkbox" />',
-		'title'     => __( 'Name', 'neonlighthk' ),
+		'name'      => __( 'Name', 'neonlighthk' ),
 		'email'     => __( 'Email', 'neonlighthk' ),
 		'phone'     => __( 'Tel', 'neonlighthk' ),
-		'subject'   => __( 'Subject', 'neonlighthk' ),
+		'age'       => __( 'Age', 'neonlighthk' ),
 		'message'   => __( 'Message', 'neonlighthk' ),
 		'date'      => __( 'Date', 'neonlighthk' ),
 	);
@@ -277,14 +277,19 @@ add_filter( 'manage_nl_enquiry_posts_columns', function ( $columns ) {
 
 add_action( 'manage_nl_enquiry_posts_custom_column', function ( $column, $post_id ) {
 	switch ( $column ) {
+		case 'name':
+			$fn = esc_html( get_post_meta( $post_id, '_nl_enquiry_first_name', true ) );
+			$ln = esc_html( get_post_meta( $post_id, '_nl_enquiry_last_name', true ) );
+			echo $fn . ' ' . $ln;
+			break;
 		case 'email':
 			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_email', true ) );
 			break;
 		case 'phone':
 			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_phone', true ) );
 			break;
-		case 'subject':
-			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_subject', true ) );
+		case 'age':
+			echo esc_html( get_post_meta( $post_id, '_nl_enquiry_age_range', true ) );
 			break;
 		case 'message':
 			$msg = get_post_meta( $post_id, '_nl_enquiry_message', true );

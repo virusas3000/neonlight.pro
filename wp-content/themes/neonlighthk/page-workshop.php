@@ -18,22 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_interest_nonce']))
         $interested_theme = sanitize_textarea_field($_POST['interested_theme'] ?? '');
 
         $interest_id = wp_insert_post([
-            'post_type'   => 'nl_booking',
-            'post_title'  => 'Interest — ' . $first_name . ' ' . $last_name . ' — ' . $email,
+            'post_type'   => 'nl_enquiry',
+            'post_title'  => 'Workshop Enquiry — ' . $first_name . ' ' . $last_name . ' — ' . $email,
             'post_status' => 'pending',
             'post_author' => 1,
         ]);
 
         if ($interest_id && !is_wp_error($interest_id)) {
-            update_post_meta($interest_id, '_nl_first_name',  $first_name);
-            update_post_meta($interest_id, '_nl_last_name',   $last_name);
-            update_post_meta($interest_id, '_nl_email',       $email);
-            update_post_meta($interest_id, '_nl_phone',       $phone);
-            update_post_meta($interest_id, '_nl_age_range',   $age_range);
-            update_post_meta($interest_id, '_nl_interested_theme', $interested_theme);
+            update_post_meta($interest_id, '_nl_enquiry_first_name',  $first_name);
+            update_post_meta($interest_id, '_nl_enquiry_last_name',   $last_name);
+            update_post_meta($interest_id, '_nl_enquiry_email',       $email);
+            update_post_meta($interest_id, '_nl_enquiry_phone',       $phone);
+            update_post_meta($interest_id, '_nl_enquiry_age_range',   $age_range);
+            update_post_meta($interest_id, '_nl_enquiry_message',     $interested_theme);
 
             wp_mail('www.neonlight.pro@gmail.com',
-                'New Workshop Interest - ' . $first_name . ' ' . $last_name,
+                'New Workshop Enquiry - ' . $first_name . ' ' . $last_name,
                 "Name: $first_name $last_name\nEmail: $email\nPhone: $phone\nAge: $age_range\nInterested theme: $interested_theme");
 
             $interest_message = 'saved';
