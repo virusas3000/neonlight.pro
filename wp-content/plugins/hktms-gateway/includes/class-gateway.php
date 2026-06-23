@@ -11,6 +11,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class HKTMS_Gateway extends WC_Payment_Gateway {
 
+	public $testmode;
+	public $api_app_id;
+	public $api_app_secret;
+	public $notification_url;
+	public $success_url;
+	public $fail_url;
+	public $language;
+	public $auto_capture;
+
 	public function __construct() {
 		$this->id                 = 'hktms';
 		$this->icon               = HKTMS_PLUGIN_URL . 'assets/images/hktms-logo.png';

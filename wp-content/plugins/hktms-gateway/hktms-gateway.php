@@ -55,8 +55,11 @@ function hktms_init_gateway(): void {
 	require_once HKTMS_PLUGIN_DIR . 'includes/class-gateway.php';
 	require_once HKTMS_PLUGIN_DIR . 'includes/class-api.php';
 	require_once HKTMS_PLUGIN_DIR . 'includes/class-webhook.php';
-	load_plugin_textdomain( 'hktms-gateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
+
+add_action( 'init', function() {
+	load_plugin_textdomain( 'hktms-gateway', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+} );
 
 function hktms_add_gateway_class( array $gateways ): array {
 	$gateways[] = 'HKTMS_Gateway';

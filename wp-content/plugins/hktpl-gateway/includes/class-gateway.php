@@ -12,6 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class HKTPL_Gateway extends WC_Payment_Gateway {
 
+	public $testmode;
+	public $app_id;
+	public $api_key;
+	public $public_key;
+	public $payment_network;
+	public $lang;
+	public $auto_capture;
+
 	public function __construct() {
 		$this->id                 = 'hktpl';
 		$this->has_fields         = true;
