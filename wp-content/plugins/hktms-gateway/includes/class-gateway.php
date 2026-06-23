@@ -22,7 +22,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 
 	public function __construct() {
 		$this->id                 = 'hktms';
-		$this->icon               = HKTMS_PLUGIN_URL . 'assets/images/hktms-logo.png';
+		$this->icon               = '';
 		$this->has_fields         = true;
 		$this->method_title       = __( 'HKTMS (Visa / Mastercard / Alipay / WeChat / Apple Pay)', 'hktms-gateway' );
 		$this->method_description = __( 'Accept payments via HKTMS ePayment Gateway. Supports Visa, Mastercard, AlipayHK, AlipayCN, WeChat Pay and Apple Pay.', 'hktms-gateway' );
