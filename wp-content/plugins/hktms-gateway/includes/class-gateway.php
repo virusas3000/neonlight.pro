@@ -150,13 +150,21 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		?>
 		<fieldset id="hktms-payment-method-select">
 			<p class="form-row"><?php esc_html_e( 'Select a payment method:', 'hktms-gateway' ); ?></p>
-			<?php foreach ( $methods as $key => $label ) : ?>
-				<label class="hktms-method-label">
-					<input type="radio" name="hktms_payment_method" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, 'visamastercard' ); ?>>
-					<img src="<?php echo esc_url( HKTMS_PLUGIN_URL . 'assets/images/' . $key . '.png' ); ?>" alt="<?php echo esc_attr( $label ); ?>" style="height:28px; vertical-align:middle; margin-left:8px;">
-					<span><?php echo esc_html( $label ); ?></span>
+			<div class="hktms-method-list">
+			<?php foreach ( $methods as $key => $label ) :
+				$img_path = HKTMS_PLUGIN_DIR . 'assets/images/' . $key . '.png';
+				$img_url  = HKTMS_PLUGIN_URL . 'assets/images/' . $key . '.png';
+				$first    = ( $key === 'visamastercard' );
+			?>
+				<label class="hktms-method-label<?php echo $first ? ' hktms-method-selected' : ''; ?>">
+					<input type="radio" name="hktms_payment_method" value="<?php echo esc_attr( $key ); ?>" <?php checked( $first ); ?>>
+					<span class="hktms-method-text"><?php echo esc_html( $label ); ?></span>
+					<?php if ( file_exists( $img_path ) ) : ?>
+						<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( $label ); ?>">
+					<?php endif; ?>
 				</label>
 			<?php endforeach; ?>
+			</div>
 		</fieldset>
 		<?php
 	}
