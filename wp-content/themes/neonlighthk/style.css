@@ -209,7 +209,13 @@ ul, ol { list-style:none; }
 .woocommerce-checkout .woocommerce-shipping-fields h3,
 .woocommerce-checkout #order_review_heading { font-family:var(--font-en); font-size:1.1rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin-bottom:20px; }
 
-.woocommerce form .form-row label { font-family:var(--font-en); font-size:.8rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--nl-black); }
+.woocommerce-checkout .woocommerce-billing-fields__field-wrapper { margin-bottom:48px; }
+.woocommerce-checkout .woocommerce-billing-fields__field-wrapper::after {
+	content:''; display:block; height:1px; background:#eee; margin-top:32px;
+}
+
+.woocommerce form .form-row { margin-bottom:20px; }
+.woocommerce form .form-row label { font-family:var(--font-en); font-size:.8rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--nl-black); margin-bottom:8px; display:block; }
 .woocommerce form .form-row input.input-text,
 .woocommerce form .form-row textarea,
 .woocommerce form .form-row select { background:#f8f8f8; border:1px solid #ddd; border-radius:8px; padding:12px 16px; font-size:.95rem; color:#222; transition:var(--transition); }
@@ -217,7 +223,10 @@ ul, ol { list-style:none; }
 .woocommerce form .form-row textarea:focus,
 .woocommerce form .form-row select:focus { border-color:var(--nl-cyan); box-shadow:0 0 0 3px rgba(0,196,176,.15); outline:none; }
 
-.woocommerce-checkout #payment { background:#f8f8f8; border-radius:12px; padding:24px; }
+.woocommerce-checkout #order_review { margin-top:48px; padding-top:32px; border-top:2px solid #eee; }
+.woocommerce-checkout #order_review_heading { margin-top:0; margin-bottom:24px; }
+
+.woocommerce-checkout #payment { background:#f8f8f8; border-radius:12px; padding:24px; margin-top:32px; }
 .woocommerce-checkout #payment ul.payment_methods { border-bottom:1px solid #ddd; padding-bottom:16px; margin-bottom:16px; }
 .woocommerce-checkout #payment ul.payment_methods li { margin-bottom:12px; }
 .woocommerce-checkout #payment ul.payment_methods li label { font-weight:600; font-size:.95rem; }
