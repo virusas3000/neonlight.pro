@@ -241,7 +241,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 
 		// Validate credentials
 		if ( empty( $this->api_app_id ) || empty( $this->api_app_secret ) ) {
-			wc_add_notice( __( 'HKTMS payment gateway is not configured. Please contact the store admin.', 'hktms-gateway' ), 'error' );
+			wc_add_notice( __( 'Payment gateway is temporarily unavailable. Please contact support.', 'hktms-gateway' ), 'error' );
 			return [ 'result' => 'failure' ];
 		}
 
