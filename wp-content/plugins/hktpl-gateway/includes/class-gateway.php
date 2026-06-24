@@ -335,44 +335,51 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		}
 
 		$html = $order->get_meta( '_hktpl_payment_html' );
-		if ( $html ) {
-			// HKTPL returns an HTML page with QR code or redirect
-			echo $html;
-		} else {
+		if ( ! $html ) {
 			echo '<p>' . esc_html__( 'Payment initialization failed. Please contact support.', 'hktpl-gateway' ) . '</p>';
 			return;
 		}
 
-		// Inject auto-redirect polling: check every 3s, redirect on payment complete
+		// Inject auto-redirect polling script into the HKTPL HTML page
 		$check_url = add_query_arg( array(
 			'wc-api'   => 'hktpl-check',
 			'order_id' => $order->get_id(),
 			'key'      => $order->get_order_key(),
 		), home_url( '/' ) );
 		$success_url = $this->get_return_url( $order );
-		?>
-		<script>
-		(function() {
-			var checkUrl = <?php echo wp_json_encode( $check_url ); ?>;
-			var successUrl = <?php echo wp_json_encode( $success_url ); ?>;
-			var maxAttempts = 120;
-			var attempts = 0;
-			var interval = setInterval(function() {
-				attempts++;
-				if (attempts > maxAttempts) { clearInterval(interval); return; }
-				fetch(checkUrl, { credentials: 'same-origin' })
-					.then(function(r) { return r.json(); })
-					.then(function(data) {
-						if (data.success && data.data && data.data.paid) {
-							clearInterval(interval);
-							window.location.href = successUrl;
-						}
-					})
-					.catch(function(){});
-			}, 3000);
-		})();
-		</script>
-		<?php
+
+		$script = '<script>
+(function() {
+	var checkUrl = ' . wp_json_encode( $check_url ) . ';
+	var successUrl = ' . wp_json_encode( $success_url ) . ';
+	var maxAttempts = 120;
+	var attempts = 0;
+	var interval = setInterval(function() {
+		attempts++;
+		if (attempts > maxAttempts) { clearInterval(interval); return; }
+		fetch(checkUrl, { credentials: "same-origin" })
+			.then(function(r) { return r.json(); })
+			.then(function(data) {
+				if (data.success && data.data && data.data.paid) {
+					clearInterval(interval);
+					window.location.href = successUrl;
+				}
+			})
+			.catch(function(){});
+	}, 3000);
+})();
+</script>';
+
+		// Inject script before </body> or </html> so it executes inside the document
+		if ( stripos( $html, '</body>' ) !== false ) {
+			$html = str_ireplace( '</body>', $script . "\n</body>", $html );
+		} elseif ( stripos( $html, '</html>' ) !== false ) {
+			$html = str_ireplace( '</html>', $script . "\n</html>", $html );
+		} else {
+			$html .= "\n" . $script;
+		}
+
+		echo $html;
 	}
 
 	/**
