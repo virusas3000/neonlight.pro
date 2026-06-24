@@ -74,6 +74,7 @@ function hktpl_gateway_init() {
 	add_filter( 'woocommerce_payment_gateways', 'hktpl_add_gateway' );
 	add_action( 'woocommerce_api_hktpl-webhook', 'hktpl_handle_webhook' );
 	add_action( 'woocommerce_api_hktpl-return', 'hktpl_handle_return' );
+	add_action( 'woocommerce_api_hktpl-check', 'hktpl_handle_check' );
 }
 
 function hktpl_add_gateway( $gateways ) {
@@ -89,6 +90,13 @@ function hktpl_handle_return() {
 	$gateways = WC()->payment_gateways()->payment_gateways();
 	if ( isset( $gateways['hktpl'] ) ) {
 		$gateways['hktpl']->handle_return();
+	}
+}
+
+function hktpl_handle_check() {
+	$gateways = WC()->payment_gateways()->payment_gateways();
+	if ( isset( $gateways['hktpl'] ) ) {
+		$gateways['hktpl']->check_payment_status();
 	}
 }
 

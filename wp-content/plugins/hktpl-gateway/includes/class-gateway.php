@@ -340,6 +340,81 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			echo $html;
 		} else {
 			echo '<p>' . esc_html__( 'Payment initialization failed. Please contact support.', 'hktpl-gateway' ) . '</p>';
+			return;
+		}
+
+		// Inject auto-redirect polling: check every 3s, redirect on payment complete
+		$check_url = add_query_arg( array(
+			'wc-api'   => 'hktpl-check',
+			'order_id' => $order->get_id(),
+			'key'      => $order->get_order_key(),
+		), home_url( '/' ) );
+		$success_url = $this->get_return_url( $order );
+		?>
+		<script>
+		(function() {
+			var checkUrl = <?php echo wp_json_encode( $check_url ); ?>;
+			var successUrl = <?php echo wp_json_encode( $success_url ); ?>;
+			var maxAttempts = 120;
+			var attempts = 0;
+			var interval = setInterval(function() {
+				attempts++;
+				if (attempts > maxAttempts) { clearInterval(interval); return; }
+				fetch(checkUrl, { credentials: 'same-origin' })
+					.then(function(r) { return r.json(); })
+					.then(function(data) {
+						if (data.success && data.data && data.data.paid) {
+							clearInterval(interval);
+							window.location.href = successUrl;
+						}
+					})
+					.catch(function(){});
+			}, 3000);
+		})();
+		</script>
+		<?php
+	}
+
+	/**
+	 * Check payment status via AJAX — query HKTPL API and return paid state.
+	 */
+	public function check_payment_status() {
+		$order_id = absint( $_GET['order_id'] ?? 0 );
+		$key      = sanitize_text_field( $_GET['key'] ?? '' );
+		$order    = wc_get_order( $order_id );
+
+		if ( ! $order || $order->get_order_key() !== $key ) {
+			wp_send_json_error( array( 'message' => 'Invalid order.' ) );
+			return;
+		}
+
+		// Already paid — return immediately
+		if ( $order->is_paid() ) {
+			wp_send_json_success( array( 'paid' => true ) );
+			return;
+		}
+
+		// Query HKTPL API for latest status
+		$mer_trade_no = $order->get_meta( '_hktpl_mer_trade_no' );
+		if ( ! $mer_trade_no ) {
+			wp_send_json_success( array( 'paid' => false ) );
+			return;
+		}
+
+		$api    = new HKTPL_API( $this->testmode, $this->app_id, $this->api_key, $this->public_key );
+		$status = $api->query_payment_status( $mer_trade_no );
+		if ( is_wp_error( $status ) ) {
+			wp_send_json_success( array( 'paid' => false ) );
+			return;
+		}
+
+		$body = json_decode( wp_remote_retrieve_body( $status ), true );
+		$this->update_order_from_status( $order, $body );
+
+		if ( $order->is_paid() ) {
+			wp_send_json_success( array( 'paid' => true ) );
+		} else {
+			wp_send_json_success( array( 'paid' => false ) );
 		}
 	}
 
@@ -500,12 +575,20 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		$trade_status = isset( $body['content']['tradeStatus'] ) ? strtoupper( $body['content']['tradeStatus'] ) : '';
 		$trade_no     = isset( $body['content']['tradeNo'] ) ? $body['content']['tradeNo'] : '';
 
-		if ( $result_code === '0' && $trade_status === 'TRADE_FINISHED' ) {
+		// Handle both callback format (S/000) and query API format (TRADE_FINISHED/0)
+		$is_success = (
+			( $result_code === '0' && $trade_status === 'TRADE_FINISHED' ) ||
+			( $result_code === '000' && $trade_status === 'S' ) ||
+			( $result_code === '000' && empty( $trade_status ) ) ||
+			$trade_status === 'S'
+		);
+
+		if ( $is_success ) {
 			if ( ! $order->is_paid() ) {
 				$order->payment_complete( $trade_no );
-				$order->add_order_note( __( 'HKTPL: Payment confirmed via API query (TRADE_FINISHED).', 'hktpl-gateway' ) );
+				$order->add_order_note( __( 'HKTPL: Payment confirmed via API query.', 'hktpl-gateway' ) );
 			}
-		} elseif ( in_array( $trade_status, array( 'TRADE_CLOSED', 'TRADE_CANCELLED' ), true ) ) {
+		} elseif ( in_array( $trade_status, array( 'TRADE_CLOSED', 'TRADE_CANCELLED', 'F', 'C' ), true ) ) {
 			$order->update_status( 'failed', __( 'HKTPL: Payment cancelled or failed (API query).', 'hktpl-gateway' ) );
 		}
 
