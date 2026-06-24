@@ -139,13 +139,13 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		if ( in_array( $this->payment_network, array( 'ALL', 'Tapngo' ), true ) ) {
 			$options['tapngo'] = array(
 				'label' => __( 'Tap & Go', 'hktpl-gateway' ),
-				'icon'  => HKTPL_GATEWAY_PLUGIN_URL . 'assets/images/tapngo.png',
+				'icon'  => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 24" height="24"><rect fill="#E4002B" rx="4" width="60" height="24"/><text x="30" y="17" fill="#fff" font-size="11" font-family="Arial,sans-serif" font-weight="bold" text-anchor="middle">Tap &amp; Go</text></svg>',
 			);
 		}
 		if ( in_array( $this->payment_network, array( 'ALL', 'FPS' ), true ) ) {
 			$options['fps'] = array(
 				'label' => __( 'FPS', 'hktpl-gateway' ),
-				'icon'  => HKTPL_GATEWAY_PLUGIN_URL . 'assets/images/fps.png',
+				'icon'  => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 24" height="24"><rect fill="#003B5C" rx="4" width="60" height="24"/><text x="30" y="17" fill="#fff" font-size="11" font-family="Arial,sans-serif" font-weight="bold" text-anchor="middle">FPS</text></svg>',
 			);
 		}
 		?>
@@ -154,7 +154,7 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			<?php foreach ( $options as $key => $opt ) : ?>
 				<label class="hktpl-option">
 					<input type="radio" name="hktpl_method" value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, array_key_first( $options ) ); ?> />
-					<img src="<?php echo esc_url( $opt['icon'] ); ?>" alt="<?php echo esc_attr( $opt['label'] ); ?>" />
+					<span class="hktpl-icon"><?php echo $opt['icon']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<span><?php echo esc_html( $opt['label'] ); ?></span>
 				</label>
 			<?php endforeach; ?>
@@ -162,7 +162,7 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		<style>
 			.hktpl-payment-options { margin-top: 10px; }
 			.hktpl-option { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; cursor: pointer; }
-			.hktpl-option img { height: 30px; width: auto; }
+			.hktpl-option .hktpl-icon svg { height: 24px; width: auto; display: block; }
 		</style>
 		<?php
 	}
@@ -268,6 +268,42 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			wc_add_notice( __( 'Unable to initiate payment. Please try again.', 'hktpl-gateway' ), 'error' );
 			return array( 'result' => 'failure' );
 		}
+
+		// Rewrite relative URLs in HKTPL HTML to absolute (images/QR code src)
+		$base = $this->testmode ? HKTPL_UAT_BASE_URL : HKTPL_PROD_BASE_URL;
+		$body = preg_replace_callback(
+			'~(?<=\s)(src|href)=([\'"])(?!https?://|//|data:|mailto:|#)/?~i',
+			function ( $m ) use ( $base ) {
+				return $m[1] . '=' . $m[2] . $base . '/';
+			},
+			$body
+		);
+		// Also handle srcset and CSS url() references
+		$body = preg_replace_callback(
+			'~url\(([\'"]?)\s*/~i',
+			function ( $m ) use ( $base ) {
+				return 'url(' . $m[1] . $base . '/';
+			},
+			$body
+		);
+
+		// Proxy broken HKTPL static image URLs to local copies
+		$plugin_img_url = HKTPL_GATEWAY_PLUGIN_URL . 'assets/img/';
+		$body = str_replace(
+			$base . '/static/img/tapngoLogo.svg',
+			$plugin_img_url . 'tapngoLogo.svg?v=2',
+			$body
+		);
+		$body = str_replace(
+			$base . '/static/img/fpsLogo.svg',
+			$plugin_img_url . 'fpsLogo.svg?v=2',
+			$body
+		);
+		$body = str_replace(
+			$base . '/static/img/hktLogo.svg',
+			$plugin_img_url . 'hktLogo.svg?v=2',
+			$body
+		);
 
 		// Store the HTML response for receipt page display
 		$order->update_meta_data( '_hktpl_payment_html', $body );
