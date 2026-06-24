@@ -197,11 +197,17 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 
 		// Build paymentInfo (payload content) per HKTPL v1.0.62 section 5.4
 		$total = number_format( (float) $order->get_total(), 2, '.', '' );
+		$return_url = add_query_arg( array(
+			'wc-api'   => 'hktpl-return',
+			'order_id' => $order->get_id(),
+			'key'      => $order->get_order_key(),
+		), home_url( '/' ) );
+
 		$payment_info = array(
 			'merTradeNo' => $mer_trade_no,
 			'currency'   => $order->get_currency(),
 			'totalPrice' => $total,
-			'returnUrl'  => add_query_arg( 'wc-api', 'hktpl-return', home_url( '/' ) ),
+			'returnUrl'  => $return_url,
 			'lang'       => $this->lang,
 		);
 
