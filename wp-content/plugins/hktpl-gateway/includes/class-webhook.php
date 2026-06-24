@@ -62,14 +62,9 @@ class HKTPL_Webhook {
 			exit;
 		}
 
-		// Build sign params (exclude sign, null/empty values)
-		$sign_params = array(
-			'merTradeNo' => $mer_trade_no,
-			'tradeNo'    => $trade_no,
-			'tradeStatus'=> $trade_status,
-			'msg'        => $msg,
-			'resultCode' => $result_code,
-		);
+		// Build sign params — use ALL POST params (exclude sign, null/empty values)
+		$sign_params = $params;
+		unset( $sign_params['sign'] );
 		$sign_params = array_filter( $sign_params, function( $v ) { return $v !== null && $v !== ''; } );
 
 		if ( ! HKTPL_Crypto::verify_signature( $sign_params, $signature, $api_key ) ) {
