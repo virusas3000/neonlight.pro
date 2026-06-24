@@ -88,14 +88,40 @@ class HKTPL_API {
 	 *
 	 * POST /paymentApi/payment/status
 	 *
+	 * Requires accessToken: call register_access_token() first, then encrypt merTradeNo + accessToken into payload.
+	 *
 	 * @param string $mer_trade_no Merchant trade number
 	 * @return array|WP_Error
 	 */
 	public function query_payment_status( string $mer_trade_no ) {
+		// Step 1: Get access token
+		$token_resp = $this->register_access_token();
+		if ( is_wp_error( $token_resp ) ) {
+			return $token_resp;
+		}
+
+		$body = wp_remote_retrieve_body( $token_resp );
+		$json = json_decode( $body, true );
+		$access_token = isset( $json['content']['accessToken'] ) ? $json['content']['accessToken'] : '';
+		if ( empty( $access_token ) ) {
+			return new WP_Error( 'hktpl_token_error', __( 'Failed to obtain access token for status query.', 'hktpl-gateway' ) );
+		}
+
+		// Step 2: Build encrypted payload with accessToken + merTradeNo
+		$payload_data = array(
+			'accessToken' => $access_token,
+			'merTradeNo'  => $mer_trade_no,
+		);
+		$encrypted_payload = HKTPL_Crypto::rsa_encrypt( wp_json_encode( $payload_data ), $this->public_key );
+		if ( false === $encrypted_payload ) {
+			return new WP_Error( 'hktpl_encrypt_error', __( 'Failed to encrypt status query payload.', 'hktpl-gateway' ) );
+		}
+
+		// Step 3: POST to /paymentApi/payment/status
 		$params = array(
-			'appId'      => $this->app_id,
-			'merTradeNo' => $mer_trade_no,
-			'timestamp'  => (string) time(),
+			'appId'     => $this->app_id,
+			'payload'   => $encrypted_payload,
+			'timestamp' => (string) time(),
 		);
 		$params['sign'] = HKTPL_Crypto::generate_signature( $params, $this->api_key );
 		return $this->post_signed( '/paymentApi/payment/status', $params );

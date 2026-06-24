@@ -201,7 +201,7 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			'wc-api'   => 'hktpl-return',
 			'order_id' => $order->get_id(),
 			'key'      => $order->get_order_key(),
-		), home_url( '/' ) );
+		), home_url( '/', 'https' ) );
 
 		$payment_info = array(
 			'merTradeNo' => $mer_trade_no,
@@ -230,7 +230,7 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 
 		// Build extras (notifyUrl + customer contact)
 		$extras = array();
-		$extras['notifyUrl'] = add_query_arg( 'wc-api', 'hktpl-webhook', home_url( '/' ) );
+		$extras['notifyUrl'] = add_query_arg( 'wc-api', 'hktpl-webhook', home_url( '/', 'https' ) );
 		$email = $order->get_billing_email();
 		if ( $email ) {
 			$extras['custMail'] = $email;
