@@ -70,12 +70,14 @@ class HKTPL_Webhook {
 		unset( $sign_params['sign'] );
 		$sign_params = array_filter( $sign_params, function( $v ) { return $v !== null && $v !== ''; } );
 
-		if ( ! HKTPL_Crypto::verify_signature( $sign_params, $signature, $api_key ) ) {
-			self::log( 'Signature mismatch. sign_params=' . wp_json_encode( $sign_params ), 'error' );
+		$mode = HKTPL_Crypto::verify_signature_mode( $sign_params, $signature, $api_key );
+		if ( '' === $mode ) {
+			self::log( 'Signature mismatch. received=' . $signature . ' params=' . wp_json_encode( $sign_params ) . ' candidates=' . wp_json_encode( HKTPL_Crypto::candidate_strings( $sign_params ) ), 'error' );
 			status_header( 403 );
 			echo 'Signature verification failed';
 			exit;
 		}
+		self::log( 'Signature verified (mode=' . $mode . ').', 'info' );
 
 		// Find order
 		$orders = wc_get_orders( array(

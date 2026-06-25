@@ -515,12 +515,14 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		unset( $sign_params['sign'] );
 		$sign_params = array_filter( $sign_params, function( $v ) { return $v !== null && $v !== ''; } );
 
-		if ( ! HKTPL_Crypto::verify_signature( $sign_params, $signature, $this->api_key ) ) {
-			$this->log( 'Signature mismatch. sign_params=' . wp_json_encode( $sign_params ), 'error' );
+		$mode = HKTPL_Crypto::verify_signature_mode( $sign_params, $signature, $this->api_key );
+		if ( '' === $mode ) {
+			$this->log( 'Signature mismatch. received=' . $signature . ' params=' . wp_json_encode( $sign_params ) . ' candidates=' . wp_json_encode( HKTPL_Crypto::candidate_strings( $sign_params ) ), 'error' );
 			status_header( 403 );
 			echo 'Signature verification failed';
 			exit;
 		}
+		$this->log( 'Signature verified (mode=' . $mode . ').', 'info' );
 
 		// Find order
 		$orders = wc_get_orders( array(
