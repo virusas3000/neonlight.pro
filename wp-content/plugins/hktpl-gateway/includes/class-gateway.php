@@ -358,6 +358,17 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		), home_url( '/' ) );
 		$success_url = $this->get_return_url( $order );
 
+		// Build/deploy canary: always emit an HTML comment in the page source, and
+		// show a small badge only to store admins (or when ?hktpl_build_check=1 is
+		// present) so customers never see it. Confirms visually that the latest
+		// build is running on production.
+		$build        = defined( 'HKTPL_GATEWAY_BUILD' ) ? HKTPL_GATEWAY_BUILD : HKTPL_GATEWAY_VERSION;
+		$show_visible = ( function_exists( 'current_user_can' ) && current_user_can( 'manage_woocommerce' ) ) || isset( $_GET['hktpl_build_check'] );
+		$status_html  = '<!-- hktpl-build: ' . esc_html( $build ) . ' -->';
+		if ( $show_visible ) {
+			$status_html .= '<div style="position:fixed;top:0;left:0;z-index:99999;background:#003B5C;color:#fff;font:12px/1.4 monospace;padding:6px 10px;border-radius:0 0 6px 0;">HKTPL build: ' . esc_html( $build ) . '</div>';
+		}
+
 		$script = '<script>
 (function() {
 	var checkUrl = ' . wp_json_encode( $check_url ) . ';
@@ -380,13 +391,14 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 })();
 </script>';
 
-		// Inject script before </body> or </html> so it executes inside the document
+		// Inject status marker + polling script before </body> or </html>
+		$inject = $status_html . "\n" . $script;
 		if ( stripos( $html, '</body>' ) !== false ) {
-			$html = str_ireplace( '</body>', $script . "\n</body>", $html );
+			$html = str_ireplace( '</body>', $inject . "\n</body>", $html );
 		} elseif ( stripos( $html, '</html>' ) !== false ) {
-			$html = str_ireplace( '</html>', $script . "\n</html>", $html );
+			$html = str_ireplace( '</html>', $inject . "\n</html>", $html );
 		} else {
-			$html .= "\n" . $script;
+			$html .= "\n" . $inject;
 		}
 
 		echo $html;
