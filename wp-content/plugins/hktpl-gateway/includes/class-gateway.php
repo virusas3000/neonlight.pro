@@ -286,42 +286,39 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			return array( 'result' => 'failure' );
 		}
 
-		// ── Tap & Go: extract direct payment URL from HKTPL HTML ──
-		// FPS always shows a QR code on the receipt page; do not attempt redirect extraction.
-		if ( $selected_method !== 'fps' ) {
-			$payment_url = '';
-			// Meta refresh: <meta http-equiv="refresh" content="0;url=...">
-			if ( preg_match( '~<meta\s+http-equiv=[\'"]refresh[\'"]\s+content=[\'"]\d+;\s*url=([^\'"\s]+)~i', $body, $m ) ) {
-				$payment_url = $m[1];
-			}
-			// JS redirect: window.location.href = '...'
-			elseif ( preg_match( '~window\.location\.href\s*=\s*["\']([^"\']+)["\']~i', $body, $m ) ) {
-				$payment_url = $m[1];
-			}
-			// JS replace: window.location.replace('...')
-			elseif ( preg_match( '~window\.location\.replace\s*\(\s*["\']([^"\']+)["\']\s*\)~i', $body, $m ) ) {
-				$payment_url = $m[1];
-			}
-			// Form action with auto-submit
-			elseif ( preg_match( '~<form[^\u003e]+action=["\']([^"\']+)["\'][^\u003e]*>~i', $body, $m ) ) {
-				$payment_url = $m[1];
-			}
-			// Relative → absolute
-			if ( $payment_url && ! preg_match( '~^https?://~i', $payment_url ) ) {
-				$payment_url = $base . '/' . ltrim( $payment_url, '/' );
-			}
+		// ── Extract direct payment URL from HKTPL HTML (mobile app / web redirect) ──
+		$payment_url = '';
+		// Meta refresh: <meta http-equiv="refresh" content="0;url=...">
+		if ( preg_match( '~<meta\s+http-equiv=[\'"]refresh[\'"]\s+content=[\'"]\d+;\s*url=([^\'"\s]+)~i', $body, $m ) ) {
+			$payment_url = $m[1];
+		}
+		// JS redirect: window.location.href = '...'
+		elseif ( preg_match( '~window\.location\.href\s*=\s*["\']([^"\']+)["\']~i', $body, $m ) ) {
+			$payment_url = $m[1];
+		}
+		// JS replace: window.location.replace('...')
+		elseif ( preg_match( '~window\.location\.replace\s*\(\s*["\']([^"\']+)["\']\s*\)~i', $body, $m ) ) {
+			$payment_url = $m[1];
+		}
+		// Form action with auto-submit
+		elseif ( preg_match( '~<form[^\u003e]+action=["\']([^"\']+)["\'][^\u003e]*>~i', $body, $m ) ) {
+			$payment_url = $m[1];
+		}
+		// Relative → absolute
+		if ( $payment_url && ! preg_match( '~^https?://~i', $payment_url ) ) {
+			$payment_url = $base . '/' . ltrim( $payment_url, '/' );
+		}
 
-			// If HKTPL gave us a direct redirect URL (mobile app launch / web payment), use it
-			if ( $payment_url ) {
-				$order->update_status( 'pending', __( 'Awaiting HKTPL payment completion.', 'hktpl-gateway' ) );
-				$order->save();
-				wc_reduce_stock_levels( $order_id );
-				WC()->cart->empty_cart();
-				return array(
-					'result'   => 'success',
-					'redirect' => esc_url_raw( $payment_url ),
-				);
-			}
+		// If HKTPL gave us a direct redirect URL (mobile app launch / web payment), use it
+		if ( $payment_url ) {
+			$order->update_status( 'pending', __( 'Awaiting HKTPL payment completion.', 'hktpl-gateway' ) );
+			$order->save();
+			wc_reduce_stock_levels( $order_id );
+			WC()->cart->empty_cart();
+			return array(
+				'result'   => 'success',
+				'redirect' => esc_url_raw( $payment_url ),
+			);
 		}
 
 		// ── Fallback: store HTML for receipt-page QR display ──
