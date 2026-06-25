@@ -16,6 +16,9 @@ require_once get_template_directory() . '/inc/admin-lang-picker.php';
 // Workshop admin meta boxes (price, duration, description, gallery, etc.)
 require_once get_template_directory() . '/inc/workshop-meta.php';
 
+// Payment-received email notifications (workshop confirmation + product invoice)
+require_once get_template_directory() . '/inc/order-emails.php';
+
 // Trilingual product descriptions (EN/TC/SC) for WooCommerce products
 require_once get_template_directory() . '/inc/product-trilingual-desc.php';
 
