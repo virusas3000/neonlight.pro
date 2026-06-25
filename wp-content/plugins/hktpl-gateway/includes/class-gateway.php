@@ -187,8 +187,9 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 
 		$selected_method = isset( $_POST['hktpl_method'] ) ? sanitize_text_field( wp_unslash( $_POST['hktpl_method'] ) ) : 'tapngo';
 
-		// Generate unique merchant trade number
-		$mer_trade_no = (string) $order->get_id() . '-' . wp_generate_password( 6, false );
+		// Generate unique merchant trade number. Spec §3 requires alphanumeric
+		// (max 64) — no hyphen, so /paymentApi/payment/status doesn't reject it.
+		$mer_trade_no = (string) $order->get_id() . wp_generate_password( 6, false );
 		$order->update_meta_data( '_hktpl_mer_trade_no', $mer_trade_no );
 		$order->update_meta_data( '_hktpl_method', $selected_method );
 		$order->save();
@@ -650,24 +651,27 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			return;
 		}
 
+		// Per spec §5 the query-API success response nests tradeStatus/tradeNo
+		// inside content.payload; some variants place them flat in content. Check
+		// both paths so a TRADE_FINISHED is always recognized and the order marked
+		// paid — reading only content.tradeStatus (the old code) never matched.
 		$result_code  = isset( $body['content']['resultCode'] ) ? $body['content']['resultCode'] : '';
-		$trade_status = isset( $body['content']['tradeStatus'] ) ? strtoupper( $body['content']['tradeStatus'] ) : '';
-		$trade_no     = isset( $body['content']['tradeNo'] ) ? $body['content']['tradeNo'] : '';
+		$payload      = ( isset( $body['content']['payload'] ) && is_array( $body['content']['payload'] ) ) ? $body['content']['payload'] : array();
+		$trade_status = isset( $payload['tradeStatus'] ) ? strtoupper( $payload['tradeStatus'] ) : ( isset( $body['content']['tradeStatus'] ) ? strtoupper( $body['content']['tradeStatus'] ) : '' );
+		$trade_no     = isset( $payload['tradeNo'] ) ? $payload['tradeNo'] : ( isset( $body['content']['tradeNo'] ) ? $body['content']['tradeNo'] : '' );
 
-		// Handle both callback format (S/000) and query API format (TRADE_FINISHED/0)
-		$is_success = (
-			( $result_code === '0' && $trade_status === 'TRADE_FINISHED' ) ||
-			( $result_code === '000' && $trade_status === 'S' ) ||
-			( $result_code === '000' && empty( $trade_status ) ) ||
-			$trade_status === 'S'
-		);
+		// Query-API success: resultCode 0/000 + TRADE_FINISHED (or S).
+		// WAIT_TO_PAY / unknown stays pending — do NOT mark failed.
+		$is_success = in_array( $result_code, array( '0', '000' ), true ) && in_array( $trade_status, array( 'TRADE_FINISHED', 'S' ), true );
+		$is_failed  = in_array( $trade_status, array( 'TRADE_CLOSED', 'TRADE_CANCELLED', 'F', 'C' ), true );
 
 		if ( $is_success ) {
 			if ( ! $order->is_paid() ) {
 				$order->payment_complete( $trade_no );
 				$order->add_order_note( __( 'HKTPL: Payment confirmed via API query.', 'hktpl-gateway' ) );
+				$this->log( "Order #{$order->get_id()} marked paid via status query ({$trade_status}).", 'info' );
 			}
-		} elseif ( in_array( $trade_status, array( 'TRADE_CLOSED', 'TRADE_CANCELLED', 'F', 'C' ), true ) ) {
+		} elseif ( $is_failed ) {
 			$order->update_status( 'failed', __( 'HKTPL: Payment cancelled or failed (API query).', 'hktpl-gateway' ) );
 		}
 

@@ -23,7 +23,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 define( 'HKTPL_GATEWAY_VERSION', '1.0.62' );
-define( 'HKTPL_GATEWAY_BUILD', 'sigfix-2026-06-25' );
+define( 'HKTPL_GATEWAY_BUILD', 'recon-2026-06-25' );
 define( 'HKTPL_GATEWAY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HKTPL_GATEWAY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'HKTPL_UAT_BASE_URL', 'https://gateway.sandbox.tapngo.com.hk' );
