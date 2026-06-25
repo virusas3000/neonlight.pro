@@ -77,7 +77,7 @@ class HKTPL_API {
 		$params = array(
 			'appId'          => $this->app_id,
 			'recurrentToken' => $token,
-			'timestamp'      => (string) time(),
+			'timestamp'      => (string) ( time() * 1000 ), // Unix ms (spec §5.7.3); seconds give 461.
 		);
 		$params['sign'] = HKTPL_Crypto::generate_signature( $params, $this->api_key );
 		return $this->post_signed( '/paymentApi/payment/recurrent/token/invalidation', $params );
@@ -98,7 +98,7 @@ class HKTPL_API {
 		$params = array(
 			'appId'      => $this->app_id,
 			'merTradeNo' => $mer_trade_no,
-			'timestamp'  => (string) time(),
+			'timestamp'  => (string) ( time() * 1000 ), // Unix ms (spec §5.7.3); seconds give 461.
 		);
 		$params['sign'] = HKTPL_Crypto::generate_signature( $params, $this->api_key );
 		return $this->post_signed( '/paymentApi/payment/status', $params );
@@ -128,7 +128,7 @@ class HKTPL_API {
 	public function register_access_token() {
 		$params = array(
 			'appId'     => $this->app_id,
-			'timestamp' => (string) time(),
+			'timestamp' => (string) ( time() * 1000 ), // Unix ms (spec §5.7.3); seconds give 461.
 		);
 		$params['sign'] = HKTPL_Crypto::generate_signature( $params, $this->api_key );
 		return $this->post_signed( '/paymentApi/register/accessToken', $params );
