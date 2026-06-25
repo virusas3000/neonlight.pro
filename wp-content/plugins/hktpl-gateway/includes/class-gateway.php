@@ -211,8 +211,18 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			'lang'       => $this->lang,
 		);
 
-		if ( $this->payment_network !== 'ALL' ) {
-			$payment_info['paymentNetwork'] = $this->payment_network;
+		// Map the customer's selected payment method to HKTPL's paymentNetwork.
+		// When the gateway is locked to a single network, honor that (the other
+		// method's radio is never rendered). When set to "All", use the choice the
+		// customer made via the checkout radio — otherwise selecting FPS had no
+		// effect and HKTPL silently fell back to its default (Tap & Go) network,
+		// so the FPS payment page was never shown.
+		if ( 'FPS' === $this->payment_network ) {
+			$payment_info['paymentNetwork'] = 'FPS';
+		} elseif ( 'Tapngo' === $this->payment_network ) {
+			$payment_info['paymentNetwork'] = 'Tapngo';
+		} else {
+			$payment_info['paymentNetwork'] = ( 'fps' === $selected_method ) ? 'FPS' : 'Tapngo';
 		}
 
 		// Optional remark
