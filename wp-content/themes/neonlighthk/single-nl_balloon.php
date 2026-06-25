@@ -37,7 +37,7 @@
                 <h3><?php _e( "What's Included", 'neonlighthk' ); ?></h3>
                 <p><?php echo nl2br( esc_html( $includes ) ); ?></p>
             </div>
-            <?php endif; ?
+            <?php endif; ?>
         </div>
 
         <!-- Product Details -->
@@ -48,18 +48,18 @@
                     <?php if ( $price ) : ?>
                     <tr><th><?php _e('Price', 'neonlighthk'); ?></th><td>HKD <?php echo esc_html( number_format( $price ) ); ?></td></tr>
                     <?php endif; ?>
-                    <?php if ( $category ) : ?
+                    <?php if ( $category ) : ?>
                     <tr><th><?php _e('Category', 'neonlighthk'); ?></th><td><?php echo esc_html( ucfirst( str_replace( '_', ' ', $category ) ) ); ?></td></tr>
-                    <?php endif; ?
-                    <?php if ( $duration ) : ?
+                    <?php endif; ?>
+                    <?php if ( $duration ) : ?>
                     <tr><th><?php _e('Duration', 'neonlighthk'); ?></th><td><?php echo esc_html( $duration ); ?></td></tr>
-                    <?php endif; ?
-                    <?php if ( $booking_req ) : ?
+                    <?php endif; ?>
+                    <?php if ( $booking_req ) : ?>
                     <tr><th><?php _e('Booking', 'neonlighthk'); ?></th><td><?php _e('Booking Required', 'neonlighthk'); ?></td></tr>
-                    <?php endif; ?
-                    <?php if ( $includes ) : ?
+                    <?php endif; ?>
+                    <?php if ( $includes ) : ?>
                     <tr><th><?php _e('Includes', 'neonlighthk'); ?></th><td><?php echo nl2br( esc_html( $includes ) ); ?></td></tr>
-                    <?php endif; ?
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
