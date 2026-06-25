@@ -88,23 +88,21 @@ class HKTPL_API {
 	 *
 	 * POST /paymentApi/payment/status
 	 *
-	 * Requires accessToken: call register_access_token() first, then encrypt merTradeNo + accessToken into payload.
+	 * Requires accessToken (cached ~6h; valid 30 days per HKTPL spec), then
+	 * encrypts merTradeNo + accessToken into the payload.
 	 *
 	 * @param string $mer_trade_no Merchant trade number
 	 * @return array|WP_Error
 	 */
 	public function query_payment_status( string $mer_trade_no ) {
-		// Step 1: Get access token
-		$token_resp = $this->register_access_token();
-		if ( is_wp_error( $token_resp ) ) {
-			return $token_resp;
-		}
-
-		$body = wp_remote_retrieve_body( $token_resp );
-		$json = json_decode( $body, true );
-		$access_token = isset( $json['content']['accessToken'] ) ? $json['content']['accessToken'] : '';
+		// Step 1: Get access token (cached; valid 30 days per spec).
+		$cache_key    = 'hktpl_access_token_' . $this->app_id;
+		$access_token = get_transient( $cache_key );
 		if ( empty( $access_token ) ) {
-			return new WP_Error( 'hktpl_token_error', __( 'Failed to obtain access token for status query.', 'hktpl-gateway' ) );
+			$access_token = $this->register_and_cache_token( $cache_key );
+			if ( is_wp_error( $access_token ) ) {
+				return $access_token;
+			}
 		}
 
 		// Step 2: Build encrypted payload with accessToken + merTradeNo
@@ -124,7 +122,55 @@ class HKTPL_API {
 			'timestamp' => (string) time(),
 		);
 		$params['sign'] = HKTPL_Crypto::generate_signature( $params, $this->api_key );
-		return $this->post_signed( '/paymentApi/payment/status', $params );
+		$response = $this->post_signed( '/paymentApi/payment/status', $params );
+
+		// If the call failed (e.g. token rejected / server IP not whitelisted for
+		// /paymentApi/*), drop the cached token so the next poll re-registers.
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) >= 400 ) {
+			delete_transient( $cache_key );
+			self::log( 'Status query failed; cleared token cache. ' . ( is_wp_error( $response ) ? $response->get_error_message() : 'HTTP ' . wp_remote_retrieve_response_code( $response ) ), 'error' );
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Register a fresh accessToken and cache it.
+	 *
+	 * @param string $cache_key Transient cache key.
+	 * @return string|WP_Error Access token, or WP_Error on failure.
+	 */
+	private function register_and_cache_token( string $cache_key ) {
+		$token_resp = $this->register_access_token();
+		if ( is_wp_error( $token_resp ) ) {
+			self::log( 'register_access_token failed: ' . $token_resp->get_error_message(), 'error' );
+			return $token_resp;
+		}
+
+		$body         = wp_remote_retrieve_body( $token_resp );
+		$json         = json_decode( $body, true );
+		$access_token = isset( $json['content']['accessToken'] ) ? $json['content']['accessToken'] : '';
+		if ( empty( $access_token ) ) {
+			self::log( 'register_access_token returned no accessToken. Body: ' . $body, 'error' );
+			return new WP_Error( 'hktpl_token_error', __( 'Failed to obtain access token for status query.', 'hktpl-gateway' ) );
+		}
+
+		set_transient( $cache_key, $access_token, 6 * HOUR_IN_SECONDS );
+		self::log( 'Obtained and cached new accessToken.', 'info' );
+		return $access_token;
+	}
+
+	/**
+	 * Log helper — writes to the WooCommerce log (admin-only), source 'hktpl-gateway'.
+	 *
+	 * @param string $message Log message.
+	 * @param string $level   Log level.
+	 */
+	private static function log( $message, $level = 'info' ) {
+		if ( function_exists( 'wc_get_logger' ) ) {
+			$logger = wc_get_logger();
+			$logger->log( $level, '[HKTPL API] ' . $message, array( 'source' => 'hktpl-gateway' ) );
+		}
 	}
 
 	/**

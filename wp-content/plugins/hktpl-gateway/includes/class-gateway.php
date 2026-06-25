@@ -421,11 +421,14 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 		$api    = new HKTPL_API( $this->testmode, $this->app_id, $this->api_key, $this->public_key );
 		$status = $api->query_payment_status( $mer_trade_no );
 		if ( is_wp_error( $status ) ) {
+			$this->log( "Status query failed for #{$order->get_id()}: " . $status->get_error_message(), 'error' );
 			wp_send_json_success( array( 'paid' => false ) );
 			return;
 		}
 
-		$body = json_decode( wp_remote_retrieve_body( $status ), true );
+		$raw   = wp_remote_retrieve_body( $status );
+		$body  = json_decode( $raw, true );
+		$this->log( "Status query for #{$order->get_id()}: " . $raw, 'info' );
 		$this->update_order_from_status( $order, $body );
 
 		if ( $order->is_paid() ) {
@@ -489,7 +492,8 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 	 * Handle POST callback from HKTPL server.
 	 */
 	private function handle_post_callback() {
-		$params = $_POST;
+		// wp_unslash so signature verification matches HKTPL's unescaped values.
+		$params = wp_unslash( $_POST );
 
 		$mer_trade_no = isset( $params['merTradeNo'] ) ? sanitize_text_field( $params['merTradeNo'] ) : '';
 		$trade_no     = isset( $params['tradeNo'] ) ? sanitize_text_field( $params['tradeNo'] ) : '';
@@ -504,12 +508,15 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			exit;
 		}
 
+		$this->log( sprintf( 'Return callback received: merTradeNo=%s tradeStatus=%s resultCode=%s msg=%s', $mer_trade_no, $trade_status, $result_code, $msg ), 'info' );
+
 		// Verify signature — use ALL POST params (exclude sign, null/empty values)
 		$sign_params = $params;
 		unset( $sign_params['sign'] );
 		$sign_params = array_filter( $sign_params, function( $v ) { return $v !== null && $v !== ''; } );
 
 		if ( ! HKTPL_Crypto::verify_signature( $sign_params, $signature, $this->api_key ) ) {
+			$this->log( 'Signature mismatch. sign_params=' . wp_json_encode( $sign_params ), 'error' );
 			status_header( 403 );
 			echo 'Signature verification failed';
 			exit;
@@ -535,8 +542,16 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 
 		$order = $orders[0];
 
-		// Map trade status
-		if ( $trade_status === 'S' || $result_code === '000' ) {
+		// Map trade status. Accept both callback (S / resultCode 000) and query-API
+		// (TRADE_FINISHED / resultCode 0) formats as success.
+		$is_success = (
+			$trade_status === 'S' ||
+			$result_code === '000' ||
+			( $trade_status === 'TRADE_FINISHED' && ( $result_code === '0' || $result_code === '' ) )
+		);
+		$is_failed = in_array( $trade_status, array( 'F', 'C', 'TRADE_CLOSED', 'TRADE_CANCELLED' ), true );
+
+		if ( $is_success ) {
 			if ( ! $order->is_paid() ) {
 				$order->payment_complete( $trade_no );
 				$order->add_order_note( sprintf(
@@ -545,20 +560,23 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 					$trade_no,
 					$msg
 				) );
+				$this->log( "Order #{$order->get_id()} marked payment_complete.", 'info' );
 			}
-		} elseif ( in_array( $trade_status, array( 'F', 'C', 'U' ), true ) ) {
-			// F = Failed, C = Cancelled, U = Unknown
+		} elseif ( $is_failed ) {
 			$order->update_status( 'failed', sprintf(
 				__( 'HKTPL payment failed/cancelled (Status: %1$s, Msg: %2$s).', 'hktpl-gateway' ),
 				$trade_status,
 				$msg
 			) );
+			$this->log( "Order #{$order->get_id()} marked failed (status={$trade_status}).", 'info' );
 		} else {
+			// Non-final / unknown — leave order pending, don't mark failed.
 			$order->add_order_note( sprintf(
 				__( 'HKTPL callback received: Status %1$s, Msg %2$s.', 'hktpl-gateway' ),
 				$trade_status,
 				$msg
 			) );
+			$this->log( "Order #{$order->get_id()} non-final status: {$trade_status} / resultCode={$result_code}", 'warning' );
 		}
 
 		$order->update_meta_data( '_hktpl_trade_no', $trade_no );
@@ -607,6 +625,19 @@ class HKTPL_Gateway extends WC_Payment_Gateway {
 			$order->update_meta_data( '_hktpl_trade_no', $trade_no );
 		}
 		$order->save();
+	}
+
+	/**
+	 * Log helper — writes to the WooCommerce log (admin-only), source 'hktpl-gateway'.
+	 *
+	 * @param string $message Log message.
+	 * @param string $level   Log level: info|notice|warning|error.
+	 */
+	private function log( $message, $level = 'info' ) {
+		if ( function_exists( 'wc_get_logger' ) ) {
+			$logger = wc_get_logger();
+			$logger->log( $level, '[HKTPL] ' . $message, array( 'source' => 'hktpl-gateway' ) );
+		}
 	}
 
 	/**

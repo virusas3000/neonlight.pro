@@ -35,7 +35,8 @@ class HKTPL_Webhook {
 			exit;
 		}
 
-		$params = $_POST;
+		// wp_unslash so signature verification matches HKTPL's unescaped values.
+		$params = wp_unslash( $_POST );
 
 		$mer_trade_no = isset( $params['merTradeNo'] ) ? sanitize_text_field( $params['merTradeNo'] ) : '';
 		$trade_no     = isset( $params['tradeNo'] ) ? sanitize_text_field( $params['tradeNo'] ) : '';
@@ -43,6 +44,8 @@ class HKTPL_Webhook {
 		$msg          = isset( $params['msg'] ) ? sanitize_text_field( $params['msg'] ) : '';
 		$result_code  = isset( $params['resultCode'] ) ? sanitize_text_field( $params['resultCode'] ) : '';
 		$signature    = isset( $params['sign'] ) ? sanitize_text_field( $params['sign'] ) : '';
+
+		self::log( sprintf( 'Callback received: merTradeNo=%s tradeStatus=%s resultCode=%s msg=%s sign=%s', $mer_trade_no, $trade_status, $result_code, $msg, $signature ? 'yes' : 'no' ), 'info' );
 
 		if ( empty( $mer_trade_no ) || empty( $signature ) ) {
 			self::log( 'Callback rejected: missing merTradeNo or sign.', 'error' );
@@ -68,7 +71,7 @@ class HKTPL_Webhook {
 		$sign_params = array_filter( $sign_params, function( $v ) { return $v !== null && $v !== ''; } );
 
 		if ( ! HKTPL_Crypto::verify_signature( $sign_params, $signature, $api_key ) ) {
-			self::log( 'Callback rejected: signature mismatch.', 'error' );
+			self::log( 'Signature mismatch. sign_params=' . wp_json_encode( $sign_params ), 'error' );
 			status_header( 403 );
 			echo 'Signature verification failed';
 			exit;
@@ -96,12 +99,17 @@ class HKTPL_Webhook {
 
 		$order = $orders[0];
 
-		// Map trade status
-		// S = Success (tradeStatus=S, resultCode=000)
-		// F = Failed
-		// C = Cancelled
-		// U = Unknown / processing
-		if ( $trade_status === 'S' || $result_code === '000' ) {
+		// Map trade status. Accept both the callback format (tradeStatus=S /
+		// resultCode=000) and the query-API format (TRADE_FINISHED / resultCode=0)
+		// as success — HKTPL has been observed sending either.
+		$is_success = (
+			$trade_status === 'S' ||
+			$result_code === '000' ||
+			( $trade_status === 'TRADE_FINISHED' && ( $result_code === '0' || $result_code === '' ) )
+		);
+		$is_failed = in_array( $trade_status, array( 'F', 'C', 'TRADE_CLOSED', 'TRADE_CANCELLED' ), true );
+
+		if ( $is_success ) {
 			if ( ! $order->is_paid() ) {
 				$order->payment_complete( $trade_no );
 				$order->add_order_note( sprintf(
@@ -114,27 +122,21 @@ class HKTPL_Webhook {
 			} else {
 				$order->add_order_note( __( 'HKTPL: Duplicate success callback received.', 'hktpl-gateway' ) );
 			}
-		} elseif ( in_array( $trade_status, array( 'F', 'C' ), true ) ) {
+		} elseif ( $is_failed ) {
 			$order->update_status( 'failed', sprintf(
 				__( 'HKTPL: Payment failed/cancelled (Status: %1$s, Msg: %2$s).', 'hktpl-gateway' ),
 				$trade_status,
 				$msg
 			) );
 			self::log( "Order #{$order->get_id()} marked failed (status={$trade_status}).", 'info' );
-		} elseif ( $trade_status === 'U' ) {
-			$order->add_order_note( sprintf(
-				__( 'HKTPL: Payment status unknown/processing (Status: %1$s, Msg: %2$s).', 'hktpl-gateway' ),
-				$trade_status,
-				$msg
-			) );
-			self::log( "Order #{$order->get_id()} received unknown status.", 'warning' );
 		} else {
+			// Non-final / unknown (e.g. 'U') — leave order pending, don't mark failed.
 			$order->add_order_note( sprintf(
-				__( 'HKTPL: Unrecognized trade status %1$s (Msg: %2$s).', 'hktpl-gateway' ),
+				__( 'HKTPL: Payment status not final (Status: %1$s, Msg: %2$s).', 'hktpl-gateway' ),
 				$trade_status,
 				$msg
 			) );
-			self::log( "Order #{$order->get_id()} unrecognized status: {$trade_status}", 'warning' );
+			self::log( "Order #{$order->get_id()} non-final status: {$trade_status} / resultCode={$result_code}", 'warning' );
 		}
 
 		$order->update_meta_data( '_hktpl_trade_no', $trade_no );
