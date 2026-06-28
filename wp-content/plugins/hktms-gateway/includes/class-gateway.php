@@ -156,7 +156,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 				$img_url  = HKTMS_PLUGIN_URL . 'assets/images/' . $key . '.png';
 				$first    = ( $key === 'visamastercard' );
 			?>
-				<label class="hktms-method-label<?php echo $first ? ' hktms-method-selected' : ''; ?>">
+				<label class="hktms-method-label">
 					<input type="radio" name="hktms_payment_method" value="<?php echo esc_attr( $key ); ?>" <?php checked( $first ); ?>>
 					<span class="hktms-method-text"><?php echo esc_html( $label ); ?></span>
 					<?php if ( file_exists( $img_path ) ) : ?>
@@ -250,14 +250,17 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		$response = $api->create_payment_url( $method, $payload );
 
 		if ( is_wp_error( $response ) ) {
-			wc_add_notice( $response->get_error_message(), 'error' );
+			wc_add_notice( $response->get_error_code() . ': ' . $response->get_error_message(), 'error' );
 			return [ 'result' => 'failure' ];
 		}
 
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( empty( $body['status'] ) || $body['status'] !== '0' || empty( $body['payload']['paymentUrl'] ) ) {
-			$msg = $body['message'] ?? __( 'Failed to create payment. Please try again.', 'hktms-gateway' );
-			wc_add_notice( $msg, 'error' );
+			$msg   = $body['message'] ?? __( 'Failed to create payment. Please try again.', 'hktms-gateway' );
+			$debug = wp_remote_retrieve_body( $response );
+			$code  = wp_remote_retrieve_response_code( $response );
+			error_log( '[HKTMS DEBUG] HTTP ' . $code . ' | Body: ' . $debug );
+			wc_add_notice( $msg . ' [HTTP ' . $code . '] ' . esc_html( $debug ), 'error' );
 			return [ 'result' => 'failure' ];
 		}
 

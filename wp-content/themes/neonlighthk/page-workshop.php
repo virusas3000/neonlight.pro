@@ -106,6 +106,15 @@ Remarks: $remarks");
                 $existing = get_posts(['post_type'=>'product','meta_key'=>'_nl_workshop_product_id','meta_value'=>$workshop_id,'posts_per_page'=>1,'post_status'=>'any']);
                 if (!empty($existing)) {
                     $product_id = $existing[0]->ID;
+                    // Sync the price in case the workshop price changed since
+                    // this product was first created — a stale price would
+                    // charge the wrong amount on repeat bookings.
+                    $existing_product = wc_get_product($product_id);
+                    if ($existing_product && floatval($existing_product->get_regular_price()) != $price) {
+                        $existing_product->set_regular_price($price);
+                        $existing_product->set_price($price);
+                        $existing_product->save();
+                    }
                 } else {
                     $product = new WC_Product_Simple();
                     $product->set_name($workshop_title);

@@ -44,6 +44,8 @@ class HKTMS_API {
 		$payload_b64 = $this->base64url_encode( $payload );
 
 		$secret    = base64_decode( $this->app_secret );
+		$secret_len = strlen( $secret );
+		error_log( '[HKTMS JWT] AppID=' . $this->app_id . ' | SecretLen=' . $secret_len . ' | SecretValid=' . ( $secret !== false ? 'yes' : 'no' ) );
 		$signature = hash_hmac( 'sha512', $header_b64 . '.' . $payload_b64, $secret, true );
 		$sig_b64   = $this->base64url_encode( $signature );
 
@@ -87,10 +89,12 @@ class HKTMS_API {
 		}
 
 		$code = wp_remote_retrieve_response_code( $response );
+		$body_raw = wp_remote_retrieve_body( $response );
 		if ( $code >= 400 ) {
-			$body_data = json_decode( wp_remote_retrieve_body( $response ), true );
+			$body_data = json_decode( $body_raw, true );
 			$msg = $body_data['message'] ?? __( 'HKTMS API error: HTTP ', 'hktms-gateway' ) . $code;
-			return new WP_Error( 'hktms_api_error', $msg );
+			error_log( '[HKTMS RAW] URL=' . $url . ' | Code=' . $code . ' | Body=' . $body_raw . ' | JWT=' . substr( $token, 0, 80 ) . '...' );
+			return new WP_Error( 'hktms_api_error', $msg . ' | RAW: ' . $body_raw );
 		}
 
 		return $response;

@@ -57,10 +57,28 @@ class NL_Order_Emails {
 			return;
 		}
 		$booking_id = WC()->session->get( 'nl_booking_id' );
-		if ( $booking_id ) {
-			$order->update_meta_data( '_nl_booking_id', (int) $booking_id );
-			WC()->session->__unset( 'nl_booking_id' );
+		if ( ! $booking_id ) {
+			return;
 		}
+		// Only bridge the booking onto an order that actually contains a
+		// workshop product. Without this guard, a stale nl_booking_id left in
+		// the session from a prior workshop-modal visit would leak onto a later
+		// regular-product order and misroute its payment email to the workshop
+		// template. Consume the session value either way so it never leaks.
+		$has_workshop_product = false;
+		if ( WC()->cart ) {
+			foreach ( WC()->cart->get_cart() as $cart_item ) {
+				$product = $cart_item['data'] ?? null;
+				if ( $product && $product->get_meta( '_nl_workshop_product_id' ) ) {
+					$has_workshop_product = true;
+					break;
+				}
+			}
+		}
+		if ( $has_workshop_product ) {
+			$order->update_meta_data( '_nl_booking_id', (int) $booking_id );
+		}
+		WC()->session->__unset( 'nl_booking_id' );
 	}
 
 	/**
@@ -81,7 +99,12 @@ class NL_Order_Emails {
 		}
 
 		$booking_id  = (int) $order->get_meta( '_nl_booking_id' );
-		$is_workshop = $booking_id || self::order_has_workshop_product( $order );
+		// A workshop email only makes sense when a real booking exists (with
+		// location/date/time/etc.), so require BOTH a booking id and a workshop
+		// product in the cart. A workshop product bought directly without the
+		// booking modal has no booking id and gets the product invoice instead
+		// (no "Not provided" placeholders).
+		$is_workshop = $booking_id && self::order_has_workshop_product( $order );
 
 		if ( $is_workshop ) {
 			self::send_workshop_email( $order, $booking_id );
@@ -165,7 +188,7 @@ class NL_Order_Emails {
 		$body    = self::wrap_html(
 			__( 'Thank you! Your workshop booking is confirmed and payment has been received.', 'neonlighthk' ),
 			self::build_kv_table( $rows ),
-			sprintf( __( 'Total paid: %s', 'neonlighthk' ), wp_kses_post( $order->get_formatted_order_total() ) )
+			sprintf( __( 'Total paid: %s', 'neonlighthk' ), wp_strip_all_tags( $order->get_formatted_order_total() ) )
 		);
 
 		$to = array( self::SHOP_EMAIL );
@@ -191,12 +214,14 @@ class NL_Order_Emails {
 	private static function send_product_emails( $order ) {
 		$number      = $order->get_order_number();
 		$order_table = self::build_order_table( $order );
+		$cust_block  = self::build_customer_block( $order );
 		$txn_block   = self::build_transaction_block( $order );
+		$body        = $order_table . $cust_block . $txn_block;
 
 		// Shop notification.
 		$shop_body = self::wrap_html(
 			sprintf( __( 'A new order has been paid.', 'neonlighthk' ) ),
-			$order_table . $txn_block,
+			$body,
 			''
 		);
 		self::mail( self::SHOP_EMAIL, sprintf( __( 'New Paid Order #%s', 'neonlighthk' ), $number ), $shop_body, true );
@@ -206,7 +231,7 @@ class NL_Order_Emails {
 		if ( $cust_email && is_email( $cust_email ) ) {
 			$cust_body = self::wrap_html(
 				sprintf( __( 'Thank you for your order #%s. Your payment has been received.', 'neonlighthk' ), $number ),
-				$order_table . $txn_block,
+				$body,
 				''
 			);
 			self::mail( $cust_email, sprintf( __( 'Your Order #%s — Invoice', 'neonlighthk' ), $number ), $cust_body, false );
@@ -267,6 +292,61 @@ class NL_Order_Emails {
 	}
 
 	/**
+	 * Customer details block (name, email, phone, billing/shipping address).
+	 *
+	 * @param WC_Order $order Order.
+	 * @return string HTML.
+	 */
+	private static function build_customer_block( $order ) {
+		$out   = '';
+		$name  = $order->get_formatted_billing_full_name();
+		$email = $order->get_billing_email();
+		$phone = $order->get_billing_phone();
+
+		// Formatted billing address WITHOUT the name (name is shown above) so
+		// it is not duplicated. WC_Countries::get_formatted_address() returns
+		// <br/>-separated HTML, kept via wp_kses_post.
+		$addr = '';
+		if ( function_exists( 'WC' ) && WC()->countries ) {
+			$addr = WC()->countries->get_formatted_address(
+				array(
+					'address_1' => $order->get_billing_address_1(),
+					'address_2' => $order->get_billing_address_2(),
+					'city'      => $order->get_billing_city(),
+					'state'     => $order->get_billing_state(),
+					'postcode'  => $order->get_billing_postcode(),
+					'country'   => $order->get_billing_country(),
+				)
+			);
+		}
+
+		if ( $name ) {
+			$out .= '<p style="margin:0 0 4px;font-size:14px;"><strong>' . esc_html__( 'Name:', 'neonlighthk' ) . '</strong> ' . esc_html( $name ) . '</p>';
+		}
+		if ( $email ) {
+			$out .= '<p style="margin:0 0 4px;font-size:14px;"><strong>' . esc_html__( 'Email:', 'neonlighthk' ) . '</strong> ' . esc_html( $email ) . '</p>';
+		}
+		if ( $phone ) {
+			$out .= '<p style="margin:0 0 4px;font-size:14px;"><strong>' . esc_html__( 'Phone:', 'neonlighthk' ) . '</strong> ' . esc_html( $phone ) . '</p>';
+		}
+		if ( $addr ) {
+			$out .= '<p style="margin:0 0 4px;font-size:14px;"><strong>' . esc_html__( 'Address:', 'neonlighthk' ) . '</strong><br>' . wp_kses_post( $addr ) . '</p>';
+		}
+
+		// Shipping address, only if it was entered and differs from billing.
+		$shipping = $order->get_formatted_shipping_address();
+		if ( $shipping && $shipping !== $order->get_formatted_billing_address() ) {
+			$out .= '<p style="margin:0 0 4px;font-size:14px;"><strong>' . esc_html__( 'Shipping address:', 'neonlighthk' ) . '</strong><br>' . wp_kses_post( $shipping ) . '</p>';
+		}
+
+		if ( ! $out ) {
+			return '';
+		}
+		$h = '<h3 style="margin:0 0 8px;font-size:15px;">' . esc_html__( 'Customer details', 'neonlighthk' ) . '</h3>';
+		return '<div style="margin:12px 0 0;padding-top:8px;border-top:1px solid #eee;">' . $h . $out . '</div>';
+	}
+
+	/**
 	 * Two-column key/value table for the workshop email.
 	 *
 	 * @param array $rows label => value.
@@ -295,7 +375,7 @@ class NL_Order_Emails {
 	private static function wrap_html( $intro, $content, $footer ) {
 		$html  = '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,Helvetica,sans-serif;color:#222;">';
 		$html .= '<div style="max-width:560px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #eee;">';
-		$html .= '<div style="background:#003B5C;color:#fff;padding:20px 24px;font-size:18px;font-weight:bold;">NEON LIGHT HK</div>';
+		$html .= '<div style="background:#003B5C;color:#fff;padding:20px 24px;font-size:18px;font-weight:bold;">Neonlight.pro</div>';
 		$html .= '<div style="padding:24px;">';
 		if ( $intro ) {
 			$html .= '<p style="margin:0 0 16px;font-size:15px;line-height:1.5;">' . esc_html( $intro ) . '</p>';

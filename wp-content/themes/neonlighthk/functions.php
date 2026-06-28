@@ -463,7 +463,15 @@ function nl_get_or_create_workshop_product($workshop_id, $title, $price) {
 		'post_status'    => 'any',
 	]);
 	if (!empty($existing)) {
-		return $existing[0]->ID;
+		$product_id = $existing[0]->ID;
+		// Sync the price in case it changed since the product was first created.
+		$existing_product = wc_get_product($product_id);
+		if ($existing_product && floatval($existing_product->get_regular_price()) != $price) {
+			$existing_product->set_regular_price($price);
+			$existing_product->set_price($price);
+			$existing_product->save();
+		}
+		return $product_id;
 	}
 	$product = new WC_Product_Simple();
 	$product->set_name($title);
