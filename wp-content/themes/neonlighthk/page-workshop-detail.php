@@ -114,8 +114,6 @@ add_action('wp_head', function() {
     echo '<meta name="twitter:image" content="' . esc_url($cover) . '">' . "\n";
 }, 1);
 
-get_header();
-
 $title = $ws['title'];
 $locations = [
     ['name'=>'中環8號碼頭','name_en'=>'Central Pier 8','address'=>'香港中環8號碼頭U層','address_en'=>'U/F,Central Pier 8,Hong Kong'],
@@ -123,6 +121,103 @@ $locations = [
     ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
     ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
 ];
+
+// ===== BOOKING FORM HANDLING (must run before get_header() so wp_redirect works) =====
+$booking_message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nl_booking_nonce'])) {
+    if (wp_verify_nonce($_POST['nl_booking_nonce'], 'nl_booking_form') && isset($_POST['nl_booking_submit'])) {
+        $workshop_id    = sanitize_text_field($_POST['nl_booking_workshop_id'] ?? '');
+        $workshop_title = sanitize_text_field($_POST['nl_booking_workshop_title'] ?? '');
+        $price          = floatval($_POST['nl_booking_price'] ?? 0);
+        $location_idx   = intval($_POST['selected_location'] ?? 0);
+        $booking_date   = sanitize_text_field($_POST['booking_date'] ?? '');
+        $booking_time   = sanitize_text_field($_POST['booking_time'] ?? '');
+        $customer_name  = sanitize_text_field($_POST['customer_name'] ?? '');
+        $customer_email = sanitize_email($_POST['customer_email'] ?? '');
+        $customer_phone = sanitize_text_field($_POST['customer_phone'] ?? '');
+        $group_size     = intval($_POST['group_size'] ?? 1);
+        $remarks        = sanitize_textarea_field($_POST['remarks'] ?? '');
+
+        $loc = $locations[$location_idx] ?? $locations[0];
+
+        // Save to nl_booking CPT
+        $booking_id = wp_insert_post([
+            'post_type'   => 'nl_booking',
+            'post_title'  => $workshop_title . ' — ' . $customer_name . ' — ' . $booking_date,
+            'post_status' => 'pending',
+            'post_author' => 1,
+        ]);
+
+        if ($booking_id && !is_wp_error($booking_id)) {
+            update_post_meta($booking_id, '_nl_workshop_id',      $workshop_id);
+            update_post_meta($booking_id, '_nl_workshop_title',  $workshop_title);
+            update_post_meta($booking_id, '_nl_price',           $price);
+            update_post_meta($booking_id, '_nl_location_name',   $loc['name'] . ' · ' . $loc['name_en']);
+            update_post_meta($booking_id, '_nl_location_address',$loc['address'] . ' | ' . $loc['address_en']);
+            update_post_meta($booking_id, '_nl_booking_date',    $booking_date);
+            update_post_meta($booking_id, '_nl_booking_time',    $booking_time);
+            update_post_meta($booking_id, '_nl_customer_name',   $customer_name);
+            update_post_meta($booking_id, '_nl_customer_email',  $customer_email);
+            update_post_meta($booking_id, '_nl_customer_phone',  $customer_phone);
+            update_post_meta($booking_id, '_nl_group_size',      $group_size);
+            update_post_meta($booking_id, '_nl_remarks',         $remarks);
+            update_post_meta($booking_id, '_nl_total',           $price * $group_size);
+
+            // Email admin
+            wp_mail('www.neonlight.pro@gmail.com',
+                'New Workshop Booking - ' . $customer_name,
+                "Workshop: $workshop_title
+Location: " . $loc['name'] . ' · ' . $loc['name_en'] . "
+Date: $booking_date $booking_time
+Name: $customer_name
+Email: $customer_email
+Phone: $customer_phone
+Group: $group_size
+Total: HK$" . ($price * $group_size) . "
+Remarks: $remarks");
+
+            // If priced, create WC product & go to checkout
+            if ($price > 0 && class_exists('WC_Product_Simple')) {
+                $existing = get_posts(['post_type'=>'product','meta_key'=>'_nl_workshop_product_id','meta_value'=>$workshop_id,'posts_per_page'=>1,'post_status'=>'any']);
+                if (!empty($existing)) {
+                    $product_id = $existing[0]->ID;
+                    // Sync the price in case the workshop price changed since
+                    // this product was first created — a stale price would
+                    // charge the wrong amount on repeat bookings.
+                    $existing_product = wc_get_product($product_id);
+                    if ($existing_product && floatval($existing_product->get_regular_price()) != $price) {
+                        $existing_product->set_regular_price($price);
+                        $existing_product->set_price($price);
+                        $existing_product->save();
+                    }
+                } else {
+                    $product = new WC_Product_Simple();
+                    $product->set_name($workshop_title);
+                    $product->set_regular_price($price);
+                    $product->set_price($price);
+                    $product->set_status('publish');
+                    $product->set_catalog_visibility('hidden');
+                    $product->set_virtual(true);
+                    $product->set_sold_individually(false);
+                    $product->update_meta_data('_nl_workshop_product_id', $workshop_id);
+                    $product_id = $product->save();
+                }
+                if ($product_id && class_exists('WC_Cart')) {
+                    WC()->cart->empty_cart();
+                    WC()->cart->add_to_cart($product_id, $group_size);
+                    WC()->session->set('nl_booking_id', $booking_id);
+                    wp_redirect(wc_get_checkout_url());
+                    exit;
+                }
+            }
+            $booking_message = 'saved';
+        } else {
+            $booking_message = 'error';
+        }
+    }
+}
+
+get_header();
 
 $gallery = $ws['gallery'] ?? [];
 $has_gallery = !empty($gallery) && is_array($gallery);
