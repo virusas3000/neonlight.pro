@@ -548,6 +548,21 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('btnStep2Next').addEventListener('click',()=>goToStep(3));
     document.getElementById('btnStep3Back').addEventListener('click',()=>goToStep(2));
     document.getElementById('btnStep3Next').addEventListener('click',()=>{
+        // Validate Step 3 user-info before advancing. The button is
+        // type="button", so HTML5 required validation doesn't fire on its
+        // own — without this guard an empty form proceeds to Step 4.
+        const step3Fields=[
+            document.querySelector('input[name="customer_name"]'),
+            document.querySelector('input[name="customer_email"]'),
+            document.querySelector('input[name="customer_phone"]'),
+            document.getElementById('groupSize'),
+        ];
+        const firstInvalid=step3Fields.find(f=>f&&!f.checkValidity());
+        if(firstInvalid){
+            alert(<?php echo json_encode(nl_t('ws_fill_required')); ?>);
+            firstInvalid.focus();
+            return;
+        }
         const workshop=document.getElementById('bookingWorkshopTitleInput').value;
         const locCards=document.querySelectorAll('.nl-location-card');
         const locName=locCards[selectedLocation]?.querySelector('.nl-location-card__name')?.textContent||'';

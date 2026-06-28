@@ -199,6 +199,7 @@ function nl_dictionary() {
         'ws_email_ph2'  => ['en'=>'Email address',     'zh'=>'電郵地址',           'cn'=>'电邮地址'],
         'ws_phone_ph2'  => ['en'=>'e.g. 6123 4567',    'zh'=>'例如 6123 4567',   'cn'=>'例如 6123 4567'],
         'ws_remarks_ph' => ['en'=>'Any special requests...', 'zh'=>'備註（如有）',   'cn'=>'备注（如有）'],
+        'ws_fill_required'=>['en'=>'Please fill in all required fields.', 'zh'=>'請填寫所有必填資料。', 'cn'=>'请填写所有必填资料。'],
 
         // Footer
         'footer_about'  => ['en'=>'ABOUT',       'zh'=>'關於',       'cn'=>'关于'],
