@@ -105,6 +105,8 @@ get_header();
 </main>
 
 <style>
+.nl-terms-page .nl-page-header{text-align:center;padding:48px 20px 8px}
+.nl-terms-page .nl-page-title{font-family:var(--font-en);font-size:2rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;text-align:center;margin:0 auto}
 .nl-terms-page .nl-section{max-width:900px;margin:0 auto;padding:40px 20px}
 .nl-terms-content{text-align:left;color:#222}
 .nl-terms-h2{font-family:var(--font-en);font-size:1.4rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:40px 0 16px;color:#111;border-left:4px solid var(--nl-cyan);padding-left:12px}
