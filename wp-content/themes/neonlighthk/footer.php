@@ -22,6 +22,7 @@
 			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), home_url('/neon-products/')) ); ?>"><?php echo nl_t('nav_products'); ?></a></li>
 			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(12)) ); ?>"><?php echo nl_t('nav_balloon'); ?></a></li>
 			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), get_permalink(138)) ); ?>"><?php echo nl_t('nav_hanfu'); ?></a></li>
+			<li><a href="<?php echo esc_url( add_query_arg('lang', nl_lang(), home_url('/terms/')) ); ?>"><?php echo nl_t('nav_terms'); ?></a></li>
 		</ul>
 	</nav>
 	<div class="nl-footer__contact">

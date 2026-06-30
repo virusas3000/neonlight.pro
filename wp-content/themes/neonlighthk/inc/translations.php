@@ -205,6 +205,7 @@ function nl_dictionary() {
         'footer_about'  => ['en'=>'ABOUT',       'zh'=>'關於',       'cn'=>'关于'],
         'footer_services'=>['en'=>'SERVICES',    'zh'=>'服務',       'cn'=>'服务'],
         'footer_legal'  => ['en'=>'LEGAL',       'zh'=>'條款',       'cn'=>'条款'],
+        'nav_terms'     => ['en'=>'Terms & Conditions', 'zh'=>'條款及細則', 'cn'=>'条款及细则'],
         'footer_copyright'=>['en'=>'Cheezo Group Limited. All Rights Reserved.', 'zh'=>'Cheezo Group Limited. 版權所有。', 'cn'=>'Cheezo Group Limited. 版权所有。'],
 
         // Misc
