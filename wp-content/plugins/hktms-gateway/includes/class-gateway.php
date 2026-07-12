@@ -427,14 +427,9 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 			$payload['language'] = $this->language;
 		}
 
-		// Apple Pay must explicitly request the Apple Pay hosted page and pass
-		// the merchant category code configured for the Apple Pay merchant profile.
+		// Apple Pay must explicitly request the Apple Pay hosted page.
 		if ( 'applepay' === $method ) {
 			$payload['paymentMethod'] = 'applePay';
-			// Hard-code fallback MCC to 5999 (Miscellaneous and Specialty Retail)
-			// for Apple Pay if no MCC is configured in settings.
-			$mcc = $this->apple_pay_mcc ?: '5999';
-			$payload['mcc'] = (string) $mcc;
 		}
 
 		// Token ID for saved cards (Visa/MC only)
