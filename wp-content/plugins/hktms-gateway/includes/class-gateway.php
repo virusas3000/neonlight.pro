@@ -428,7 +428,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 			return [ 'result' => 'failure' ];
 		}
 
-		$api      = new HKTMS_API( $this->testmode, $cred['app_id'], $cred['app_secret'] );
+		$api      = new HKTMS_API( ( 'yes' === $this->testmode ), $cred['app_id'], $cred['app_secret'] );
 		$payload  = $this->build_payload( $order, $method );
 		$response = $api->create_payment_url( $method, $payload );
 
@@ -486,7 +486,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 
 		$method = $order->get_meta( '_hktms_payment_method' ) ?: 'visamastercard';
 		$cred   = $this->get_method_credentials( $method );
-		$api    = new HKTMS_API( $this->testmode, $cred['app_id'], $cred['app_secret'] );
+		$api    = new HKTMS_API( ( 'yes' === $this->testmode ), $cred['app_id'], $cred['app_secret'] );
 		$status = $api->fetch_order_status( $method, $order->get_meta( '_hktms_order_id' ), $order->get_id() );
 
 		if ( is_wp_error( $status ) ) {
