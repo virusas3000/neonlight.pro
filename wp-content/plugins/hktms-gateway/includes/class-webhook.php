@@ -270,10 +270,12 @@ class HKTMS_Webhook {
 		$headers = [];
 		foreach ( $_SERVER as $key => $value ) {
 			if ( str_starts_with( $key, 'HTTP_' ) ) {
-				$header = str_replace( '_', '-', substr( $key, 5 ) );
+				// Lowercase the header name so lookups are case-insensitive
+				// (PHP normalizes request headers to uppercase HTTP_* keys).
+				$header = strtolower( str_replace( '_', '-', substr( $key, 5 ) ) );
 				$headers[ $header ] = $value;
 			} elseif ( in_array( $key, [ 'CONTENT_TYPE', 'CONTENT_LENGTH' ], true ) ) {
-				$headers[ str_replace( '_', '-', $key ) ] = $value;
+				$headers[ strtolower( str_replace( '_', '-', $key ) ) ] = $value;
 			}
 		}
 		return $headers;
