@@ -19,6 +19,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 	public $fail_url;
 	public $language;
 	public $auto_capture;
+	public $apple_pay_mcc;
 
 	public function __construct() {
 		$this->id                 = 'hktms';
@@ -42,6 +43,7 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		$this->fail_url          = $this->get_option( 'fail_url', wc_get_checkout_url() );
 		$this->language          = $this->get_option( 'language', 'en_US' );
 		$this->auto_capture      = $this->get_option( 'auto_capture', 'yes' );
+		$this->apple_pay_mcc     = $this->get_option( 'apple_pay_mcc', '' );
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, [ $this, 'process_admin_options' ] );
 		add_action( 'woocommerce_receipt_' . $this->id, [ $this, 'receipt_page' ] );
@@ -117,6 +119,13 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 				'description' => __( 'RSA Public Key from the PA_VM document. Reserved for future RSA response verification (the HKTMS v1.10 flow uses HMAC-SHA512, so this is optional).', 'hktms-gateway' ),
 				'desc_tip'    => true,
 				'custom_attributes' => [ 'rows' => 4, 'cols' => 60 ],
+			],
+			'apple_pay_mcc' => [
+				'title'       => __( 'Apple Pay MCC', 'hktms-gateway' ),
+				'type'        => 'text',
+				'description' => __( 'Merchant Category Code (MCC) required for Apple Pay transactions. Use the exact MCC registered with HKT for this merchant account (e.g. 5719 for home décor specialty, 5947 for gift/novelty, 5999 for specialty retail).', 'hktms-gateway' ),
+				'desc_tip'    => true,
+				'default'     => '',
 			],
 			'cred_alipayhk_title' => [
 				'title' => __( 'AlipayHK', 'hktms-gateway' ),
@@ -416,6 +425,15 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		// Language — Visa/Mastercard hosted page only
 		if ( in_array( $method, [ 'visamastercard', 'applepay' ], true ) && $this->language ) {
 			$payload['language'] = $this->language;
+		}
+
+		// Apple Pay must explicitly request the Apple Pay hosted page and pass
+		// the merchant category code configured for the Apple Pay merchant profile.
+		if ( 'applepay' === $method ) {
+			$payload['paymentMethod'] = 'applePay';
+			if ( $this->apple_pay_mcc ) {
+				$payload['mcc'] = (string) $this->apple_pay_mcc;
+			}
 		}
 
 		// Token ID for saved cards (Visa/MC only)
