@@ -388,6 +388,21 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 			$payload['notificationUrl'] = $this->notification_url;
 		}
 
+		// AlipayHK/AlipayCN/WeChatPay redirect the customer back via `returnUrl`
+		// (spec §5.6.3 / §5.9.1), NOT responseSuccessUrl/responseFailUrl — those
+		// are Visa/MC hosted-page fields and are ignored on these endpoints. If
+		// returnUrl is omitted, HKT redirects to its own internal payment-result
+		// page (/ePaymentGateway/<method>/notifications/app.../order...) after
+		// success. Route through the hktms-return endpoint so handle_return runs
+		// and the order is updated synchronously before landing on order-received.
+		if ( in_array( $method, [ 'alipayhk', 'alipaycn', 'wechatpay' ], true ) ) {
+			$payload['returnUrl'] = add_query_arg( [
+				'order_id' => $order->get_id(),
+				'key'      => $order->get_order_key(),
+				'status'   => 'success',
+			], home_url( '/?wc-api=hktms-return' ) );
+		}
+
 		$invoice_number = $order->get_order_number();
 		if ( $invoice_number ) {
 			$payload['invoiceNumber'] = substr( (string) $invoice_number, 0, 48 );
