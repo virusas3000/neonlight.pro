@@ -353,19 +353,14 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 	 */
 	private function build_payload( WC_Order $order, string $method ): array {
 		// HKT requires merchantTransactionId to be unique per request. A bare
-		// order ID collides when a customer retries checkout on the same order
-		// (or the same order is re-tested), producing:
-		//   {"status":"1","message":"merchantTransactionId must be unique"}
-		// Append a per-order attempt counter so every request is unique while
-		// remaining traceable to the originating WooCommerce order.
-		$attempt = (int) $order->get_meta( '_hktms_attempt' ) + 1;
-		$order->update_meta_data( '_hktms_attempt', $attempt );
-		// Persist BEFORE the API call: process_payment returns early on HKT
-		// rejection (before the later save_meta_data), so without this the
-		// counter would never advance on a failed attempt and every retry
-		// would regenerate the same merchantTransactionId → "must be unique".
-		$order->save_meta_data();
-		$mtid = $order->get_id() . '-' . $attempt;
+		// order ID (or an order_id-N counter persisted to order meta) collides
+		// when a customer retries checkout on the same order — the persisted
+		// counter proved fragile (stale reads / double-submit races left it
+		// stuck, so retries resent the same id → "must be unique").
+		// Use a per-request unique suffix from time() + random, which cannot
+		// collide regardless of object-cache state or concurrency, while the
+		// leading order ID keeps it traceable.
+		$mtid = $order->get_id() . '-' . time() . '-' . wp_rand( 1000, 9999 );
 
 		$payload = [
 			'currency'              => $order->get_currency(),
