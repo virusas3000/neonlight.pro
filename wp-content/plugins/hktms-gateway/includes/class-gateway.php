@@ -352,10 +352,20 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 	 * Optional fields: customerId, notificationUrl, invoiceNumber, poNumber, language, tokenId, appId
 	 */
 	private function build_payload( WC_Order $order, string $method ): array {
+		// HKT requires merchantTransactionId to be unique per request. A bare
+		// order ID collides when a customer retries checkout on the same order
+		// (or the same order is re-tested), producing:
+		//   {"status":"1","message":"merchantTransactionId must be unique"}
+		// Append a per-order attempt counter so every request is unique while
+		// remaining traceable to the originating WooCommerce order.
+		$attempt = (int) $order->get_meta( '_hktms_attempt' ) + 1;
+		$order->update_meta_data( '_hktms_attempt', $attempt );
+		$mtid = $order->get_id() . '-' . $attempt;
+
 		$payload = [
 			'currency'              => $order->get_currency(),
 			'chargeTotal'           => (float) $order->get_total(),
-			'merchantTransactionId' => (string) $order->get_id(),
+			'merchantTransactionId' => $mtid,
 			'customerEmail'         => $order->get_billing_email(),
 			'responseFailUrl'       => add_query_arg( [
 				'order_id' => $order->get_id(),
@@ -487,7 +497,10 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		$method = $order->get_meta( '_hktms_payment_method' ) ?: 'visamastercard';
 		$cred   = $this->get_method_credentials( $method );
 		$api    = new HKTMS_API( ( 'yes' === $this->testmode ), $cred['app_id'], $cred['app_secret'] );
-		$status = $api->fetch_order_status( $method, $order->get_meta( '_hktms_order_id' ), $order->get_id() );
+		// Use the actual merchantTransactionId we sent (e.g. "<order_id>-<attempt>"),
+		// not the bare order ID, so HKT can match the order on return.
+		$mtid = $order->get_meta( '_hktms_merchant_txn_id' ) ?: (string) $order->get_id();
+		$status = $api->fetch_order_status( $method, $order->get_meta( '_hktms_order_id' ), $mtid );
 
 		if ( is_wp_error( $status ) ) {
 			wp_safe_redirect( $order->get_checkout_order_received_url() );
