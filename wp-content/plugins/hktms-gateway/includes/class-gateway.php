@@ -360,6 +360,11 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		// remaining traceable to the originating WooCommerce order.
 		$attempt = (int) $order->get_meta( '_hktms_attempt' ) + 1;
 		$order->update_meta_data( '_hktms_attempt', $attempt );
+		// Persist BEFORE the API call: process_payment returns early on HKT
+		// rejection (before the later save_meta_data), so without this the
+		// counter would never advance on a failed attempt and every retry
+		// would regenerate the same merchantTransactionId → "must be unique".
+		$order->save_meta_data();
 		$mtid = $order->get_id() . '-' . $attempt;
 
 		$payload = [
