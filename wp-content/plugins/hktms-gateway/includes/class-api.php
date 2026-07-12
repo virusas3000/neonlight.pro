@@ -136,11 +136,16 @@ class HKTMS_API {
 			default          => '/ePaymentGateway/visamastercard/v2/transactions/orderStatus',
 		};
 
+		// HKT rejects the orderStatus request if BOTH orderId and
+		// merchantTransactionId are present:
+		//   {"status":"1","message":"orderId and merchantTransactionId must not
+		//    be specified at the same time"}
+		// Send only ONE — prefer HKT's canonical orderId, fall back to the
+		// merchantTransactionId only when no orderId is available.
 		$payload = [];
 		if ( $order_id ) {
 			$payload['orderId'] = $order_id;
-		}
-		if ( $merchant_txn_id ) {
+		} elseif ( $merchant_txn_id ) {
 			$payload['merchantTransactionId'] = $merchant_txn_id;
 		}
 
