@@ -77,17 +77,115 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 				'description' => __( 'Additional info shown under the payment method.', 'hktms-gateway' ),
 				'default'     => __( 'Pay securely with Visa, Mastercard, AlipayHK, AlipayCN, WeChat Pay or Apple Pay via HKTMS.', 'hktms-gateway' ),
 			],
+			'cred_intro' => [
+				'title'       => __( 'Per-Method API Credentials', 'hktms-gateway' ),
+				'type'        => 'title',
+				/* translators: %s: Payment Method Type */
+				'description' => __( 'HKT issues a separate App ID + App Secret for each payment method. Enter every method you accept. Apple Pay shares the Visa/Mastercard credentials. If a method\'s fields are left blank, it falls back to any legacy single App ID / App Secret configured below.', 'hktms-gateway' ),
+			],
 			'api_app_id' => [
-				'title'       => __( 'App ID (Payment Method ID)', 'hktms-gateway' ),
+				'title'       => __( 'Legacy App ID (fallback)', 'hktms-gateway' ),
 				'type'        => 'text',
-				'description' => __( 'Your HKTMS App ID. One per payment method (Visa/MC, AlipayHK, AlipayCN, WeChatPay each have separate App IDs). Use the one for your primary payment method here.', 'hktms-gateway' ),
+				'description' => __( 'Optional legacy single App ID used as fallback for any method without its own App ID set above.', 'hktms-gateway' ),
 				'desc_tip'    => true,
 			],
 			'api_app_secret' => [
-				'title'       => __( 'App Secret (API Key)', 'hktms-gateway' ),
+				'title'       => __( 'Legacy App Secret (fallback)', 'hktms-gateway' ),
 				'type'        => 'password',
-				'description' => __( 'Your HKTMS API Key (App Secret). Base64-encoded 512-bit secret provided by HKT. Keep this confidential.', 'hktms-gateway' ),
+				'description' => __( 'Optional legacy single App Secret used as fallback for any method without its own secret set above.', 'hktms-gateway' ),
 				'desc_tip'    => true,
+			],
+			'cred_vm_title' => [
+				'title' => __( 'Visa / Mastercard / Apple Pay', 'hktms-gateway' ),
+				'type'  => 'title',
+			],
+			'api_app_id_vm' => [
+				'title'       => __( 'App ID (Visa/Mastercard)', 'hktms-gateway' ),
+				'type'        => 'text',
+				'description' => __( 'Payment Method ID (App ID) from the PA_VM API Key document.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'api_app_secret_vm' => [
+				'title'       => __( 'App Secret (Visa/Mastercard)', 'hktms-gateway' ),
+				'type'        => 'password',
+				'description' => __( 'API Key (App Secret) from the PA_VM document. Base64-encoded. Also used for Apple Pay.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'public_key_vm' => [
+				'title'       => __( 'Public Key (Visa/Mastercard)', 'hktms-gateway' ),
+				'type'        => 'textarea',
+				'description' => __( 'RSA Public Key from the PA_VM document. Reserved for future RSA response verification (the HKTMS v1.10 flow uses HMAC-SHA512, so this is optional).', 'hktms-gateway' ),
+				'desc_tip'    => true,
+				'custom_attributes' => [ 'rows' => 4, 'cols' => 60 ],
+			],
+			'cred_alipayhk_title' => [
+				'title' => __( 'AlipayHK', 'hktms-gateway' ),
+				'type'  => 'title',
+			],
+			'api_app_id_alipayhk' => [
+				'title'       => __( 'App ID (AlipayHK)', 'hktms-gateway' ),
+				'type'        => 'text',
+				'description' => __( 'Payment Method ID from the PA_ALIPAYHK document.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'api_app_secret_alipayhk' => [
+				'title'       => __( 'App Secret (AlipayHK)', 'hktms-gateway' ),
+				'type'        => 'password',
+				'description' => __( 'API Key (App Secret) from the PA_ALIPAYHK document. Base64-encoded.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'public_key_alipayhk' => [
+				'title'       => __( 'Public Key (AlipayHK)', 'hktms-gateway' ),
+				'type'        => 'textarea',
+				'description' => __( 'RSA Public Key from the PA_ALIPAYHK document. Optional (HKTMS uses HMAC-SHA512).', 'hktms-gateway' ),
+				'desc_tip'    => true,
+				'custom_attributes' => [ 'rows' => 4, 'cols' => 60 ],
+			],
+			'cred_alipaycn_title' => [
+				'title' => __( 'Alipay (Mainland)', 'hktms-gateway' ),
+				'type'  => 'title',
+			],
+			'api_app_id_alipaycn' => [
+				'title'       => __( 'App ID (AlipayCN)', 'hktms-gateway' ),
+				'type'        => 'text',
+				'description' => __( 'Payment Method ID from the PA_ALIPAYCN document.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'api_app_secret_alipaycn' => [
+				'title'       => __( 'App Secret (AlipayCN)', 'hktms-gateway' ),
+				'type'        => 'password',
+				'description' => __( 'API Key (App Secret) from the PA_ALIPAYCN document. Base64-encoded.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'public_key_alipaycn' => [
+				'title'       => __( 'Public Key (AlipayCN)', 'hktms-gateway' ),
+				'type'        => 'textarea',
+				'description' => __( 'RSA Public Key from the PA_ALIPAYCN document. Optional (HKTMS uses HMAC-SHA512).', 'hktms-gateway' ),
+				'desc_tip'    => true,
+				'custom_attributes' => [ 'rows' => 4, 'cols' => 60 ],
+			],
+			'cred_wechatpay_title' => [
+				'title' => __( 'WeChat Pay', 'hktms-gateway' ),
+				'type'  => 'title',
+			],
+			'api_app_id_wechatpay' => [
+				'title'       => __( 'App ID (WeChat Pay)', 'hktms-gateway' ),
+				'type'        => 'text',
+				'description' => __( 'Payment Method ID from the PA_WECHATPAY document. Also sent as the WeChat appId payload field.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'api_app_secret_wechatpay' => [
+				'title'       => __( 'App Secret (WeChat Pay)', 'hktms-gateway' ),
+				'type'        => 'password',
+				'description' => __( 'API Key (App Secret) from the PA_WECHATPAY document. Base64-encoded.', 'hktms-gateway' ),
+				'desc_tip'    => true,
+			],
+			'public_key_wechatpay' => [
+				'title'       => __( 'Public Key (WeChat Pay)', 'hktms-gateway' ),
+				'type'        => 'textarea',
+				'description' => __( 'RSA Public Key from the PA_WECHATPAY document. Optional (HKTMS uses HMAC-SHA512).', 'hktms-gateway' ),
+				'desc_tip'    => true,
+				'custom_attributes' => [ 'rows' => 4, 'cols' => 60 ],
 			],
 			'language' => [
 				'title'       => __( 'Payment Page Language', 'hktms-gateway' ),
@@ -132,6 +230,84 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 				'default'     => 'yes',
 			],
 		];
+	}
+
+	// ── Per-Method Credential Helpers ────────────────────────
+
+	/**
+	 * Map a checkout payment-method key to its credential group.
+	 *
+	 * Apple Pay shares the Visa/Mastercard credentials. Any unknown
+	 * method falls back to the visamastercard credential group.
+	 *
+	 * @param string $method visamastercard|applepay|alipayhk|alipaycn|wechatpay
+	 * @return string Credential group key: visamastercard|alipayhk|alipaycn|wechatpay
+	 */
+	private function cred_group( string $method ): string {
+		// Returns the form-field suffix used for credential option keys
+		// (api_app_id_<group>, api_app_secret_<group>, public_key_<group>).
+		return match ( $method ) {
+			'visamastercard', 'applepay' => 'vm',
+			'alipayhk'                    => 'alipayhk',
+			'alipaycn'                    => 'alipaycn',
+			'wechatpay'                   => 'wechatpay',
+			default                       => 'vm',
+		};
+	}
+
+	/**
+	 * Get the App ID / App Secret / Public Key for a given payment method.
+	 *
+	 * Reads the per-method fields first, falling back to the legacy single
+	 * App ID / App Secret when the per-method values are empty.
+	 *
+	 * @param string $method Checkout payment-method key.
+	 * @return array{app_id:string,app_secret:string,public_key:string}
+	 */
+	public function get_method_credentials( string $method ): array {
+		$grp = $this->cred_group( $method );
+
+		$app_id     = $this->get_option( "api_app_id_{$grp}", '' );
+		$app_secret = $this->get_option( "api_app_secret_{$grp}", '' );
+		$public_key = $this->get_option( "public_key_{$grp}", '' );
+
+		// Legacy single-credential fallback.
+		if ( '' === $app_id ) {
+			$app_id = $this->get_option( 'api_app_id', '' );
+		}
+		if ( '' === $app_secret ) {
+			$app_secret = $this->get_option( 'api_app_secret', '' );
+		}
+
+		return [
+			'app_id'     => (string) $app_id,
+			'app_secret' => (string) $app_secret,
+			'public_key' => (string) $public_key,
+		];
+	}
+
+	/**
+	 * Collect every distinct, non-empty App Secret configured across all
+	 * methods (plus the legacy single secret). Used by the webhook to
+	 * verify HMAC-SHA512 signatures when the callback's method is unknown
+	 * until the body is parsed.
+	 *
+	 * @return string[] Base64-encoded App Secrets (deduped).
+	 */
+	public function get_all_secrets(): array {
+		$secrets = [];
+		foreach ( [ 'visamastercard', 'alipayhk', 'alipaycn', 'wechatpay' ] as $m ) {
+			$cred = $this->get_method_credentials( $m );
+			if ( $cred['app_secret'] !== '' ) {
+				$secrets[] = $cred['app_secret'];
+			}
+		}
+		$legacy = $this->get_option( 'api_app_secret', '' );
+		if ( $legacy !== '' ) {
+			$secrets[] = (string) $legacy;
+		}
+		$secrets = array_values( array_unique( $secrets ) );
+		return $secrets;
 	}
 
 	// ── Payment Fields at Checkout ────────────────────────────
@@ -223,9 +399,13 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 			$payload['tokenId'] = (string) $token_id;
 		}
 
-		// WeChatPay requires appId
+		// WeChatPay requires appId — use the WeChat Pay method App ID
+		// (the PA_WECHATPAY Payment Method ID), with a legacy wechat_app_id fallback.
 		if ( 'wechatpay' === $method ) {
-			$wechat_app_id = $this->get_option( 'wechat_app_id', '' );
+			$wechat_app_id = $this->get_method_credentials( 'wechatpay' )['app_id'];
+			if ( '' === $wechat_app_id ) {
+				$wechat_app_id = $this->get_option( 'wechat_app_id', '' );
+			}
 			if ( $wechat_app_id ) {
 				$payload['appId'] = $wechat_app_id;
 			}
@@ -239,14 +419,17 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		$order  = wc_get_order( $order_id );
 		$method = sanitize_text_field( $_POST['hktms_payment_method'] ?? 'visamastercard' );
 
+		// Resolve per-method credentials (with legacy single-cred fallback).
+		$cred = $this->get_method_credentials( $method );
+
 		// Validate credentials
-		if ( empty( $this->api_app_id ) || empty( $this->api_app_secret ) ) {
+		if ( empty( $cred['app_id'] ) || empty( $cred['app_secret'] ) ) {
 			wc_add_notice( __( 'Payment gateway is temporarily unavailable. Please contact support.', 'hktms-gateway' ), 'error' );
 			return [ 'result' => 'failure' ];
 		}
 
-		$api     = new HKTMS_API( $this->testmode, $this->api_app_id, $this->api_app_secret );
-		$payload = $this->build_payload( $order, $method );
+		$api      = new HKTMS_API( $this->testmode, $cred['app_id'], $cred['app_secret'] );
+		$payload  = $this->build_payload( $order, $method );
 		$response = $api->create_payment_url( $method, $payload );
 
 		if ( is_wp_error( $response ) ) {
@@ -302,7 +485,8 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		}
 
 		$method = $order->get_meta( '_hktms_payment_method' ) ?: 'visamastercard';
-		$api    = new HKTMS_API( $this->testmode, $this->api_app_id, $this->api_app_secret );
+		$cred   = $this->get_method_credentials( $method );
+		$api    = new HKTMS_API( $this->testmode, $cred['app_id'], $cred['app_secret'] );
 		$status = $api->fetch_order_status( $method, $order->get_meta( '_hktms_order_id' ), $order->get_id() );
 
 		if ( is_wp_error( $status ) ) {

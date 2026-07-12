@@ -153,17 +153,18 @@ class HKTMS_Webhook {
 	 * @return bool
 	 */
 	private static function verify_signature( HKTMS_Gateway $gateway, string $raw_body ): bool {
-		if ( empty( $gateway->api_app_secret ) ) {
-			self::log( 'Webhook: No app secret configured, skipping signature verification.', 'warning' );
-			return true; // Allow through if no secret (development only)
-		}
-
-		$headers = self::get_request_headers();
+		$testmode = ( 'yes' === $gateway->testmode );
+		$headers  = self::get_request_headers();
 		$sig_header = $headers['x-hub-signature'] ?? '';
 
+		// No signature header at all.
 		if ( empty( $sig_header ) ) {
-			self::log( 'Webhook: No x-hub-signature header present.', 'warning' );
-			return true; // Allow through if no signature header (development only)
+			if ( $testmode ) {
+				self::log( 'Webhook: No x-hub-signature header present (testmode — allowed).', 'warning' );
+				return true; // Development only.
+			}
+			self::log( 'Webhook rejected: no x-hub-signature header in production.', 'error' );
+			return false;
 		}
 
 		// Extract sha512=<hex> portion
@@ -173,16 +174,33 @@ class HKTMS_Webhook {
 		}
 		$received_sig = strtolower( $matches[1] );
 
-		// Compute expected signature per HKTMS v1.10 spec
-		$secret       = base64_decode( $gateway->api_app_secret );
-		$expected_sig = hash_hmac( 'sha512', $raw_body, $secret );
+		// Collect every configured App Secret (per-method + legacy).
+		$secrets = $gateway->get_all_secrets();
 
-		if ( ! hash_equals( $expected_sig, $received_sig ) ) {
-			self::log( 'Webhook: Signature mismatch.', 'error' );
+		if ( empty( $secrets ) ) {
+			if ( $testmode ) {
+				self::log( 'Webhook: No app secret configured (testmode — skipping verification).', 'warning' );
+				return true; // Development only.
+			}
+			self::log( 'Webhook rejected: no app secret configured in production.', 'error' );
 			return false;
 		}
 
-		return true;
+		// Try every configured secret — a callback is signed with the secret of the
+		// method that created the transaction, which is unknown until the body is parsed.
+		foreach ( $secrets as $secret_b64 ) {
+			$secret = base64_decode( $secret_b64 );
+			if ( false === $secret || '' === $secret ) {
+				continue;
+			}
+			$expected_sig = hash_hmac( 'sha512', $raw_body, $secret );
+			if ( hash_equals( $expected_sig, $received_sig ) ) {
+				return true;
+			}
+		}
+
+		self::log( 'Webhook: Signature mismatch against all configured secrets.', 'error' );
+		return false;
 	}
 
 	/**
