@@ -448,7 +448,11 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 		}
 
 		$body = json_decode( wp_remote_retrieve_body( $response ), true );
-		if ( empty( $body['status'] ) || $body['status'] !== '0' || empty( $body['payload']['paymentUrl'] ) ) {
+		// NOTE: do NOT use empty() on $body['status'] — HKT returns the string
+		// "0" for success, and PHP's empty("0") is true, which would falsely
+		// route every successful response into the failure branch (showing the
+		// raw body as an error notice and skipping the redirect).
+		if ( ( $body['status'] ?? '' ) !== '0' || empty( $body['payload']['paymentUrl'] ) ) {
 			$msg   = $body['message'] ?? __( 'Failed to create payment. Please try again.', 'hktms-gateway' );
 			$debug = wp_remote_retrieve_body( $response );
 			$code  = wp_remote_retrieve_response_code( $response );
