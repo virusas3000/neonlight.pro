@@ -476,10 +476,13 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 
 		// Log the selected method and full payload so we can verify Apple Pay
 		// requests include paymentMethod=applePay and mcc in the API body.
+		$payload_json = wp_json_encode( $payload );
+		$log_msg      = '[HKTMS process_payment] order=' . $order_id . ' method=' . $method . ' payload=' . $payload_json;
 		if ( function_exists( 'wc_get_logger' ) ) {
-			$logger = wc_get_logger();
-			$logger->info( '[HKTMS process_payment] method=' . $method . ' payload=' . wp_json_encode( $payload ), [ 'source' => 'hktms-gateway' ] );
+			wc_get_logger()->info( $log_msg, [ 'source' => 'hktms-gateway' ] );
 		}
+		// Always mirror to PHP error_log in case WooCommerce log viewer has issues.
+		error_log( $log_msg );
 
 		$response = $api->create_payment_url( $method, $payload );
 
