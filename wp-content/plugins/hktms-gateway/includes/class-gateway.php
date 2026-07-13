@@ -473,6 +473,14 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 
 		$api      = new HKTMS_API( ( 'yes' === $this->testmode ), $cred['app_id'], $cred['app_secret'] );
 		$payload  = $this->build_payload( $order, $method );
+
+		// Log the selected method and full payload so we can verify Apple Pay
+		// requests include paymentMethod=applePay and mcc in the API body.
+		if ( function_exists( 'wc_get_logger' ) ) {
+			$logger = wc_get_logger();
+			$logger->info( '[HKTMS process_payment] method=' . $method . ' payload=' . wp_json_encode( $payload ), [ 'source' => 'hktms-gateway' ] );
+		}
+
 		$response = $api->create_payment_url( $method, $payload );
 
 		if ( is_wp_error( $response ) ) {

@@ -83,8 +83,13 @@ class HKTMS_API {
 		}
 
 		// Log the outgoing request so merchants can verify exactly what fields
-		// (including mcc / paymentMethod) are sent to HKTMS.
-		error_log( '[HKTMS REQUEST] ' . $method . ' ' . $url . ' | Body=' . ( $args['body'] ?? '{}' ) );
+		// (including mcc / paymentMethod) are sent to HKTMS. Log both to the
+		// PHP error log and to WooCommerce's log viewer.
+		$log_body = $args['body'] ?? '{}';
+		error_log( '[HKTMS REQUEST] ' . $method . ' ' . $url . ' | Body=' . $log_body );
+		if ( function_exists( 'wc_get_logger' ) ) {
+			wc_get_logger()->info( '[HKTMS REQUEST] ' . $method . ' ' . $url . ' | Body=' . $log_body, [ 'source' => 'hktms-gateway' ] );
+		}
 
 		$response = wp_remote_request( $url, $args );
 
