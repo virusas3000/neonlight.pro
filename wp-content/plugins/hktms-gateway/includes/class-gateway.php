@@ -436,6 +436,12 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 			$payload['mcc']            = '5999';
 		}
 
+		// For regular Visa/Mastercard, also send the configured MCC as a fallback
+		// in case the HKTMS merchant profile requires it.
+		if ( 'visamastercard' === $method ) {
+			$payload['mcc'] = '5999';
+		}
+
 		// Token ID for saved cards (Visa/MC only)
 		$token_id = $order->get_meta( '_hktms_token_id' );
 		if ( $token_id && in_array( $method, [ 'visamastercard', 'applepay' ], true ) ) {
