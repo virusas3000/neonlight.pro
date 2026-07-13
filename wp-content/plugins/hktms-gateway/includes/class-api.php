@@ -82,6 +82,10 @@ class HKTMS_API {
 			$args['body'] = json_encode( $body );
 		}
 
+		// Log the outgoing request so merchants can verify exactly what fields
+		// (including mcc / paymentMethod) are sent to HKTMS.
+		error_log( '[HKTMS REQUEST] ' . $method . ' ' . $url . ' | Body=' . ( $args['body'] ?? '{}' ) );
+
 		$response = wp_remote_request( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
