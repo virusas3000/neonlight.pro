@@ -427,19 +427,11 @@ class HKTMS_Gateway extends WC_Payment_Gateway {
 			$payload['language'] = $this->language;
 		}
 
-		// Apple Pay must explicitly request the Apple Pay hosted page and pass
-		// an MCC. HKTMS documentation says MCC is configured on the merchant
-		// profile, but live responses indicate the API expects the field for
-		// Apple Pay requests, so we send 5999 and let support correct it if needed.
+		// Apple Pay must explicitly request the Apple Pay hosted page. The HKTMS
+		// v1.10 spec only supports paymentMethod=applePay; it does NOT define an
+		// mcc request field, and HKTMS rejects requests that include one.
 		if ( 'applepay' === $method ) {
 			$payload['paymentMethod'] = 'applePay';
-			$payload['mcc']            = '5999';
-		}
-
-		// For regular Visa/Mastercard, also send the configured MCC as a fallback
-		// in case the HKTMS merchant profile requires it.
-		if ( 'visamastercard' === $method ) {
-			$payload['mcc'] = '5999';
 		}
 
 		// Token ID for saved cards (Visa/MC only)
