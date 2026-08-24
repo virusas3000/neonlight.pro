@@ -18,11 +18,21 @@ get_header('shop'); ?>
 			<!-- Product Gallery -->
 			<div class="nl-product-gallery">
 				<?php
-				$thumb = get_the_post_thumbnail(get_the_ID(), 'large');
-				if ($thumb) : ?>
-					<div class="nl-product-gallery__img">
-						<?php echo $thumb; ?>
-					</div>
+				$image_ids = [];
+				if (has_post_thumbnail()) {
+					$image_ids[] = get_post_thumbnail_id();
+				}
+				foreach ($product->get_gallery_image_ids() as $gid) {
+					if (!in_array($gid, $image_ids, true)) {
+						$image_ids[] = $gid;
+					}
+				}
+				if (!empty($image_ids)) : ?>
+					<?php foreach ($image_ids as $img_id) : ?>
+						<div class="nl-product-gallery__img">
+							<?php echo wp_get_attachment_image($img_id, 'large'); ?>
+						</div>
+					<?php endforeach; ?>
 				<?php else : ?>
 					<div class="nl-product-gallery__img nl-product-gallery__img--placeholder">
 						<span><?php echo nl_t('shop_no_image'); ?></span>
@@ -121,12 +131,20 @@ get_header('shop'); ?>
 }
 
 /* Gallery */
+.nl-product-gallery {
+	display:grid;
+	gap: 12px;
+	grid-template-columns: repeat(2, 1fr);
+}
 .nl-product-gallery__img {
 	border-radius: 16px;
 	overflow:hidden;
 	background:#f5f5f5;
 	aspect-ratio: 1;
 }
+.nl-product-gallery__img:first-child:nth-last-child(1) { grid-column: 1 / -1; }
+.nl-product-gallery__img:first-child:nth-last-child(2),
+.nl-product-gallery__img:first-child:nth-last-child(2) ~ .nl-product-gallery__img { grid-column: span 1; }
 .nl-product-gallery__img img {
 	width:100%; height:100%; object-fit:cover; display:block;
 }
