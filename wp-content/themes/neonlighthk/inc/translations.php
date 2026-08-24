@@ -224,6 +224,8 @@ function nl_dictionary() {
         'rental_title'  => ['en'=>'Rental',        'zh'=>'霓虹燈租借',   'cn'=>'霓虹灯租借'],
         'balloon_title' => ['en'=>'Balloon & Magic', 'zh'=>'氣球 & 魔術', 'cn'=>'气球 & 魔术'],
         'balloon_coming'=> ['en'=>'Balloon & Magic rental coming soon — please contact us for enquiries.', 'zh'=>'氣球及魔術租借服務即將推出，請聯絡我們查詢詳情。', 'cn'=>'气球及魔术租借服务即将推出，请联络我们查询详情。'],
+        'hanfu_title'   => ['en'=>'Hanfu', 'zh'=>'漢服', 'cn'=>'汉服'],
+        'hanfu_coming'  => ['en'=>'Hanfu collection coming soon — please contact us for enquiries.', 'zh'=>'漢服系列即將推出，請聯絡我們查詢詳情。', 'cn'=>'汉服系列即将推出，请联络我们查询详情。'],
         'products_title'=> ['en'=>'Products', 'zh'=>'產品', 'cn'=>'产品'],
         'products_coming'=>['en'=>'Products coming soon — please contact us for enquiries.', 'zh'=>'產品即將推出，請聯絡我們查詢詳情。', 'cn'=>'产品即将推出，请联络我们查询详情。'],
         'neon_products_title'=> ['en'=>'Neon Products', 'zh'=>'霓虹燈產品', 'cn'=>'霓虹灯产品'],

@@ -76,6 +76,7 @@ add_filter('template_include', function($template) {
         '/projects'       => 'page-projects.php',
         '/neon-products'  => 'page-neon-products.php',
         '/balloon'        => 'page-balloon.php',
+        '/hanfu'          => 'page-hanfu.php',
     ];
     foreach ($map as $route => $tpl) {
         if ($path === $route) {
@@ -107,6 +108,10 @@ add_filter('template_include', function($template) {
     }
     if (is_page(12) || is_page('balloon')) {
         $t = get_template_directory() . '/page-balloon.php';
+        if (file_exists($t)) return $t;
+    }
+    if (is_page('hanfu')) {
+        $t = get_template_directory() . '/page-hanfu.php';
         if (file_exists($t)) return $t;
     }
     return $template;
@@ -524,6 +529,9 @@ function nl_translate_document_title($parts) {
     }
     if (is_page_template('page-rental.php')) {
         $parts['title'] = nl_t('balloon_title');
+    }
+    if (is_page_template('page-hanfu.php')) {
+        $parts['title'] = nl_t('hanfu_title');
     }
     if (is_product()) {
         $parts['title'] = get_the_title() . ' – ' . nl_t('shop_title');
