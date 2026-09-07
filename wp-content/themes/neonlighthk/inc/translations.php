@@ -103,7 +103,7 @@ function nl_dictionary() {
 
         // Service Cards
         'card_purchase' => ['en'=>'PURCHASE',   'zh'=>'購買現貨',   'cn'=>'购买现货'],
-        'card_customise'=> ['en'=>'CUSTOMISE',  'zh'=>'訂製設計',   'cn'=>'订制设计'],
+        'card_customise'=> ['en'=>'HANFU RENTAL','zh'=>'漢服租借',   'cn'=>'汉服租借'],
         'card_workshop' => ['en'=>'WORKSHOP',   'zh'=>'工作坊',     'cn'=>'工作坊'],
         'card_balloon'  => ['en'=>'BALLOON & MAGIC', 'zh'=>'氣球 & 魔術', 'cn'=>'气球 & 魔术'],
 

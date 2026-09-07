@@ -142,7 +142,7 @@ get_header();
 			</div>
 		</div>
 		<div class="nl-neon-section__image">
-			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-design-service.jpg" alt="Neon Design Service" style="transform:scaleX(-1);">
+			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/neon-design-service.jpg" alt="Neon Design Service">
 		</div>
 		<a href="mailto:www.neonlight.pro@gmail.com?subject=Neon%20Design%20Service%20Quote" class="nl-neon-quote-btn">
 			<?php echo nl_t('neon_quote_btn'); ?>

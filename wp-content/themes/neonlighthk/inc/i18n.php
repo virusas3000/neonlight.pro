@@ -33,8 +33,8 @@ function nl_pll_register_strings() {
 
 	pll_register_string( 'card_purchase', '購買現貨',           'neonlighthk' );
 	pll_register_string( 'card_purchase_en', 'PURCHASE',        'neonlighthk' );
-	pll_register_string( 'card_customise', '訂製設計',          'neonlighthk' );
-	pll_register_string( 'card_customise_en', 'CUSTOMISE',     'neonlighthk' );
+	pll_register_string( 'card_customise', '漢服租借',          'neonlighthk' );
+	pll_register_string( 'card_customise_en', 'HANFU RENTAL',  'neonlighthk' );
 	pll_register_string( 'card_workshop', '工作坊',             'neonlighthk' );
 	pll_register_string( 'card_workshop_en', 'WORKSHOP',        'neonlighthk' );
 	pll_register_string( 'card_rental', '租借服務',             'neonlighthk' );
