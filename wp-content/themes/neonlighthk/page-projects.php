@@ -13,8 +13,8 @@ $lang = nl_lang();
 	<div class="nl-page-header">
 		<h1 class="nl-page-title"><?php
 			if ($lang === 'en') { echo 'PROJECTS'; }
-			elseif ($lang === 'cn') { echo '活动'; }
-			else { echo '活動'; }
+			elseif ($lang === 'cn') { echo '过往项目'; }
+			else { echo '過往項目'; }
 		?></h1>
 	</div>
 

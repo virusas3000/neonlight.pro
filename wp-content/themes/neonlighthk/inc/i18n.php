@@ -22,7 +22,7 @@ function nl_pll_register_strings() {
 	pll_register_string( 'nav_rent',      '租借·RENT',          'neonlighthk' );
 	pll_register_string( 'nav_order',     '訂製·ORDER',          'neonlighthk' );
 	pll_register_string( 'nav_workshop',  '工作坊·WORKSHOP',     'neonlighthk' );
-	pll_register_string( 'nav_projects',  '活動·PROJECTS',      'neonlighthk' );
+	pll_register_string( 'nav_projects',  '過往項目·PROJECTS',   'neonlighthk' );
 	pll_register_string( 'nav_lookbook',  '範例·LOOKBOOK',      'neonlighthk' );
 
 	// Section titles

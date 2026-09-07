@@ -543,7 +543,7 @@ function nl_translate_document_title($parts) {
         $parts['title'] = $lang === 'en' ? 'About Us' : ($lang === 'cn' ? '关于我们' : '關於我們');
     }
     if (is_page_template('page-projects.php')) {
-        $parts['title'] = $lang === 'en' ? 'Projects' : ($lang === 'cn' ? '活动' : '活動');
+        $parts['title'] = $lang === 'en' ? 'Projects' : ($lang === 'cn' ? '过往项目' : '過往項目');
     }
     return $parts;
 }
