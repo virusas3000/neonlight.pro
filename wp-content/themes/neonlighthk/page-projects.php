@@ -63,7 +63,6 @@ $lang = nl_lang();
 							<div class="nl-blog-card__content">
 								<h2 class="nl-blog-card__title"><?php the_title(); ?></h2>
 								<p class="nl-blog-card__date"><?php echo get_the_date('M j, Y'); ?></p>
-								<p class="nl-blog-card__excerpt"><?php echo wp_trim_words(get_the_content(), 30, '...'); ?></p>
 							</div>
 						</a>
 					</article>
@@ -103,8 +102,14 @@ $lang = nl_lang();
 }
 .nl-blog-grid__inner {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 24px;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 16px;
+}
+@media (max-width: 640px) {
+	.nl-blog-grid__inner { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+	.nl-blog-card__content { padding: 10px 12px 14px; }
+	.nl-blog-card__title { font-size: 0.95rem; }
+	.nl-blog-card__date { font-size: 0.75rem; }
 }
 .nl-blog-card {
 	background: #fff;
@@ -124,7 +129,7 @@ $lang = nl_lang();
 }
 .nl-blog-card__img {
 	width: 100%;
-	aspect-ratio: 21/9;
+	aspect-ratio: 1/1;
 	overflow: hidden;
 	background: #111;
 }
@@ -147,29 +152,23 @@ $lang = nl_lang();
 	font-weight: 600;
 }
 .nl-blog-card__content {
-	padding: 20px;
+	padding: 14px 16px 16px;
 }
 .nl-blog-card__title {
-	font-size: 1.25rem;
+	font-size: 1.05rem;
 	font-weight: 600;
 	color: #111;
-	margin: 0 0 8px;
+	margin: 0 0 6px;
 	line-height: 1.3;
-}
-.nl-blog-card__date {
-	font-size: 0.85rem;
-	color: #888;
-	margin: 0 0 12px;
-}
-.nl-blog-card__excerpt {
-	font-size: 0.95rem;
-	line-height: 1.6;
-	color: #555;
-	margin: 0;
 	display: -webkit-box;
-	-webkit-line-clamp: 3;
+	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
+}
+.nl-blog-card__date {
+	font-size: 0.8rem;
+	color: #888;
+	margin: 0;
 }
 .nl-blog-grid__empty {
 	text-align: center;
