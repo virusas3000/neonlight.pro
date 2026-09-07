@@ -250,8 +250,8 @@ input[type="date"]{min-width:0;width:100%}
 .nl-btn-secondary{background:#f0f0f0;color:#333}
 
 @media(max-width:640px){
-    .nl-workshop-card{grid-template-columns:120px 1fr;gap:12px}
-    .nl-workshop-card__image{height:auto;min-height:0;align-self:stretch}
+    .nl-workshop-card{grid-template-columns:1fr;gap:0}
+    .nl-workshop-card__image{width:100%;height:auto;min-height:0;object-fit:contain}
     .nl-workshop-card__info{padding:12px}
     .nl-interest-form__grid{grid-template-columns:1fr}
     .nl-interest-form__grid textarea,.nl-interest-form__grid .nl-field--full,.nl-interest-form__checkboxes{grid-column:span 1}
@@ -327,7 +327,6 @@ input[type="date"]{min-width:0;width:100%}
     </div>
 
     <!-- Workshop Listings -->
-    <h2 style="text-align:center;font-size:1.5rem;margin-bottom:30px;letter-spacing:3px">NEON DIY WORKSHOP</h2>
 
     <div class="nl-workshop-list">
         <?php foreach ($workshops as $ws) :
