@@ -106,10 +106,10 @@ $lang = nl_lang();
 	gap: 16px;
 }
 @media (max-width: 640px) {
-	.nl-blog-grid__inner { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-	.nl-blog-card__content { padding: 10px 12px 14px; }
-	.nl-blog-card__title { font-size: 0.95rem; }
-	.nl-blog-card__date { font-size: 0.75rem; }
+	.nl-blog-grid__inner { grid-template-columns: 1fr; gap: 16px; }
+	.nl-blog-card__content { padding: 12px 14px 14px; }
+	.nl-blog-card__title { font-size: 1rem; }
+	.nl-blog-card__date { font-size: 0.8rem; }
 }
 .nl-blog-card {
 	background: #fff;
