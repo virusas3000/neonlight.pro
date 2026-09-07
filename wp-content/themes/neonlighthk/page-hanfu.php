@@ -45,29 +45,15 @@ $showing = min(12, $total);
 		<div class="nl-product-grid nl-product-grid--hanfu">
 			<?php while ($products->have_posts()) : $products->the_post(); ?>
 				<?php global $product; if (!$product) continue; ?>
-				<?php
-				$gallery_ids = $product->get_gallery_image_ids();
-				$image_ids   = [];
-				if (has_post_thumbnail()) {
-					$image_ids[] = get_post_thumbnail_id();
-				}
-				foreach ($gallery_ids as $gid) {
-					if (!in_array($gid, $image_ids, true)) {
-						$image_ids[] = $gid;
-					}
-				}
-				$image_count = count($image_ids);
-				?>
+				<?php $thumb_id = get_post_thumbnail_id(); ?>
 				<div class="nl-product-card">
 					<?php if ($product->is_on_sale()) : ?><div class="nl-sale-badge"><?php echo nl_t('shop_sale'); ?></div><?php endif; ?>
 					<a href="<?php echo esc_url(get_permalink() . '?lang=' . $lang); ?>" class="nl-product-card__link">
-						<div class="nl-product-card__gallery" data-count="<?php echo esc_attr($image_count); ?>">
-							<?php if ($image_count) : ?>
-								<?php foreach ($image_ids as $index => $img_id) : ?>
-									<div class="nl-product-card__gallery-item<?php echo ($index > 0) ? ' nl-product-card__gallery-item--extra' : ''; ?>">
-										<?php echo wp_get_attachment_image($img_id, 'medium'); ?>
-									</div>
-								<?php endforeach; ?>
+						<div class="nl-product-card__gallery" data-count="<?php echo $thumb_id ? 1 : 0; ?>">
+							<?php if ($thumb_id) : ?>
+								<div class="nl-product-card__gallery-item">
+									<?php echo wp_get_attachment_image($thumb_id, 'medium'); ?>
+								</div>
 							<?php else : ?>
 								<div class="nl-product-card__gallery-item nl-product-card__gallery-item--placeholder">
 									<span><?php echo nl_t('shop_no_image'); ?></span>
@@ -117,23 +103,7 @@ $showing = min(12, $total);
 .nl-product-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,.12); }
 .nl-product-card__link { display:block; text-decoration:none; color:inherit; }
 
-.nl-product-card__gallery { display:grid; gap:4px; background:#f5f5f5; grid-template-columns: repeat(2, 1fr); }
-.nl-product-card__gallery[data-count="1"] { grid-template-columns: 1fr; }
-.nl-product-card__gallery[data-count="2"] { grid-template-columns: repeat(2, 1fr); }
-.nl-product-card__gallery[data-count="3"] { grid-template-columns: repeat(2, 1fr); }
-.nl-product-card__gallery[data-count="3"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="5"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="6"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="7"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="8"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="9"] { grid-template-columns: repeat(3, 1fr); }
-.nl-product-card__gallery[data-count="9"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="10"] { grid-template-columns: repeat(3, 1fr); }
-.nl-product-card__gallery[data-count="10"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="11"] { grid-template-columns: repeat(3, 1fr); }
-.nl-product-card__gallery[data-count="11"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
-.nl-product-card__gallery[data-count="12"] { grid-template-columns: repeat(3, 1fr); }
-.nl-product-card__gallery[data-count="12"] .nl-product-card__gallery-item:first-child { grid-column: 1 / -1; }
+.nl-product-card__gallery { background:#f5f5f5; }
 
 .nl-product-card__gallery-item { aspect-ratio:1; overflow:hidden; }
 .nl-product-card__gallery-item img { width:100%; height:100%; object-fit:cover; display:block; }
