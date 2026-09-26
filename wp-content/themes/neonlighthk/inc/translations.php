@@ -59,7 +59,7 @@ function nl_dictionary() {
         'nav_hanfu_bi'  => ['en'=>'HANFU',      'zh'=>'漢服·HANFU', 'cn'=>'汉服·HANFU'],
         'nav_balloon'   => ['en'=>'BALLOON & MAGIC', 'zh'=>'氣球 & 魔術', 'cn'=>'气球 & 魔术'],
         'nav_balloon_bi'=> ['en'=>'BALLOON & MAGIC', 'zh'=>'氣球 & 魔術·BALLOON & MAGIC', 'cn'=>'气球 & 魔术·BALLOON & MAGIC'],
-        'nav_neon'      => ['en'=>'Neon Services', 'zh'=>'霓虹燈服務', 'cn'=>'霓虹灯服务'],
+        'nav_neon'      => ['en'=>'Neon Customization', 'zh'=>'霓虹燈訂製', 'cn'=>'霓虹灯订制'],
         'nav_neon_bi'   => ['en'=>'Neon Services', 'zh'=>'現貨·租借·訂製·Neon', 'cn'=>'现货·租借·订制·Neon'],
         'nav_lookbook_about' => ['en'=>'Lookbook & About', 'zh'=>'範例·關於', 'cn'=>'范例·关于'],
         'nav_lookbook_about_bi' => ['en'=>'Lookbook & About', 'zh'=>'範例·LOOKBOOK & 關於·ABOUT', 'cn'=>'范例·LOOKBOOK & 关于·ABOUT'],
@@ -81,7 +81,7 @@ function nl_dictionary() {
         'lookbook_heading' => ['en'=>'Our Works', 'zh'=>'作品參考', 'cn'=>'作品参考'],
 
         // Neon Services page
-        'neon_services_title' => ['en'=>'Neon Services', 'zh'=>'霓虹燈服務', 'cn'=>'霓虹灯服务'],
+        'neon_services_title' => ['en'=>'Neon Customization', 'zh'=>'霓虹燈訂製', 'cn'=>'霓虹灯订制'],
         'neon_services_hero_zh' => ['en'=>'Design & Customise Neon', 'zh'=>'設計·訂製霓虹燈', 'cn'=>'设计·订制霓虹灯'],
         'neon_services_hero_en' => ['en'=>'CUSTOMISE', 'zh'=>'CUSTOMISE', 'cn'=>'CUSTOMISE'],
         'neon_services_hero_sub' => ['en'=>'ORDER · DESIGN · PRODUCTION', 'zh'=>'訂單·設計·製作', 'cn'=>'订单·设计·制作'],
