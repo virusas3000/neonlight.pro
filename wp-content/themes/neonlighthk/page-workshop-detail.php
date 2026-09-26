@@ -120,6 +120,7 @@ $locations = [
     ['name'=>'尖沙咀東匯大廈','name_en'=>'Tsim Sha Tsui','address'=>'尖沙咀寶勒巷27號東匯大廈14樓全層','address_en'=>'14/F, Tung Wui Commercial Building, 27 Prat Avenue, Tsim Sha Tsui, Kowloon, HK'],
     ['name'=>'馬灣公園','name_en'=>'Ma Wan','address'=>'馬灣1868馬灣後街8號39號屋地下','address_en'=>'G39, House 39, No.8 Ma Wan Back Street, Ma Wan Park Phase II, Ma Wan NT'],
     ['name'=>'赤柱大街','name_en'=>'Stanley','address'=>'香港赤柱大街78-79號Solo地下10號舖','address_en'=>'Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley, Hong Kong'],
+    ['name'=>'沙田石門','name_en'=>'Shek Mun, Sha Tin','address'=>'香港沙田石門京瑞廣場一期10樓F室','address_en'=>'Flat F, 10/F, Kings Wing Plaza 1, 3 On Kwan Street, Shek Mun, Sha Tin, New Territories'],
 ];
 
 // ===== BOOKING FORM HANDLING (must run before get_header() so wp_redirect works) =====
