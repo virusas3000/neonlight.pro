@@ -116,6 +116,8 @@ function nl_dictionary() {
         'visit_title'   => ['en'=>'VISIT US',    'zh'=>'來訪我們',   'cn'=>'来访我们'],
         'visit_at'      => ['en'=>'at',          'zh'=>'於',         'cn'=>'于'],
         'visit_addr1'   => ['en'=>'U/F, Central Pier 8, Hong Kong', 'zh'=>'香港中環8號碼頭U層', 'cn'=>'香港中环8号码头U层'],
+        'visit_addr2'   => ['en'=>'Flat F, 10/F, Kings Wing Plaza 1, 3 On Kwan Street, Shek Mun, Sha Tin, N.T.', 'zh'=>'香港沙田石門安群街3號京瑞廣場一期10樓F室', 'cn'=>'香港沙田石门安群街3号京瑞广场一期10楼F室'],
+        'topbar_locations' => ['en'=>'Central | Tsim Sha Tsui | Ma Wan 1868 | Stanley | Shek Mun', 'zh'=>'中環 ｜ 尖沙咀 ｜ 馬灣1868 ｜ 赤柱 ｜ 石門', 'cn'=>'中环 ｜ 尖沙咀 ｜ 马湾1868 ｜ 赤柱 ｜ 石门'],
         'visit_hours'   => ['en'=>'Mon – Sat: 12:00 – 19:00<br>Sun & Public Holidays: Closed', 'zh'=>'週一至週六：12:00 – 19:00<br>週日及公眾假期：休息', 'cn'=>'周一至周六：12:00 – 19:00<br>周日及公众假期：休息'],
 
         // Clients
