@@ -40,7 +40,7 @@
 			www.neonlight.pro@gmail.com
 		</a><br>
 		<span class="nl-footer__addr">
-			<span style="display:inline-block;vertical-align:middle;text-align:left;"><?php echo nl_t('footer_addresses'); ?></span>
+			<span style="display:inline-block;text-align:center;"><?php echo nl_t('footer_addresses'); ?></span>
 		</span>
 	</div>
 </div>
