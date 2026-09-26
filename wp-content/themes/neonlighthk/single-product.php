@@ -28,8 +28,13 @@ get_header('shop'); ?>
 					}
 				}
 				if (!empty($image_ids)) : ?>
-					<?php foreach ($image_ids as $img_id) : ?>
-						<div class="nl-product-gallery__img">
+					<?php
+					// Collect full-size URLs for the lightbox (use original, not resized, for max quality)
+					$gallery_full_urls = array_map(function($id) { return wp_get_attachment_url($id); }, $image_ids);
+					$gallery_full_urls = array_values(array_filter($gallery_full_urls));
+					?>
+					<?php foreach ($image_ids as $idx => $img_id) : ?>
+						<div class="nl-product-gallery__img" data-lb-index="<?php echo esc_attr($idx); ?>" role="button" tabindex="0" aria-label="Enlarge image">
 							<?php echo wp_get_attachment_image($img_id, 'large'); ?>
 						</div>
 					<?php endforeach; ?>
@@ -141,6 +146,14 @@ get_header('shop'); ?>
 	overflow:hidden;
 	background:#f5f5f5;
 	aspect-ratio: 1;
+	cursor: zoom-in;
+	position: relative;
+}
+.nl-product-gallery__img img {
+	transition: transform .3s ease;
+}
+.nl-product-gallery__img:hover img {
+	transform: scale(1.05);
 }
 .nl-product-gallery__img:first-child:nth-last-child(1) { grid-column: 1 / -1; }
 .nl-product-gallery__img:first-child:nth-last-child(2),
@@ -256,6 +269,116 @@ get_header('shop'); ?>
 	.nl-product-summary__title { font-size: 1.5rem; }
 	.nl-product-grid { grid-template-columns: repeat(2, 1fr); gap:12px; }
 }
+
+/* Product image lightbox */
+.nl-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:10000;flex-direction:column}
+.nl-lightbox.active{display:flex}
+.nl-lightbox__top{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;color:#fff}
+.nl-lightbox__counter{font-size:.9rem;opacity:.8}
+.nl-lightbox__close{background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;padding:0 8px;line-height:1}
+.nl-lightbox__stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;padding:0 56px;touch-action:pan-y}
+.nl-lightbox__stage img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:6px;user-select:none}
+.nl-lightbox__arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.nl-lightbox__arrow.prev{left:12px}
+.nl-lightbox__arrow.next{right:12px}
+.nl-lightbox__dots{display:flex;justify-content:center;gap:8px;padding:16px}
+.nl-lightbox__dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer}
+.nl-lightbox__dots span.active{background:#fff}
+@media(max-width:640px){
+	.nl-lightbox__arrow{width:36px;height:36px}
+	.nl-lightbox__stage{padding:0 44px}
+}
 </style>
+
+<!-- Product gallery lightbox -->
+<?php if (!empty($gallery_full_urls ?? [])) : ?>
+<div class="nl-lightbox" id="nlProductLightbox">
+	<div class="nl-lightbox__top">
+		<span class="nl-lightbox__counter" id="nlLbCounter">1 / <?php echo count($gallery_full_urls); ?></span>
+		<button class="nl-lightbox__close" onclick="nlCloseLightbox()" aria-label="Close">&times;</button>
+	</div>
+	<div class="nl-lightbox__stage">
+		<button class="nl-lightbox__arrow prev" onclick="nlLbPrev()" aria-label="Previous">&#10094;</button>
+		<img src="" alt="" id="nlLbImage" />
+		<button class="nl-lightbox__arrow next" onclick="nlLbNext()" aria-label="Next">&#10095;</button>
+	</div>
+	<div class="nl-lightbox__dots" id="nlLbDots"></div>
+</div>
+
+<script>
+(function(){
+	const nlGalleryImages = <?php echo wp_json_encode(array_values($gallery_full_urls)); ?>;
+	if (!nlGalleryImages.length) return;
+	let nlLbIndex = 0;
+	const lb = document.getElementById('nlProductLightbox');
+	const lbImage = document.getElementById('nlLbImage');
+	const lbCounter = document.getElementById('nlLbCounter');
+	const lbDots = document.getElementById('nlLbDots');
+
+	function nlUpdateLightbox() {
+		lbImage.src = nlGalleryImages[nlLbIndex];
+		lbCounter.textContent = (nlLbIndex + 1) + ' / ' + nlGalleryImages.length;
+		lbDots.innerHTML = '';
+		nlGalleryImages.forEach((_, i) => {
+			const s = document.createElement('span');
+			if (i === nlLbIndex) s.classList.add('active');
+			s.addEventListener('click', () => { nlLbIndex = i; nlUpdateLightbox(); });
+			lbDots.appendChild(s);
+		});
+	}
+	window.nlOpenLightbox = function(idx) {
+		nlLbIndex = Math.max(0, Math.min(idx, nlGalleryImages.length - 1));
+		nlUpdateLightbox();
+		lb.classList.add('active');
+		document.body.style.overflow = 'hidden';
+	};
+	window.nlCloseLightbox = function() {
+		lb.classList.remove('active');
+		document.body.style.overflow = '';
+	};
+	window.nlLbNext = function() {
+		nlLbIndex = (nlLbIndex + 1) % nlGalleryImages.length;
+		nlUpdateLightbox();
+	};
+	window.nlLbPrev = function() {
+		nlLbIndex = (nlLbIndex - 1 + nlGalleryImages.length) % nlGalleryImages.length;
+		nlUpdateLightbox();
+	};
+
+	// Bind each gallery card to open the lightbox
+	document.querySelectorAll('.nl-product-gallery__img[data-lb-index]').forEach(el => {
+		const idx = parseInt(el.getAttribute('data-lb-index'), 10) || 0;
+		el.addEventListener('click', () => nlOpenLightbox(idx));
+		el.addEventListener('keydown', e => {
+			if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nlOpenLightbox(idx); }
+		});
+	});
+
+	// Click outside image closes
+	lb.addEventListener('click', e => {
+		if (e.target === lb || e.target.classList.contains('nl-lightbox__stage')) nlCloseLightbox();
+	});
+
+	// Keyboard navigation
+	document.addEventListener('keydown', e => {
+		if (!lb.classList.contains('active')) return;
+		if (e.key === 'Escape') nlCloseLightbox();
+		if (e.key === 'ArrowRight') nlLbNext();
+		if (e.key === 'ArrowLeft') nlLbPrev();
+	});
+
+	// Touch swipe
+	let touchStartX = 0;
+	lb.addEventListener('touchstart', e => {
+		touchStartX = e.changedTouches[0].screenX;
+	}, {passive:true});
+	lb.addEventListener('touchend', e => {
+		const diff = e.changedTouches[0].screenX - touchStartX;
+		if (diff < -40) nlLbNext();
+		else if (diff > 40) nlLbPrev();
+	}, {passive:true});
+})();
+</script>
+<?php endif; ?>
 
 <?php get_footer('shop'); ?>
