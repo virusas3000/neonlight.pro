@@ -31,6 +31,17 @@ get_header();
     <p class="nl-about-intro__text">Customers can also bring their own old utensils for upcycling. Through simple craft techniques, old items are given a new look, giving furniture and old objects a second life, allowing meaningful items to retain unique memories.</p>
     <p class="nl-about-cta">Interested? Inquire and register now!</p>
 
+    <div class="nl-about-locations">
+        <h3 class="nl-about-locations__heading">OUR LOCATIONS</h3>
+        <p class="nl-about-locations__list">
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> Upper West Wing, Central Pier 8</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 14/F, Tung Wui Commercial Building, 27 Prat Avenue, Tsim Sha Tsui</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> G/F, House 39, No.8 Ma Wan Back Street, Ma Wan 1868</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> Flat F, 10/F, Kings Wing Plaza 1, 3 On Kwan Street, Shek Mun, Sha Tin</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> Unit 10, Solo, G/F, 78-79 Stanley Main Street, Stanley</span>
+        </p>
+    </div>
+
 <?php elseif (nl_lang() === 'cn') : ?>
     <p class="nl-about-intro__text">JUST BE（艺术文化工作坊）位于马湾1868的艺术村、IRREGULart位于尖沙咀、中环以及赤柱，工作坊开设各式多元化艺术课程，既可引导学员发挥创意、提升艺术表达能力，亦提供霓虹灯订制、活动统筹、场地气球布置及魔术表演等一站式服务，深受亲子活动、情侣约会、好友聚会、生日派对、学校、企业及各类团体机构青睐。</p>
 
@@ -43,6 +54,17 @@ get_header();
     <p class="nl-about-intro__text">顾客亦可自备旧器皿到场改造，透过简单手作技法为旧物重塑全新样貌，赋予家俬、旧物件二次价值，让具纪念意义的旧物重焕生机、留存独特回忆。</p>
     <p class="nl-about-cta">心动就快查询报名啦</p>
 
+    <div class="nl-about-locations">
+        <h3 class="nl-about-locations__heading">我们的地点</h3>
+        <p class="nl-about-locations__list">
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 中环8号码头西翼上层</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 尖沙咀宝勒巷27号东汇大厦14楼全层</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 马湾1868马湾后街8号39号屋地下</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 沙田石门京瑞广场一期10楼F室</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 香港赤柱大街78-79号Solo地下10号舖</span>
+        </p>
+    </div>
+
 <?php else : // zh ?>
     <p class="nl-about-intro__text">JUST BE（藝術文化工作坊）位於馬灣1868的藝術村、IRREGULart位於尖沙咀、中環以及赤柱，工作坊開設各式多元化藝術課程，既可引導學員發揮創意、提升藝術表達能力，亦提供霓虹燈訂製、活動統籌、場地氣球佈置及魔術表演等一站式服務，深受親子活動、情侶約會、好友聚會、生日派對、學校、企業及各類團體機構青睞。</p>
 
@@ -54,6 +76,17 @@ get_header();
     <p class="nl-about-intro__text">工作坊定期推出各式主題體驗課，學員可在課堂親手打造獨一無二的特色工藝，藉手作接觸全球多元藝術文化。場內備齊全套手作原材料，由選料、設計到成品全流程親自動手製作，完成作品可自行帶走，為日常增添專屬儀式感。</p>
     <p class="nl-about-intro__text">顧客亦可自備舊器皿到場改造，透過簡單手作技法為舊物重塑全新樣貌，賦予傢俬、舊物件二次價值，讓具紀念意義的舊物重煥生機、留存獨特回憶。</p>
     <p class="nl-about-cta">心動就快查詢報名啦</p>
+
+    <div class="nl-about-locations">
+        <h3 class="nl-about-locations__heading">我們的地點</h3>
+        <p class="nl-about-locations__list">
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 中環8號碼頭西翼上層</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 尖沙咀寶勒巷27號東匯大廈14樓全層</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 馬灣1868馬灣後街8號39號屋地下</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 沙田石門京瑞廣場一期10樓F室</span>
+            <span class="nl-about-locations__item"><span class="nl-about-locations__pin">📍</span> 香港赤柱大街78-79號Solo地下10號舖</span>
+        </p>
+    </div>
 <?php endif; ?>
             </div>
         </div>
@@ -67,12 +100,21 @@ get_header();
 .nl-about-programs__heading{font-size:1.5rem;font-weight:700;margin:32px 0 24px;color:#111;text-align:center}
 .nl-programs-list{font-size:1rem;line-height:1.9;color:#444;margin:16px 0;padding:16px 20px;background:#f8f8f8;border-radius:12px}
 .nl-about-cta{font-size:1.2rem;font-weight:700;color:#111;margin-top:32px;text-align:center}
+
+.nl-about-locations{margin-top:48px;text-align:center}
+.nl-about-locations__heading{font-size:1.3rem;font-weight:700;color:#00d4b0;margin:0 0 20px;letter-spacing:1px}
+.nl-about-locations__list{margin:0;padding:0;text-align:left;display:inline-block}
+.nl-about-locations__item{display:block;font-size:1rem;line-height:1.7;color:#222;padding:6px 0}
+.nl-about-locations__pin{color:#00d4b0;margin-right:6px}
+
 @media (max-width:768px){
     .nl-about-page .nl-section{padding:24px 16px}
     .nl-about-intro__text{font-size:1rem}
     .nl-about-programs__heading{font-size:1.25rem}
     .nl-programs-list{padding:12px 14px}
     .nl-about-cta{font-size:1.1rem}
+    .nl-about-locations__heading{font-size:1.1rem}
+    .nl-about-locations__item{font-size:.95rem}
 }
 </style>
 
